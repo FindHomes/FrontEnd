@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/button_active_100"
+        android:state_enabled="true"/> <!-- 활성화 상태 -->
+    <item
+        android:drawable="@drawable/button_inactive_100"
+        android:state_enabled="false"/> <!-- 비활성화 상태 -->
+</selector>
