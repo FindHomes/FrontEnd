@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="8dp">
+
+    <TextView
+        android:id="@+id/tv_ranking"
+        android:text="0위"
+        android:textSize="14sp"
+        android:fontFamily="@font/pretendard_semibold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/iv_ranking"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:src="@drawable/ic_search_house"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_ranking"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintDimensionRatio="1:1"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toEndOf="@id/iv_ranking"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_ranking"
+        app:layout_constraintBottom_toBottomOf="@id/iv_ranking">
+
+        <TextView
+            android:id="@+id/tv_ranking_price_type"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="매매"
+            android:textSize="16sp"
+            android:fontFamily="@font/pretendard_semibold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_ranking_price"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_ranking_price_type"
+            android:text="200억 000만원"
+            android:layout_marginStart="4dp"
+            android:textSize="16sp"
+            android:fontFamily="@font/pretendard_semibold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_ranking_detail_1"
+            app:layout_constraintTop_toBottomOf="@id/tv_ranking_price_type"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="+ 디테일2"
+            android:textColor="@color/body_3"
+            android:textSize="14sp"
+            android:fontFamily="@font/pretendard_regular"
+            android:layout_marginTop="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_ranking_detail_2"
+            app:layout_constraintTop_toBottomOf="@id/tv_ranking_detail_1"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="+ 디테일1"
+            android:textSize="14sp"
+            android:textColor="@color/body_1"
+            android:fontFamily="@font/pretendard_regular"
+            android:layout_marginTop="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
