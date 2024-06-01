@@ -10,7 +10,8 @@
     <string name="essential_category_three_room">쓰리룸 이상</string>
     <string name="essential_category_office">오피스텔</string>
     <string name="essential_category_apart">아파트</string>
-    <string name="essential_condition_input">필수 조건 입력</string>
+    <string name="essential_condition_contract_form">계약 형태</string>
+    <string name="essential_condition_preferred_region">선호 지역</string>
     <string name="essential_add">추가하기</string>
     <string name="essential_select_after">다음에</string>
     <string name="essential_select_complete">선택완료</string>

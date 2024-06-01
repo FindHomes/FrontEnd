@@ -9,8 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.core.os.bundleOf
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.findhomes.R
+import com.example.findhomes.data.ContractFormData
+import com.example.findhomes.data.RankingInfo
 import com.example.findhomes.databinding.FragmentSearchBinding
+import org.jetbrains.annotations.Contract
 
 class SearchFragment : Fragment() {
     private lateinit var binding : FragmentSearchBinding
@@ -19,6 +23,10 @@ class SearchFragment : Fragment() {
     private lateinit var btnThree: Button
     private lateinit var btnOffice: Button
     private lateinit var btnApart: Button
+    var essentialContractFormAdapter : EssentialContractFormAdapter ?= null
+    var essentialPreferredRegionAdapter : EssentialPreferredRegionAdapter ?= null
+    var contractFormList: ArrayList<ContractFormData> = arrayListOf()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,12 +34,13 @@ class SearchFragment : Fragment() {
     ): View? {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
 
-        initManageButton()
+        initHousingType()
+        initContractForm()
+        initPreferredRegion()
 
         return binding.root
     }
-
-    private fun initManageButton() {
+    private fun initHousingType() {
         btnOne = binding.btnEssentialCategoryOne
         btnTwo = binding.btnEssentialCategoryTwo
         btnThree = binding.btnEssentialCategoryThree
@@ -62,4 +71,15 @@ class SearchFragment : Fragment() {
                 .commit()
         }
     }
+
+    private fun initPreferredRegion() {
+        essentialContractFormAdapter = EssentialContractFormAdapter(contractFormList)
+        binding.rvEssentialConditionContractForm.adapter = essentialContractFormAdapter
+        binding.rvEssentialConditionContractForm.layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
+    }
+
+    private fun initContractForm() {
+        TODO("Not yet implemented")
+    }
+
 }
