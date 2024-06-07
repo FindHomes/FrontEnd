@@ -8,8 +8,8 @@ import com.example.findhomes.databinding.ItemEssentialPreferredRegionBinding
 import com.example.findhomes.databinding.ItemEssentialConditionContractAddBinding
 
 class EssentialPreferredRegionAdapter(
-    private val data: ArrayList<PreferredRegionData>,
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private val data: ArrayList<PreferredRegionData>)
+    : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private lateinit var itemClickListener : OnClickAddListener
     private val TYPE_ITEM = 0

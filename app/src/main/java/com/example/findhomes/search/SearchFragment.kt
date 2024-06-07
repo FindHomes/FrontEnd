@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -75,9 +76,12 @@ class SearchFragment : Fragment(){
             if (btnOffice.isSelected) selectedItems.add("office")
             if (btnApart.isSelected) selectedItems.add("apart")
 
-            detailFragment.arguments = bundleOf("category" to selectedItems)
-//            detailFragment.arguments = bundleOf("region" to preferredRegionList)
-//            detailFragment.arguments = bundleOf("contract" to contractFormList)
+            detailFragment.arguments = bundleOf(
+                "category" to selectedItems,
+                "region" to preferredRegionList,
+                "contract" to contractFormList
+            )
+
             parentFragmentManager.beginTransaction()
                 .replace(R.id.main_frm, detailFragment)
                 .addToBackStack(null)
@@ -89,12 +93,20 @@ class SearchFragment : Fragment(){
         essentialContractFormAdapter = EssentialContractFormAdapter(contractFormList)
         binding.rvEssentialConditionContractForm.adapter = essentialContractFormAdapter
         binding.rvEssentialConditionContractForm.layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
+        essentialContractFormAdapter!!.setOnItemClickListener(object : EssentialContractFormAdapter.OnClickAddListener{
+            override fun onClickAdd() {
+                val transaction = parentFragmentManager.beginTransaction()
+                transaction.replace(R.id.main_frm, RegionSelectFragment())
+                transaction.addToBackStack(null)
+                transaction.commit()
+            }
+        })
     }
 
     private fun initPreferredRegion() {
         essentialPreferredRegionAdapter = EssentialPreferredRegionAdapter(preferredRegionList)
-        binding.rvEssentialConditionContractForm.adapter = essentialPreferredRegionAdapter
-        binding.rvEssentialConditionContractForm.layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
+        binding.rvEssentialPreferredRegion.adapter = essentialPreferredRegionAdapter
+        binding.rvEssentialPreferredRegion.layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
         essentialPreferredRegionAdapter!!.setOnItemClickListener(object : EssentialPreferredRegionAdapter.OnClickAddListener{
             override fun onClickAdd() {
                 val transaction = parentFragmentManager.beginTransaction()

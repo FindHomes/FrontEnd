@@ -4,27 +4,61 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.findhomes.data.ContractFormData
+import com.example.findhomes.data.PreferredRegionData
+import com.example.findhomes.databinding.ItemEssentialConditionContractAddBinding
 import com.example.findhomes.databinding.ItemEssentialConditionContractBinding
+import com.example.findhomes.databinding.ItemEssentialPreferredRegionBinding
 
-class EssentialContractFormAdapter(private val data: ArrayList<ContractFormData>) : RecyclerView.Adapter<EssentialContractFormAdapter.ViewHolder>(){
+class EssentialContractFormAdapter
+    (private val data: ArrayList<ContractFormData>)
+    : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
-    inner class ViewHolder(private val binding: ItemEssentialConditionContractBinding) : RecyclerView.ViewHolder(binding.root){
+    private lateinit var itemClickListener : OnClickAddListener
+    private val TYPE_ITEM = 0
+    private val TYPE_ADD = 1
+
+    interface OnClickAddListener {
+        fun onClickAdd()
+    }
+
+    fun setOnItemClickListener(onItemClickListener: OnClickAddListener){
+        itemClickListener = onItemClickListener
+    }
+
+    inner class ItemViewHolder(private val binding: ItemEssentialConditionContractBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(item: ContractFormData) {
             binding.tvContractForm.text = item.contractForm
-            binding.tvContractPrice.text = item.contractPrice.toString()
+            binding.tvContractPrice.text = item.contractPrice
         }
     }
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): EssentialContractFormAdapter.ViewHolder {
-        val binding = ItemEssentialConditionContractBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
+
+    inner class AddViewHolder(private val binding: ItemEssentialConditionContractAddBinding) : RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.clEssential2.setOnClickListener {
+                itemClickListener.onClickAdd()
+            }
+        }
     }
 
-    override fun onBindViewHolder(holder: EssentialContractFormAdapter.ViewHolder, position: Int) {
-        holder.bind(data[position])
+    override fun getItemViewType(position: Int): Int {
+        return if (position == data.size) TYPE_ADD else TYPE_ITEM
     }
 
-    override fun getItemCount(): Int = data.size
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return if (viewType == TYPE_ADD) {
+            val binding = ItemEssentialConditionContractAddBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            AddViewHolder(binding)
+        } else {
+            val binding = ItemEssentialConditionContractBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemViewHolder(binding)
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder is ItemViewHolder) {
+            holder.bind(data[position])
+        }
+    }
+
+    override fun getItemCount(): Int = data.size + 1
 }

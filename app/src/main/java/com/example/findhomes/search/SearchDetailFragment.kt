@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import com.example.findhomes.R
 import com.example.findhomes.databinding.FragmentSearchDetailBinding
 
@@ -24,16 +25,16 @@ class SearchDetailFragment : Fragment() {
         val bundle = arguments
         if (bundle != null) {
             val category = bundle.getStringArrayList("category")
-//            val contract = bundle.getStringArrayList("contract")
-//            val region = bundle.getStringArrayList("region")
+            val contract = bundle.getStringArrayList("contract")
+            val region = bundle.getStringArrayList("region")
 
             categories = category!!
-//            contracts = contract!!
-//            regions = region!!
+            contracts = contract!!
+            regions = region!!
 
             Log.d("category 출력", categories.toString())
-//            Log.d("contract 출력", contracts.toString())
-//            Log.d("region 출력", regions.toString())
+            Log.d("contract 출력", contracts.toString())
+            Log.d("region 출력", regions.toString())
 
         }
 
@@ -48,10 +49,14 @@ class SearchDetailFragment : Fragment() {
 
     private fun initInput(categories: java.util.ArrayList<String>) {
 
-
-
+        val detailData = binding.etConditionInput.text.toString()
         val resultFragment = SearchResultFragment()
-//        detailFragment.arguments = bundleOf("data" to postData)
+        resultFragment.arguments = bundleOf(
+            "detail" to detailData,
+            "category" to categories,
+            "region" to regions,
+            "contract" to contracts)
+
         parentFragmentManager.beginTransaction()
             .replace(R.id.main_frm, resultFragment)
             .addToBackStack(null)
