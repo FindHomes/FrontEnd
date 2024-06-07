@@ -1,5 +1,6 @@
 package com.example.findhomes.search
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -17,17 +18,17 @@ import com.example.findhomes.data.RankingInfo
 import com.example.findhomes.databinding.FragmentSearchBinding
 import org.jetbrains.annotations.Contract
 
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(){
     private lateinit var binding : FragmentSearchBinding
     private lateinit var btnOne: Button
     private lateinit var btnTwo: Button
     private lateinit var btnThree: Button
     private lateinit var btnOffice: Button
     private lateinit var btnApart: Button
-    var essentialContractFormAdapter : EssentialContractFormAdapter ?= null
-    var essentialPreferredRegionAdapter : EssentialPreferredRegionAdapter ?= null
-    var contractFormList: ArrayList<ContractFormData> = arrayListOf()
-    var regionList: ArrayList<PreferredRegionData> = arrayListOf()
+    private var essentialContractFormAdapter : EssentialContractFormAdapter ?= null
+    private var essentialPreferredRegionAdapter : EssentialPreferredRegionAdapter ?= null
+    private var contractFormList: ArrayList<ContractFormData> = arrayListOf()
+    private var preferredRegionList: ArrayList<PreferredRegionData> = arrayListOf()
 
 
     override fun onCreateView(
@@ -39,9 +40,17 @@ class SearchFragment : Fragment() {
         initHousingType()
         initContractForm()
         initPreferredRegion()
+        initData()
 
         return binding.root
     }
+
+    private fun initData() {
+        contractFormList.add(ContractFormData("매매", "4억원 이하"))
+        preferredRegionList.add(PreferredRegionData("서울특별시 강남구"))
+        preferredRegionList.add(PreferredRegionData("경기도 용인시 수지구"))
+    }
+
     private fun initHousingType() {
         btnOne = binding.btnEssentialCategoryOne
         btnTwo = binding.btnEssentialCategoryTwo
@@ -67,6 +76,8 @@ class SearchFragment : Fragment() {
             if (btnApart.isSelected) selectedItems.add("apart")
 
             detailFragment.arguments = bundleOf("category" to selectedItems)
+//            detailFragment.arguments = bundleOf("region" to preferredRegionList)
+//            detailFragment.arguments = bundleOf("contract" to contractFormList)
             parentFragmentManager.beginTransaction()
                 .replace(R.id.main_frm, detailFragment)
                 .addToBackStack(null)
@@ -81,9 +92,16 @@ class SearchFragment : Fragment() {
     }
 
     private fun initPreferredRegion() {
-        essentialPreferredRegionAdapter = EssentialPreferredRegionAdapter(regionList)
+        essentialPreferredRegionAdapter = EssentialPreferredRegionAdapter(preferredRegionList)
         binding.rvEssentialConditionContractForm.adapter = essentialPreferredRegionAdapter
         binding.rvEssentialConditionContractForm.layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
+        essentialPreferredRegionAdapter!!.setOnItemClickListener(object : EssentialPreferredRegionAdapter.OnClickAddListener{
+            override fun onClickAdd() {
+                val transaction = parentFragmentManager.beginTransaction()
+                transaction.replace(R.id.main_frm, RegionSelectFragment())
+                transaction.addToBackStack(null)
+                transaction.commit()
+            }
+        })
     }
-
 }

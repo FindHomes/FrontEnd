@@ -11,7 +11,10 @@ import com.example.findhomes.databinding.FragmentSearchDetailBinding
 
 class SearchDetailFragment : Fragment() {
     private lateinit var binding : FragmentSearchDetailBinding
-    private lateinit var selectedItems: ArrayList<String>
+    private lateinit var categories: ArrayList<String>
+    private lateinit var contracts: ArrayList<String>
+    private lateinit var regions: ArrayList<String>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -20,22 +23,45 @@ class SearchDetailFragment : Fragment() {
 
         val bundle = arguments
         if (bundle != null) {
-            val value = bundle.getStringArrayList("category")
-            selectedItems = value!!
-            Log.d("category 출력", selectedItems.toString())
+            val category = bundle.getStringArrayList("category")
+//            val contract = bundle.getStringArrayList("contract")
+//            val region = bundle.getStringArrayList("region")
+
+            categories = category!!
+//            contracts = contract!!
+//            regions = region!!
+
+            Log.d("category 출력", categories.toString())
+//            Log.d("contract 출력", contracts.toString())
+//            Log.d("region 출력", regions.toString())
+
         }
 
         binding.ivConditionConfirm.setOnClickListener {
-            val resultFragment = SearchResultFragment()
-//        detailFragment.arguments = bundleOf("data" to postData)
-
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.main_frm, resultFragment)
-                .addToBackStack(null)
-                .commit()
+            initInput(categories)
         }
 
+        initBack()
+
         return binding.root
+    }
+
+    private fun initInput(categories: java.util.ArrayList<String>) {
+
+
+
+        val resultFragment = SearchResultFragment()
+//        detailFragment.arguments = bundleOf("data" to postData)
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.main_frm, resultFragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun initBack() {
+        binding.ivBtnBack.setOnClickListener {
+            
+        }
     }
 
 }
