@@ -12,6 +12,7 @@ import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.findhomes.R
 import com.example.findhomes.data.ContractFormData
+import com.example.findhomes.data.PreferredRegionData
 import com.example.findhomes.data.RankingInfo
 import com.example.findhomes.databinding.FragmentSearchBinding
 import org.jetbrains.annotations.Contract
@@ -26,6 +27,7 @@ class SearchFragment : Fragment() {
     var essentialContractFormAdapter : EssentialContractFormAdapter ?= null
     var essentialPreferredRegionAdapter : EssentialPreferredRegionAdapter ?= null
     var contractFormList: ArrayList<ContractFormData> = arrayListOf()
+    var regionList: ArrayList<PreferredRegionData> = arrayListOf()
 
 
     override fun onCreateView(
@@ -72,14 +74,16 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun initPreferredRegion() {
+    private fun initContractForm() {
         essentialContractFormAdapter = EssentialContractFormAdapter(contractFormList)
         binding.rvEssentialConditionContractForm.adapter = essentialContractFormAdapter
         binding.rvEssentialConditionContractForm.layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
     }
 
-    private fun initContractForm() {
-        TODO("Not yet implemented")
+    private fun initPreferredRegion() {
+        essentialPreferredRegionAdapter = EssentialPreferredRegionAdapter(regionList)
+        binding.rvEssentialConditionContractForm.adapter = essentialPreferredRegionAdapter
+        binding.rvEssentialConditionContractForm.layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
     }
 
 }
