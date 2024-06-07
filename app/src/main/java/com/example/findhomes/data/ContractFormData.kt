@@ -2,5 +2,5 @@ package com.example.findhomes.data
 
 data class ContractFormData(
     val contractForm: String,
-    val contractPrice: Int
+    val contractPrice: String
 )
