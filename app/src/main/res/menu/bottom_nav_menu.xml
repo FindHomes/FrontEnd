@@ -7,19 +7,19 @@
         android:id="@+id/searchFragment"
         android:icon="@drawable/selector_search"
         tools:ignore="MenuTitle"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         />
 
     <item
         android:id="@+id/interestFragment"
-        android:icon="@drawable/selector_search"
+        android:icon="@drawable/btn_selector_heart_on"
         tools:ignore="MenuTitle"
         app:showAsAction="always"
         />
 
     <item
         android:id="@+id/myPageFragment"
-        android:icon="@drawable/selector_search"
+        android:icon="@drawable/btn_selector_my_page_on"
         tools:ignore="MenuTitle"
         app:showAsAction="always"
         />

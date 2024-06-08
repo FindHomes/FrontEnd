@@ -1,18 +1,26 @@
 package com.example.findhomes.search
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.findhomes.data.RankingInfo
+import com.example.findhomes.data.SearchResultData
 import com.example.findhomes.databinding.ItemResultRankingBinding
 
-class ResultRankingAdapter(private val data: ArrayList<RankingInfo>) : RecyclerView.Adapter<ResultRankingAdapter.ViewHolder>(){
+class ResultRankingAdapter(private val data: ArrayList<SearchResultData>, val context: Context) : RecyclerView.Adapter<ResultRankingAdapter.ViewHolder>(){
 
     inner class ViewHolder(private val binding: ItemResultRankingBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(item: RankingInfo) {
-            binding.tvRanking.text = item.rank.toString()
-            binding.tvRankingPrice.text = item.price.toString()
+        fun bind(item: SearchResultData) {
+            Glide.with(context)
+                .load(item.img)
+                .into(binding.ivRanking)
+            binding.tvRanking.text = item.ranking.toString()
+            binding.tvRankingPrice.text = item.price
             binding.tvRankingPriceType.text = item.priceType
+            binding.tvRankingDetail1.text = item.room
+            binding.tvRankingDetail2.text = item.etc
         }
     }
     override fun onCreateViewHolder(

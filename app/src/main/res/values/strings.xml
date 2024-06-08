@@ -23,7 +23,7 @@
 
     <!-- SearchResultFragment  -->
     <string name="result_sub_title">입력해주신 데이터를 기반으로\n맞춤형 매물을 소개해드릴게요!</string>
-    <string name="result_show_title">맞춤형 통계 결과 보러가기</string>
+    <string name="result_show_title">매물 추천 결과</string>
     <string name="result_show">결과 보러가기</string>
     <string name="result_ranking">맞춤형 검색 매물 순위</string>
     <!-- TODO: Remove or change this placeholder text -->

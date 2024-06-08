@@ -9,6 +9,8 @@ appcompat = "1.6.1"
 material = "1.11.0"
 activity = "1.8.0"
 constraintlayout = "2.1.4"
+google-maps-secrets-plugin = "2.0.1"
+google-maps-services = "17.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -19,8 +21,11 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+google-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "google-maps-services"}
+google-locations = { group = "com.google.android.gms", name = "play-services-location", version.ref = "google-maps-services"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+googleMaps = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "google-maps-secrets-plugin"}
 
