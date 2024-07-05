@@ -51,26 +51,10 @@ class SearchResultFragment : Fragment(), SearchResultView {
             Log.d("region 출력", regions.toString())
             Log.d("detail", details.toString())
 
-//            initSearchOutputManager(categories, contracts, regions, details)
+            initSearchOutputManager(categories, contracts, regions, details)
         }
 
-        initData()
-        initRecyclerView()
-
         return binding.root
-    }
-
-    private fun initData() {
-        dummyData.addAll(
-            arrayListOf(
-                // 잠원 월드메르디앙, 잠원대우아이빌, 잠원대우아이빌, 대주피오레, 마일스디오빌
-                SearchResultData("https://lh3.googleusercontent.com/p/AF1QipP4dXYmInFnlpPhZzcdl9dg1I0hRt9nd8Py3v1C=s680-w680-h5101", "매매", "13억 5000만원", "12층 107.46m 관리비 26만", "주차대수 가구당 1.23"),
-                SearchResultData(""2,"매매", "4억 7000만원", "2층 39.6m 관리비 8만", "주차대수 가구당 1.0"),
-                SearchResultData(3,"월세", "2억 8000/25", "10층 51m 관리비 8.7만", "주차대수 가구당 1.0"),
-                SearchResultData("https://lh3.googleusercontent.com/p/AF1QipORF8qz6KOFYsa09CiZ3_9QbgqTztCf4zE-MJyA=s680-w680-h510"4,"매매", "16억 9000만원", "고층 139.1m 관리비 22만", "주차가능"),
-                SearchResultData(5,"월세", "110/180", "6층 47.19m 관리비 15만", "주차가능")
-                )
-        )
     }
 
     private fun initSearchOutputManager(
@@ -87,13 +71,6 @@ class SearchResultFragment : Fragment(), SearchResultView {
         authService.setSearchResultView(this)
         authService.searchResultInfo(manCon, details)
 
-    }
-
-
-    private fun initRecyclerView() {
-        rankingAdapter = ResultRankingAdapter(dummyData)
-        binding.rvResultRanking.adapter = rankingAdapter
-        binding.rvResultRanking.layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
     }
 
     override fun SearchResultLoading() {
