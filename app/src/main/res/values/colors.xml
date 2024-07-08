@@ -7,6 +7,7 @@
     <color name="body_1">#9EA3B2</color>
     <color name="body_2">#252932</color>
     <color name="body_3">#767676</color>
+    <color name="sub_1">#979797</color>
 
     <!-- 버튼 색상 -->
     <color name="button_color">#1AA69D</color>

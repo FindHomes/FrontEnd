@@ -22,7 +22,7 @@
         app:layout_constraintGuide_percent="0.96"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_essential_top_bar"
+        android:id="@+id/cl_contract_top_bar"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="@id/gl_start"
@@ -47,40 +47,119 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:textSize="20sp"
-            android:text="@string/essential_title"
+            android:text="@string/contract_title"
             android:fontFamily="@font/pretendard_semibold"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/tv_essential_sub_title"
+        android:id="@+id/tv_contract_room"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/cl_essential_top_bar"
-        app:layout_constraintStart_toStartOf="@id/gl_start"
-        android:layout_marginTop="28dp"
-        android:text="@string/essential_sub_title"
-        android:textSize="14sp"
-        android:textColor="@color/body_1"/>
-
-    <TextView
-        android:id="@+id/tv_essential_category"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/essential_category"
+        android:text="@string/contract_room"
         android:layout_marginTop="24dp"
         android:textSize="16sp"
         android:fontFamily="@font/pretendard_semibold"
-        app:layout_constraintTop_toBottomOf="@id/tv_essential_sub_title"
+        app:layout_constraintTop_toBottomOf="@id/cl_contract_top_bar"
         app:layout_constraintStart_toStartOf="@id/gl_start"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/contract_overlap"
+        android:textSize="12sp"
+        android:textColor="@color/sub_1"
+        android:layout_marginStart="4dp"
+        app:layout_constraintTop_toTopOf="@id/tv_contract_room"
+        app:layout_constraintBottom_toBottomOf="@id/tv_contract_room"
+        app:layout_constraintStart_toEndOf="@id/tv_contract_room"/>
+
     <LinearLayout
-        android:id="@+id/ll_essential_btn_category"
+        android:id="@+id/ll_contract_form_category"
         android:layout_width="0dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="@id/gl_start"
         app:layout_constraintEnd_toEndOf="@id/gl_end"
-        app:layout_constraintTop_toBottomOf="@id/tv_essential_category"
+        app:layout_constraintTop_toBottomOf="@id/tv_contract_form"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_contract_monthly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:stateListAnimator="@null"
+            android:background="@drawable/button_selector_100"
+            android:text="@string/contract_form_monthly"
+            android:textSize="14sp"
+            android:textColor="@color/button_color"
+            android:fontFamily="@font/pretendard_regular"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_contract_charter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/button_selector_100"
+            android:text="@string/contract_form_charter"
+            android:textSize="14sp"
+            android:textColor="@color/button_color"
+            android:fontFamily="@font/pretendard_regular"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_contract_trading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/button_selector_100"
+            android:text="@string/contract_form_trading"
+            android:textSize="14sp"
+            android:textColor="@color/button_color"
+            android:fontFamily="@font/pretendard_regular"/>
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_essential_category_apart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/ll_contract_room_category"
+        app:layout_constraintStart_toStartOf="@id/gl_start"
+        android:background="@drawable/button_selector_100"
+        android:text="@string/essential_category_apart"
+        android:textSize="14sp"
+        android:textColor="@color/button_color"/>
+
+    <TextView
+        android:id="@+id/tv_contract_form"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/contract_form"
+        android:layout_marginTop="24dp"
+        android:textSize="16sp"
+        android:fontFamily="@font/pretendard_semibold"
+        app:layout_constraintTop_toBottomOf="@id/btn_essential_category_apart"
+        app:layout_constraintStart_toStartOf="@id/gl_start"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/contract_overlap"
+        android:textSize="12sp"
+        android:textColor="@color/sub_1"
+        android:layout_marginStart="4dp"
+        app:layout_constraintTop_toTopOf="@id/tv_contract_form"
+        app:layout_constraintBottom_toBottomOf="@id/tv_contract_form"
+        app:layout_constraintStart_toEndOf="@id/tv_contract_form"/>
+
+    <LinearLayout
+        android:id="@+id/ll_contract_room_category"
+        android:layout_width="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@id/gl_start"
+        app:layout_constraintEnd_toEndOf="@id/gl_end"
+        app:layout_constraintTop_toBottomOf="@id/tv_contract_room"
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatButton
@@ -134,90 +213,25 @@
 
     </LinearLayout>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_essential_category_apart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/ll_essential_btn_category"
-        app:layout_constraintStart_toStartOf="@id/gl_start"
-        android:background="@drawable/button_selector_100"
-        android:text="@string/essential_category_apart"
-        android:textSize="14sp"
-        android:textColor="@color/button_color"/>
-
-    <TextView
-        android:id="@+id/tv_essential_condition_input_contract_form"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/essential_condition_contract_form"
-        android:layout_marginTop="24dp"
-        android:textSize="16sp"
-        android:fontFamily="@font/pretendard_semibold"
-        app:layout_constraintTop_toBottomOf="@id/btn_essential_category_apart"
-        app:layout_constraintStart_toStartOf="@id/gl_start"/>
-    
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_essential_condition_contract_form"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/tv_essential_condition_input_contract_form"
-        app:layout_constraintStart_toStartOf="@id/gl_start"
-        app:layout_constraintEnd_toEndOf="@id/gl_end"/>
-
     <TextView
         android:id="@+id/tv_essential_condition_input_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/essential_condition_preferred_region"
+        android:text="@string/contract_price"
         android:layout_marginTop="24dp"
         android:textSize="16sp"
         android:fontFamily="@font/pretendard_semibold"
-        app:layout_constraintTop_toBottomOf="@id/rv_essential_condition_contract_form"
+        app:layout_constraintTop_toBottomOf="@id/ll_contract_form_category"
         app:layout_constraintStart_toStartOf="@id/gl_start"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_essential_preferred_region"
+        android:id="@+id/rv_contract_price"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/tv_essential_condition_input_2"
         app:layout_constraintStart_toStartOf="@id/gl_start"
         app:layout_constraintEnd_toEndOf="@id/gl_end"/>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_essential_4"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp"
-        android:layout_marginTop="9dp"
-        app:layout_constraintTop_toBottomOf="@id/rv_essential_preferred_region"
-        app:layout_constraintStart_toStartOf="@id/gl_start"
-        app:layout_constraintEnd_toEndOf="@id/gl_end"
-        android:background="@drawable/rectangle_gray_8">
-
-
-        <TextView
-            android:id="@+id/tv_plus_2"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:textSize="16sp"
-            android:textColor="@color/body_1"
-            android:text="추가하기"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="16dp"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/tv_essential_condition_input_2"-->
-<!--        app:layout_constraintStart_toStartOf="@id/gl_start"-->
-<!--        app:layout_constraintEnd_toEndOf="@id/gl_end"/>-->
 
     <LinearLayout
         android:layout_width="0dp"

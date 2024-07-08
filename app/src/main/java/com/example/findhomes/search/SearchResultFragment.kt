@@ -7,22 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.findhomes.ApplicationClass
 import com.example.findhomes.data.RankingInfo
 import com.example.findhomes.data.SearchResultData
 import com.example.findhomes.databinding.FragmentSearchResultBinding
-import com.example.findhomes.remote.AuthService
-import com.example.findhomes.remote.EssentialData
-import com.example.findhomes.remote.PricesData
-import com.example.findhomes.remote.SearchResultResponse
-import com.example.findhomes.remote.SearchResultView
-import com.example.findhomes.remote.WSData
 
-class SearchResultFragment : Fragment(), SearchResultView {
+class SearchResultFragment : Fragment() {
     private lateinit var binding: FragmentSearchResultBinding
     private var rankingAdapter: ResultRankingAdapter ?= null
     private var rankingDataList: ArrayList<RankingInfo> = arrayListOf()
-    private var rankingResultData : ArrayList<SearchResultResponse> = arrayListOf()
     var dummyData : ArrayList<SearchResultData> = arrayListOf()
     private lateinit var categories: ArrayList<String>
     private lateinit var contracts: ArrayList<String>
@@ -65,26 +57,12 @@ class SearchResultFragment : Fragment(), SearchResultView {
     ) {
 //        val token = getJwt()
 //        Log.d("token",token)
-        val prices = PricesData(400000000, 0, WSData(0,0))
-        val manCon = EssentialData(categories, prices, regions)
-        val authService = AuthService()
-        authService.setSearchResultView(this)
-        authService.searchResultInfo(manCon, details)
+//        val prices = PricesData(400000000, 0, WSData(0,0))
+//        val manCon = EssentialData(categories, prices, regions)
+//        val authService = AuthService()
+//        authService.setSearchResultView(this)
+//        authService.searchResultInfo(manCon, details)
 
     }
 
-    override fun SearchResultLoading() {
-        TODO("Not yet implemented")
-    }
-
-    override fun SearchResultSuccess(content: ArrayList<SearchResultResponse>) {
-        rankingResultData.clear()
-        rankingResultData.addAll(content)
-        Log.d("content", content.toString())
-        rankingAdapter?.notifyDataSetChanged()
-    }
-
-    override fun SearchResultFailure(status: Int, message: String) {
-        Log.d("통신 에러", message.toString())
-    }
 }

@@ -4,10 +4,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/selector_search"
+        tools:ignore="MenuTitle"
+        app:showAsAction="ifRoom"/>
+
+    <item
         android:id="@+id/searchFragment"
         android:icon="@drawable/selector_search"
         tools:ignore="MenuTitle"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         />
 
     <item
