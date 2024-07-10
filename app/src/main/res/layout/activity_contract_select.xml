@@ -214,7 +214,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_essential_condition_input_2"
+        android:id="@+id/tv_contract_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/contract_price"
@@ -224,14 +224,129 @@
         app:layout_constraintTop_toBottomOf="@id/ll_contract_form_category"
         app:layout_constraintStart_toStartOf="@id/gl_start"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_contract_price"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_contract_monthly"
+        android:visibility="visible"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/tv_essential_condition_input_2"
+        android:layout_marginTop="8dp"
+        android:animateLayoutChanges="true"
         app:layout_constraintStart_toStartOf="@id/gl_start"
-        app:layout_constraintEnd_toEndOf="@id/gl_end"/>
+        app:layout_constraintEnd_toEndOf="@id/gl_end"
+        app:layout_constraintTop_toBottomOf="@id/tv_contract_price">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/contract_form_monthly"
+            android:fontFamily="@font/pretendard_regular"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_max_price_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="~100억원"
+            android:fontFamily="@font/pretendard_regular"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <SeekBar
+            android:id="@+id/sb_monthly"
+            android:progress="0"
+            android:max="10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_max_price_2"
+            android:thumb="@drawable/seekbar_select_thumb"
+            android:progressDrawable="@drawable/seekbar_select"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_contract_charter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:visibility="visible"
+        android:animateLayoutChanges="true"
+        app:layout_constraintTop_toBottomOf="@id/cl_contract_monthly"
+        app:layout_constraintStart_toStartOf="@id/gl_start"
+        app:layout_constraintEnd_toEndOf="@id/gl_end">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/contract_form_charter"
+            android:fontFamily="@font/pretendard_regular"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_max_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="~100억원"
+            android:fontFamily="@font/pretendard_regular"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <SeekBar
+            android:id="@+id/sb_deposit"
+            android:progress="5"
+            android:max="10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_max_price"
+            android:thumb="@drawable/seekbar_select_thumb"
+            android:progressDrawable="@drawable/seekbar_select"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_contract_trading"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        android:animateLayoutChanges="true"
+        app:layout_constraintTop_toBottomOf="@id/cl_contract_monthly"
+        app:layout_constraintStart_toStartOf="@id/gl_start"
+        app:layout_constraintEnd_toEndOf="@id/gl_end">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/contract_form_charter"
+            android:fontFamily="@font/pretendard_regular"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_max_price_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="~100억원"
+            android:fontFamily="@font/pretendard_regular"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <SeekBar
+            android:id="@+id/sb_trading"
+            android:progress="5"
+            android:max="10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_max_price_3"
+            android:thumb="@drawable/seekbar_select_thumb"
+            android:progressDrawable="@drawable/seekbar_select"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <LinearLayout
         android:layout_width="0dp"
