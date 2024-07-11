@@ -238,13 +238,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/contract_form_monthly"
+            android:text="@string/contract_price_monthly"
             android:fontFamily="@font/pretendard_regular"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
-            android:id="@+id/tv_max_price_2"
+            android:id="@+id/tv_max_monthly"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="~100억원"
@@ -259,14 +259,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@id/tv_max_price_2"
+            app:layout_constraintTop_toBottomOf="@id/tv_max_monthly"
             android:thumb="@drawable/seekbar_select_thumb"
             android:progressDrawable="@drawable/seekbar_select"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_contract_charter"
+        android:id="@+id/cl_contract_deposit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -279,13 +279,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/contract_form_charter"
+            android:text="@string/contract_price_charter"
             android:fontFamily="@font/pretendard_regular"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
-            android:id="@+id/tv_max_price"
+            android:id="@+id/tv_max_deposit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="~100억원"
@@ -300,7 +300,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@id/tv_max_price"
+            app:layout_constraintTop_toBottomOf="@id/tv_max_deposit"
             android:thumb="@drawable/seekbar_select_thumb"
             android:progressDrawable="@drawable/seekbar_select"/>
 
@@ -313,20 +313,20 @@
         android:layout_marginTop="8dp"
         android:visibility="gone"
         android:animateLayoutChanges="true"
-        app:layout_constraintTop_toBottomOf="@id/cl_contract_monthly"
+        app:layout_constraintTop_toBottomOf="@id/cl_contract_deposit"
         app:layout_constraintStart_toStartOf="@id/gl_start"
         app:layout_constraintEnd_toEndOf="@id/gl_end">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/contract_form_charter"
+            android:text="@string/contract_price_trading"
             android:fontFamily="@font/pretendard_regular"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
-            android:id="@+id/tv_max_price_3"
+            android:id="@+id/tv_max_trading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="~100억원"
@@ -341,7 +341,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@id/tv_max_price_3"
+            app:layout_constraintTop_toBottomOf="@id/tv_max_trading"
             android:thumb="@drawable/seekbar_select_thumb"
             android:progressDrawable="@drawable/seekbar_select"/>
 
@@ -358,7 +358,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_essential_after"
+            android:id="@+id/btn_before"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:text="@string/essential_select_after"
@@ -370,7 +370,7 @@
             android:layout_weight="1"/>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_essential_complete"
+            android:id="@+id/btn_next"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="4dp"
