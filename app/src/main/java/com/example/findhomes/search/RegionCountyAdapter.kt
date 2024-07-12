@@ -6,12 +6,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.findhomes.data.County
 import com.example.findhomes.databinding.ItemRegionCountyBinding
 
-class RegionCountyAdapter(
-    private var counties: List<County>) : RecyclerView.Adapter<RegionCountyAdapter.ViewHolder>(){
+class RegionCountyAdapter(private var counties: List<County>) : RecyclerView.Adapter<RegionCountyAdapter.ViewHolder>(){
+
+    private lateinit var countyClickListener: OnCountyClickListener
+
+    interface OnCountyClickListener{
+        fun onCountyClicked(data : County)
+    }
+
+    fun setOnCountyClickListener(onCountyClickListener : OnCountyClickListener){
+        countyClickListener = onCountyClickListener
+    }
 
     inner class ViewHolder(private val binding: ItemRegionCountyBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(item: County) {
             binding.tvCounty.text = item.name
+            binding.tvCounty.setOnClickListener {
+                countyClickListener.onCountyClicked(item)
+            }
         }
     }
     override fun onCreateViewHolder(

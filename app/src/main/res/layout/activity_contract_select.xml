@@ -127,7 +127,7 @@
         app:layout_constraintTop_toBottomOf="@id/ll_contract_room_category"
         app:layout_constraintStart_toStartOf="@id/gl_start"
         android:background="@drawable/button_selector_100"
-        android:text="@string/essential_category_apart"
+        android:text="@string/contract_room_apart"
         android:textSize="14sp"
         android:textColor="@color/button_color"/>
 
@@ -170,7 +170,7 @@
             android:layout_weight="1"
             android:stateListAnimator="@null"
             android:background="@drawable/button_selector_100"
-            android:text="@string/essential_category_one_room"
+            android:text="@string/contract_room_one"
             android:textSize="14sp"
             android:textColor="@color/button_color"
             android:fontFamily="@font/pretendard_regular"/>
@@ -182,7 +182,7 @@
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:background="@drawable/button_selector_100"
-            android:text="@string/essential_category_two_room"
+            android:text="@string/contract_room_two"
             android:textSize="14sp"
             android:textColor="@color/button_color"
             android:fontFamily="@font/pretendard_regular"/>
@@ -194,7 +194,7 @@
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:background="@drawable/button_selector_100"
-            android:text="@string/essential_category_three_room"
+            android:text="@string/contract_room_three"
             android:textSize="14sp"
             android:textColor="@color/button_color"
             android:fontFamily="@font/pretendard_regular"/>
@@ -206,7 +206,7 @@
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:background="@drawable/button_selector_100"
-            android:text="@string/essential_category_office"
+            android:text="@string/contract_room_office"
             android:textSize="14sp"
             android:textColor="@color/button_color"
             android:fontFamily="@font/pretendard_regular"/>
@@ -361,7 +361,7 @@
             android:id="@+id/btn_before"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:text="@string/essential_select_after"
+            android:text="@string/contract_before"
             android:textSize="18sp"
             android:stateListAnimator="@null"
             android:fontFamily="@font/pretendard_semibold"
@@ -375,7 +375,7 @@
             android:layout_height="match_parent"
             android:layout_marginStart="4dp"
             android:background="@drawable/button_active_100"
-            android:text="@string/essential_select_complete"
+            android:text="@string/contract_next"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:fontFamily="@font/pretendard_semibold"
