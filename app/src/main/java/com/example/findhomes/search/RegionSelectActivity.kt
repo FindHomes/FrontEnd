@@ -20,8 +20,15 @@ class RegionSelectActivity : AppCompatActivity() {
         binding = ActivityContractRegionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        initBefore()
         initNext()
         initRecyclerView()
+    }
+
+    private fun initBefore() {
+        binding.btnBefore.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     private fun initNext() {

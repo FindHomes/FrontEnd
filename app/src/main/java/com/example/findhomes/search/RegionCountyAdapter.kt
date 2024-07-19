@@ -1,14 +1,18 @@
 package com.example.findhomes.search
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.findhomes.R
 import com.example.findhomes.data.County
 import com.example.findhomes.databinding.ItemRegionCountyBinding
 
 class RegionCountyAdapter(private var counties: List<County>) : RecyclerView.Adapter<RegionCountyAdapter.ViewHolder>(){
 
     private lateinit var countyClickListener: OnCountyClickListener
+    private var selectedPosition = RecyclerView.NO_POSITION
 
     interface OnCountyClickListener{
         fun onCountyClicked(data : County)
@@ -19,10 +23,20 @@ class RegionCountyAdapter(private var counties: List<County>) : RecyclerView.Ada
     }
 
     inner class ViewHolder(private val binding: ItemRegionCountyBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(item: County) {
+        fun bind(item: County, isSelected: Boolean) {
             binding.tvCounty.text = item.name
+            binding.tvCounty.setTextColor(
+                if(isSelected) ContextCompat.getColor(binding.root.context, R.color.button_color)
+                else ContextCompat.getColor(binding.root.context, R.color.body_3)
+            )
             binding.tvCounty.setOnClickListener {
-                countyClickListener.onCountyClicked(item)
+                val previousPosition = selectedPosition
+                if(previousPosition != adapterPosition){
+                    countyClickListener.onCountyClicked(item)
+                    selectedPosition = adapterPosition
+                    notifyItemChanged(previousPosition)
+                    notifyItemChanged(selectedPosition)
+                }
             }
         }
     }
@@ -35,13 +49,15 @@ class RegionCountyAdapter(private var counties: List<County>) : RecyclerView.Ada
     }
 
     override fun onBindViewHolder(holder: RegionCountyAdapter.ViewHolder, position: Int) {
-        holder.bind(counties[position])
+        val isSelected = position == selectedPosition
+        holder.bind(counties[position], isSelected)
     }
 
     override fun getItemCount(): Int = counties.size
 
     fun updateCounties(newCounties: List<County>) {
         counties = newCounties
+        selectedPosition = RecyclerView.NO_POSITION
         notifyDataSetChanged()
     }
 }

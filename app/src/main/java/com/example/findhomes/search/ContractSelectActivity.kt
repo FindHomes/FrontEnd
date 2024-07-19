@@ -4,10 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.findhomes.R
 import com.example.findhomes.databinding.ActivityContractSelectBinding
+import com.example.findhomes.dataprovider.DataProvider
 
 class ContractSelectActivity : AppCompatActivity() {
     private lateinit var btnOne: Button
@@ -24,12 +28,20 @@ class ContractSelectActivity : AppCompatActivity() {
         binding = ActivityContractSelectBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        initBefore()
         initRoomType()
         initContractType()
+        initSeekBar()
 
         binding.btnNext.setOnClickListener {
             val intent = Intent(this, RegionSelectActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    private fun initBefore() {
+        binding.btnBefore.setOnClickListener {
+            onBackPressed()
         }
     }
 
@@ -107,5 +119,27 @@ class ContractSelectActivity : AppCompatActivity() {
             return false
         }
         return true
+    }
+
+    private fun initSeekBar() {
+
+        val config: List<Triple<SeekBar, String, TextView>> = listOf(
+            Triple(binding.sbMonthly, "월세", binding.tvMaxMonthly),
+            Triple(binding.sbDeposit, "보증금", binding.tvMaxDeposit),
+            Triple(binding.sbTrading, "매매", binding.tvMaxTrading)
+        )
+
+        config.forEach { (seekBar, type, price) ->
+            seekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                    price.text = DataProvider.getSbData(type, progress)
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+            })
+        }
+
     }
 }

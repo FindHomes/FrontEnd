@@ -15,8 +15,14 @@ class SearchDetailActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-
+        initBefore()
         initNext()
+    }
+
+    private fun initBefore() {
+        binding.ivBtnBack.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     private fun initNext() {
