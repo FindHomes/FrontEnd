@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.Guideline
@@ -127,7 +128,7 @@
         app:layout_constraintTop_toBottomOf="@id/ll_contract_room_category"
         app:layout_constraintStart_toStartOf="@id/gl_start"
         android:background="@drawable/button_selector_100"
-        android:text="@string/essential_category_apart"
+        android:text="@string/contract_room_apart"
         android:textSize="14sp"
         android:textColor="@color/button_color"/>
 
@@ -170,7 +171,7 @@
             android:layout_weight="1"
             android:stateListAnimator="@null"
             android:background="@drawable/button_selector_100"
-            android:text="@string/essential_category_one_room"
+            android:text="@string/contract_room_one"
             android:textSize="14sp"
             android:textColor="@color/button_color"
             android:fontFamily="@font/pretendard_regular"/>
@@ -182,7 +183,7 @@
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:background="@drawable/button_selector_100"
-            android:text="@string/essential_category_two_room"
+            android:text="@string/contract_room_two"
             android:textSize="14sp"
             android:textColor="@color/button_color"
             android:fontFamily="@font/pretendard_regular"/>
@@ -194,7 +195,7 @@
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:background="@drawable/button_selector_100"
-            android:text="@string/essential_category_three_room"
+            android:text="@string/contract_room_three"
             android:textSize="14sp"
             android:textColor="@color/button_color"
             android:fontFamily="@font/pretendard_regular"/>
@@ -206,7 +207,7 @@
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:background="@drawable/button_selector_100"
-            android:text="@string/essential_category_office"
+            android:text="@string/contract_room_office"
             android:textSize="14sp"
             android:textColor="@color/button_color"
             android:fontFamily="@font/pretendard_regular"/>
@@ -238,19 +239,59 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/contract_form_monthly"
+            android:text="@string/contract_price_monthly"
             android:fontFamily="@font/pretendard_regular"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
-            android:id="@+id/tv_max_price_2"
+            android:id="@+id/tv_max_monthly"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="~100억원"
+            android:text="무제한"
+            android:textColor="@color/button_color"
             android:fontFamily="@font/pretendard_regular"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_medium"
+            android:textColor="@color/sub_1"
+            android:text="@string/contract_price_minimum"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sb_monthly"/>
+
+        <View
+            android:id="@+id/view_monthly_center"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="@color/sub_1"
+            android:layout_marginTop="-5dp"
+            app:layout_constraintTop_toBottomOf="@id/sb_monthly"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintDimensionRatio="1:10"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_medium"
+            android:textColor="@color/sub_1"
+            app:layout_constraintTop_toBottomOf="@id/view_monthly_center"
+            android:text="@string/contract_price_charter_center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_medium"
+            android:textColor="@color/sub_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/contract_price_maximum"
+            app:layout_constraintTop_toBottomOf="@id/sb_monthly"/>
 
         <SeekBar
             android:id="@+id/sb_monthly"
@@ -258,18 +299,18 @@
             android:max="10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@id/tv_max_price_2"
+            android:paddingVertical="6dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_max_monthly"
             android:thumb="@drawable/seekbar_select_thumb"
             android:progressDrawable="@drawable/seekbar_select"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_contract_charter"
+        android:id="@+id/cl_contract_deposit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginVertical="10dp"
         android:visibility="visible"
         android:animateLayoutChanges="true"
         app:layout_constraintTop_toBottomOf="@id/cl_contract_monthly"
@@ -279,28 +320,69 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/contract_form_charter"
+            android:text="@string/contract_price_charter"
             android:fontFamily="@font/pretendard_regular"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
-            android:id="@+id/tv_max_price"
+            android:id="@+id/tv_max_deposit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="~100억원"
+            android:text="무제한"
+            android:textColor="@color/button_color"
             android:fontFamily="@font/pretendard_regular"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_medium"
+            android:textColor="@color/sub_1"
+            android:text="@string/contract_price_minimum"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sb_deposit"/>
+
+        <View
+            android:id="@+id/view_deposit_center"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="@color/sub_1"
+            android:layout_marginTop="-5dp"
+            app:layout_constraintTop_toBottomOf="@id/sb_deposit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintDimensionRatio="1:10"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_medium"
+            android:textColor="@color/sub_1"
+            app:layout_constraintTop_toBottomOf="@id/view_deposit_center"
+            android:text="@string/contract_price_monthly_center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_medium"
+            android:textColor="@color/sub_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/contract_price_maximum"
+            app:layout_constraintTop_toBottomOf="@id/sb_deposit"/>
+
         <SeekBar
             android:id="@+id/sb_deposit"
-            android:progress="5"
-            android:max="10"
+            android:progress="45"
+            android:max="45"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingVertical="6dp"
             android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@id/tv_max_price"
+            app:layout_constraintTop_toBottomOf="@id/tv_max_deposit"
             android:thumb="@drawable/seekbar_select_thumb"
             android:progressDrawable="@drawable/seekbar_select"/>
 
@@ -313,35 +395,76 @@
         android:layout_marginTop="8dp"
         android:visibility="gone"
         android:animateLayoutChanges="true"
-        app:layout_constraintTop_toBottomOf="@id/cl_contract_monthly"
+        app:layout_constraintTop_toBottomOf="@id/cl_contract_deposit"
         app:layout_constraintStart_toStartOf="@id/gl_start"
         app:layout_constraintEnd_toEndOf="@id/gl_end">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/contract_form_charter"
+            android:text="@string/contract_price_trading"
             android:fontFamily="@font/pretendard_regular"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
-            android:id="@+id/tv_max_price_3"
+            android:id="@+id/tv_max_trading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="~100억원"
+            android:textColor="@color/button_color"
+            android:text="무제한"
             android:fontFamily="@font/pretendard_regular"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_medium"
+            android:textColor="@color/sub_1"
+            android:text="@string/contract_price_minimum"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sb_trading"/>
+
+        <View
+            android:id="@+id/view_trading_center"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="@color/sub_1"
+            android:layout_marginTop="-5dp"
+            app:layout_constraintTop_toBottomOf="@id/sb_trading"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintDimensionRatio="1:10"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_medium"
+            android:textColor="@color/sub_1"
+            app:layout_constraintTop_toBottomOf="@id/view_trading_center"
+            android:text="@string/contract_price_trading_center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_medium"
+            android:textColor="@color/sub_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/contract_price_maximum"
+            app:layout_constraintTop_toBottomOf="@id/sb_trading"/>
+
         <SeekBar
             android:id="@+id/sb_trading"
-            android:progress="5"
-            android:max="10"
+            android:progress="45"
+            android:max="45"
+            android:paddingVertical="6dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@id/tv_max_price_3"
+            app:layout_constraintTop_toBottomOf="@id/tv_max_trading"
             android:thumb="@drawable/seekbar_select_thumb"
             android:progressDrawable="@drawable/seekbar_select"/>
 
@@ -358,10 +481,10 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_essential_after"
+            android:id="@+id/btn_before"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:text="@string/essential_select_after"
+            android:text="@string/contract_before"
             android:textSize="18sp"
             android:stateListAnimator="@null"
             android:fontFamily="@font/pretendard_semibold"
@@ -370,12 +493,12 @@
             android:layout_weight="1"/>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_essential_complete"
+            android:id="@+id/btn_next"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="4dp"
             android:background="@drawable/button_active_100"
-            android:text="@string/essential_select_complete"
+            android:text="@string/contract_next"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:fontFamily="@font/pretendard_semibold"

@@ -1,119 +1,121 @@
 package com.example.findhomes.search
 
-import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import androidx.core.os.bundleOf
+import android.view.MotionEvent
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.findhomes.R
-import com.example.findhomes.data.ContractFormData
-import com.example.findhomes.data.PreferredRegionData
 import com.example.findhomes.data.RankingInfo
+import com.example.findhomes.data.SearchResultData
 import com.example.findhomes.databinding.FragmentSearchBinding
-import org.jetbrains.annotations.Contract
+import com.example.findhomes.search.ResultRankingAdapter
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlin.math.max
+import kotlin.math.min
 
-class SearchFragment : Fragment(){
-    private lateinit var binding : FragmentSearchBinding
-    private lateinit var btnOne: Button
-    private lateinit var btnTwo: Button
-    private lateinit var btnThree: Button
-    private lateinit var btnOffice: Button
-    private lateinit var btnApart: Button
-    private var essentialContractFormAdapter : EssentialContractFormAdapter ?= null
-    private var essentialPreferredRegionAdapter : EssentialPreferredRegionAdapter ?= null
-    private var contractFormList: ArrayList<ContractFormData> = arrayListOf()
-    private var preferredRegionList: ArrayList<PreferredRegionData> = arrayListOf()
+class SearchFragment : Fragment(), OnMapReadyCallback {
+    lateinit var binding: FragmentSearchBinding
+    private lateinit var mapView: MapView
+    private lateinit var googleMap: GoogleMap
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
+    private lateinit var rankingAdapter: ResultRankingAdapter
+    private var rankingInfo : ArrayList<SearchResultData> = arrayListOf()
 
+    private var initialTouchY: Float = 0f
+    private var initialPeekHeight: Int = 0
+    private val minHeight by lazy { resources.displayMetrics.heightPixels / 4 }
+    private val midHeight by lazy { resources.displayMetrics.heightPixels / 2 }
+    private val maxHeight by lazy { resources.displayMetrics.heightPixels }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentSearchBinding.inflate(inflater, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = FragmentSearchBinding.inflate(layoutInflater)
 
-        initHousingType()
-        initContractForm()
-        initPreferredRegion()
+        initMapView(savedInstanceState)
+        setupBottomSheet()
         initData()
+        initRankingRecyclerView()
 
         return binding.root
     }
 
+    private fun initRankingRecyclerView() {
+        rankingAdapter = ResultRankingAdapter(rankingInfo, requireContext())
+
+        binding.rvResultRanking.adapter = rankingAdapter
+        binding.rvResultRanking.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
+    }
+
     private fun initData() {
-        contractFormList.add(ContractFormData("매매", "4억원 이하"))
-        preferredRegionList.add(PreferredRegionData("서울특별시 강남구"))
-        preferredRegionList.add(PreferredRegionData("경기도 용인시 수지구"))
-    }
-
-    private fun initHousingType() {
-        btnOne = binding.btnEssentialCategoryOne
-        btnTwo = binding.btnEssentialCategoryTwo
-        btnThree = binding.btnEssentialCategoryThree
-        btnOffice = binding.btnEssentialCategoryOffice
-        btnApart = binding.btnEssentialCategoryApart
-
-        listOf(btnOne, btnTwo, btnThree, btnOffice, btnApart).forEach { button ->
-            button.setOnClickListener {
-                button.setTextColor(resources.getColorStateList(R.color.button_selector_text_color, null))
-                it.isSelected = !it.isSelected
-            }
-        }
-
-        binding.btnEssentialComplete.setOnClickListener {
-            val detailFragment = SearchDetailFragment()
-
-            val selectedItems = arrayListOf<String>()
-            if (btnOne.isSelected) selectedItems.add("one")
-            if (btnTwo.isSelected) selectedItems.add("two")
-            if (btnThree.isSelected) selectedItems.add("three")
-            if (btnOffice.isSelected) selectedItems.add("office")
-            if (btnApart.isSelected) selectedItems.add("apart")
-
-            detailFragment.arguments = bundleOf(
-                "category" to selectedItems,
-                "region" to preferredRegionList,
-                "contract" to contractFormList
+        rankingInfo.addAll(
+            arrayListOf(
+                SearchResultData("https://www.google.com/url?sa=i&url=https%3A%2F%2Fblog.naver.com%2Fgmlghks0810%2F220600327050&psig=AOvVaw22-z9NpaK8yUj9GB8g4t4r&ust=1721734992036000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKjnrefIuocDFQAAAAAdAAAAABAE",
+                    1, "월세", "1,000만원", "3개", "주차공간 존재"),
+                SearchResultData("https://www.google.com/url?sa=i&url=https%3A%2F%2Fblog.naver.com%2Fgmlghks0810%2F220600327050&psig=AOvVaw22-z9NpaK8yUj9GB8g4t4r&ust=1721734992036000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKjnrefIuocDFQAAAAAdAAAAABAE",
+                    2, "월세", "1,000만원", "3개", "주차공간 존재"),
+                SearchResultData("https://www.google.com/url?sa=i&url=https%3A%2F%2Fblog.naver.com%2Fgmlghks0810%2F220600327050&psig=AOvVaw22-z9NpaK8yUj9GB8g4t4r&ust=1721734992036000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKjnrefIuocDFQAAAAAdAAAAABAE",
+                    3, "월세", "1,000만원", "3개", "주차공간 존재"),
+                SearchResultData("https://www.google.com/url?sa=i&url=https%3A%2F%2Fblog.naver.com%2Fgmlghks0810%2F220600327050&psig=AOvVaw22-z9NpaK8yUj9GB8g4t4r&ust=1721734992036000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKjnrefIuocDFQAAAAAdAAAAABAE",
+                    4, "월세", "1,000만원", "3개", "주차공간 존재"),
+                SearchResultData("https://www.google.com/url?sa=i&url=https%3A%2F%2Fblog.naver.com%2Fgmlghks0810%2F220600327050&psig=AOvVaw22-z9NpaK8yUj9GB8g4t4r&ust=1721734992036000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKjnrefIuocDFQAAAAAdAAAAABAE",
+                    5, "월세", "1,000만원", "3개", "주차공간 존재"),
+                SearchResultData("https://www.google.com/url?sa=i&url=https%3A%2F%2Fblog.naver.com%2Fgmlghks0810%2F220600327050&psig=AOvVaw22-z9NpaK8yUj9GB8g4t4r&ust=1721734992036000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKjnrefIuocDFQAAAAAdAAAAABAE",
+                    6, "월세", "1,000만원", "3개", "주차공간 존재"),
+                SearchResultData("https://www.google.com/url?sa=i&url=https%3A%2F%2Fblog.naver.com%2Fgmlghks0810%2F220600327050&psig=AOvVaw22-z9NpaK8yUj9GB8g4t4r&ust=1721734992036000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKjnrefIuocDFQAAAAAdAAAAABAE",
+                    7, "월세", "1,000만원", "3개", "주차공간 존재"),
+                SearchResultData("https://www.google.com/url?sa=i&url=https%3A%2F%2Fblog.naver.com%2Fgmlghks0810%2F220600327050&psig=AOvVaw22-z9NpaK8yUj9GB8g4t4r&ust=1721734992036000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKjnrefIuocDFQAAAAAdAAAAABAE",
+                    8, "월세", "1,000만원", "3개", "주차공간 존재"),
             )
+        )
+    }
 
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.main_frm, detailFragment)
-                .addToBackStack(null)
-                .commit()
+    private fun initMapView(savedInstanceState: Bundle?) {
+        mapView = binding.mvRanking
+        mapView.onCreate(savedInstanceState)
+        mapView.getMapAsync(this)
+    }
+
+    private fun setupBottomSheet() {
+        val bottomSheet = binding.clBottomBar
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
+        bottomSheetBehavior.isDraggable = false  // Disable default drag behavior
+        bottomSheetBehavior.peekHeight = midHeight // Set initial peek height
+
+        val viewHandler = binding.viewHandler
+        viewHandler.setOnTouchListener { view, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    initialTouchY = event.rawY
+                    initialPeekHeight = bottomSheetBehavior.peekHeight
+                    true
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    val deltaY = event.rawY - initialTouchY
+                    val newPeekHeight = (initialPeekHeight - deltaY).toInt().coerceIn(minHeight, maxHeight)
+                    bottomSheetBehavior.peekHeight = newPeekHeight
+                    true
+                }
+                MotionEvent.ACTION_UP -> {
+                    // Optionally adjust to nearest state
+                    true
+                }
+                else -> false
+            }
         }
     }
 
-    private fun initContractForm() {
-        essentialContractFormAdapter = EssentialContractFormAdapter(contractFormList)
-        binding.rvEssentialConditionContractForm.adapter = essentialContractFormAdapter
-        binding.rvEssentialConditionContractForm.layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
-        essentialContractFormAdapter!!.setOnItemClickListener(object : EssentialContractFormAdapter.OnClickAddListener{
-            override fun onClickAdd() {
-                val transaction = parentFragmentManager.beginTransaction()
-                transaction.replace(R.id.main_frm, RegionSelectFragment())
-                transaction.addToBackStack(null)
-                transaction.commit()
-            }
-        })
+    override fun onMapReady(googleMap: GoogleMap) {
+        this.googleMap = googleMap
     }
 
-    private fun initPreferredRegion() {
-        essentialPreferredRegionAdapter = EssentialPreferredRegionAdapter(preferredRegionList)
-        binding.rvEssentialPreferredRegion.adapter = essentialPreferredRegionAdapter
-        binding.rvEssentialPreferredRegion.layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
-        essentialPreferredRegionAdapter!!.setOnItemClickListener(object : EssentialPreferredRegionAdapter.OnClickAddListener{
-            override fun onClickAdd() {
-                val transaction = parentFragmentManager.beginTransaction()
-                transaction.replace(R.id.main_frm, RegionSelectFragment())
-                transaction.addToBackStack(null)
-                transaction.commit()
-            }
-        })
+    override fun onStart() {
+        super.onStart()
+        mapView.onStart()
     }
 }

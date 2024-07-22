@@ -24,31 +24,26 @@
     <string name="contract_price_monthly_center">1억 2,000만원</string>
     <string name="contract_price_charter_center">60만원</string>
     <string name="contract_price_trading_center">5억원</string>
+    <string name="contract_before">다음에</string>
+    <string name="contract_next">적용하기</string>
 
     <!-- RegionSelectActivity -->
     <string name="region_title">지역 설정</string>
+    <string name="region_select_title">선택한 지역</string>
+    <string name="region_city">시/도</string>
+    <string name="region_county">시/구/군</string>
     <string name="text_before">이전</string>
     <string name="text_after">다음</string>
-    
-    <!-- SearchFragment -->
-    <string name="essential_title">필수 조건 입력</string>
-    <string name="essential_sub_title">어떤 집을 찾고 계신가요?\n찾아줘홈즈가 추천해드릴게요!</string>
-    <string name="essential_category">주거 형태(복수 선택 가능)</string>
-    <string name="essential_category_one_room">원룸</string>
-    <string name="essential_category_two_room">투룸</string>
-    <string name="essential_category_three_room">쓰리룸 이상</string>
-    <string name="essential_category_office">오피스텔</string>
-    <string name="essential_category_apart">아파트</string>
-    <string name="essential_condition_contract_form">계약 형태</string>
-    <string name="essential_condition_preferred_region">선호 지역</string>
-    <string name="essential_add">추가하기</string>
-    <string name="essential_select_after">다음에</string>
-    <string name="essential_select_complete">선택완료</string>
 
-    <!-- SearchDetailFragment  -->
+
+    <!-- SearchDetailActivity -->
+    <string name="detail_title">세부 조건 입력</string>
     <string name="detail_sub_title">조건을 입력해주시면\nAI 기반으로 추천해드릴게요!</string>
     <string name="detail_main">원하는 조건을 입력해주세요</string>
     <string name="detail_input">조건을 입력하세요</string>
+    <string name="detail_chat_end">맞춤형 결과를 보시겠어요?</string>
+    <string name="detail_chat_yes">네</string>
+    <string name="detail_chat_no">아니오</string>
 
     <!-- SearchResultFragment  -->
     <string name="result_sub_title">입력해주신 데이터를 기반으로\n맞춤형 매물을 소개해드릴게요!</string>

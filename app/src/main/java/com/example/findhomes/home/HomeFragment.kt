@@ -6,12 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import com.example.findhomes.R
 import com.example.findhomes.databinding.FragmentHomeBinding
 import com.example.findhomes.mypage.MyPageFragment
 import com.example.findhomes.search.ContractSelectActivity
-import com.example.findhomes.search.RegionSelectFragment
 import com.example.findhomes.wish.WishFragment
 
 class HomeFragment : Fragment() {

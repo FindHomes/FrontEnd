@@ -1,58 +1,85 @@
 package com.example.findhomes
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.example.findhomes.search.SearchFragment
+import androidx.fragment.app.Fragment
 import com.example.findhomes.databinding.ActivityMainBinding
 import com.example.findhomes.home.HomeFragment
-import com.example.findhomes.wish.WishFragment
 import com.example.findhomes.mypage.MyPageFragment
+import com.example.findhomes.search.SearchFragment
+import com.example.findhomes.wish.WishFragment
+import com.google.android.gms.common.api.internal.LifecycleCallback.getFragment
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        super.onCreate(savedInstanceState)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initBottomNavigation()
+        val fragmentToOpen = getFragmentFromIntent(intent)
+        initBottomNavigation(fragmentToOpen)
     }
 
-    private fun initBottomNavigation() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.main_frm, HomeFragment())
-            .commitAllowingStateLoss()
-        binding.mainBnv.selectedItemId = R.id.homeFragment
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)  // 새 인텐트로 현재 인텐트 업데이트
+        val fragmentToOpen = getFragmentFromIntent(intent)
+        initBottomNavigation(fragmentToOpen)
+    }
+
+    private fun getFragmentFromIntent(intent: Intent): Fragment {
+        return if (intent.hasExtra("openFragment")) {
+            when (intent.getStringExtra("openFragment")) {
+                "searchFragment" -> SearchFragment()
+                "interestFragment" -> WishFragment()
+                "myPageFragment" -> MyPageFragment()
+                else -> HomeFragment()
+            }
+        } else {
+            HomeFragment()
+        }
+    }
+
+    private fun initBottomNavigation(defaultFragment: Fragment) {
+        openFragment(defaultFragment)
+        binding.mainBnv.selectedItemId = when (defaultFragment) {
+            is SearchFragment -> R.id.searchFragment
+            is WishFragment -> R.id.interestFragment
+            is MyPageFragment -> R.id.myPageFragment
+            else -> R.id.homeFragment
+        }
 
         binding.mainBnv.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.homeFragment -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_frm, HomeFragment())
-                        .commitAllowingStateLoss()
-                    return@setOnItemSelectedListener true
+                    openFragment(HomeFragment())
+                    true
                 }
                 R.id.searchFragment -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_frm, SearchFragment())
-                        .commitAllowingStateLoss()
-                    return@setOnItemSelectedListener true
+                    openFragment(SearchFragment())
+                    true
                 }
                 R.id.interestFragment -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_frm, WishFragment())
-                        .commitAllowingStateLoss()
-                    return@setOnItemSelectedListener true
+                    openFragment(WishFragment())
+                    true
                 }
                 R.id.myPageFragment -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_frm, MyPageFragment())
-                        .commitAllowingStateLoss()
-                    return@setOnItemSelectedListener true
+                    openFragment(MyPageFragment())
+                    true
                 }
+                else -> false
             }
-            false
         }
+    }
+
+    private fun openFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main_frm, fragment)
+            .commitAllowingStateLoss()
     }
 }
