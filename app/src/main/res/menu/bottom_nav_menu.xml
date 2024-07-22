@@ -5,7 +5,7 @@
 
     <item
         android:id="@+id/homeFragment"
-        android:icon="@drawable/selector_search"
+        android:icon="@drawable/selector_home"
         tools:ignore="MenuTitle"
         app:showAsAction="ifRoom"/>
 

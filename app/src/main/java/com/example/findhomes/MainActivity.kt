@@ -2,6 +2,7 @@ package com.example.findhomes
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.findhomes.databinding.ActivityMainBinding
@@ -9,6 +10,7 @@ import com.example.findhomes.home.HomeFragment
 import com.example.findhomes.mypage.MyPageFragment
 import com.example.findhomes.search.SearchFragment
 import com.example.findhomes.wish.WishFragment
+import com.google.android.gms.common.api.internal.LifecycleCallback.getFragment
 
 
 class MainActivity : AppCompatActivity() {
@@ -19,19 +21,28 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // 인텐트로부터 프래그먼트 정보를 받고, 조건에 따라 초기 프래그먼트 설정
-        val fragmentToOpen = if (intent != null && intent.hasExtra("openFragment")) {
+        val fragmentToOpen = getFragmentFromIntent(intent)
+        initBottomNavigation(fragmentToOpen)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)  // 새 인텐트로 현재 인텐트 업데이트
+        val fragmentToOpen = getFragmentFromIntent(intent)
+        initBottomNavigation(fragmentToOpen)
+    }
+
+    private fun getFragmentFromIntent(intent: Intent): Fragment {
+        return if (intent.hasExtra("openFragment")) {
             when (intent.getStringExtra("openFragment")) {
                 "searchFragment" -> SearchFragment()
                 "interestFragment" -> WishFragment()
                 "myPageFragment" -> MyPageFragment()
-                else -> HomeFragment()  // 기본 값
+                else -> HomeFragment()
             }
         } else {
-            HomeFragment()  // 인텐트가 없는 경우 기본 프래그먼트로 HomeFragment 설정
+            HomeFragment()
         }
-
-        initBottomNavigation(fragmentToOpen)
     }
 
     private fun initBottomNavigation(defaultFragment: Fragment) {

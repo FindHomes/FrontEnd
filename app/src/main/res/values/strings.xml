@@ -41,6 +41,9 @@
     <string name="detail_sub_title">조건을 입력해주시면\nAI 기반으로 추천해드릴게요!</string>
     <string name="detail_main">원하는 조건을 입력해주세요</string>
     <string name="detail_input">조건을 입력하세요</string>
+    <string name="detail_chat_end">맞춤형 결과를 보시겠어요?</string>
+    <string name="detail_chat_yes">네</string>
+    <string name="detail_chat_no">아니오</string>
 
     <!-- SearchResultFragment  -->
     <string name="result_sub_title">입력해주신 데이터를 기반으로\n맞춤형 매물을 소개해드릴게요!</string>
