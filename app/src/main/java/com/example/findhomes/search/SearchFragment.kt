@@ -84,10 +84,10 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
     private fun setupBottomSheet() {
         val bottomSheet = binding.clBottomBar
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
-        bottomSheetBehavior.isDraggable = false  // Disable default drag behavior
-        bottomSheetBehavior.peekHeight = midHeight // Set initial peek height
+        bottomSheetBehavior.isDraggable = false
+        bottomSheetBehavior.peekHeight = midHeight
 
-        val viewHandler = binding.viewHandler
+        val viewHandler = binding.clBottomHandler
         viewHandler.setOnTouchListener { view, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
@@ -102,7 +102,6 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
                     true
                 }
                 MotionEvent.ACTION_UP -> {
-                    // Optionally adjust to nearest state
                     true
                 }
                 else -> false

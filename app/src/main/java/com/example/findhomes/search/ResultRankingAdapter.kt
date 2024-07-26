@@ -11,6 +11,9 @@ import com.example.findhomes.databinding.ItemResultRankingBinding
 
 class ResultRankingAdapter(private val data: ArrayList<SearchResultData>, val context: Context) : RecyclerView.Adapter<ResultRankingAdapter.ViewHolder>(){
 
+    interface onClickListener(){
+
+    }
     inner class ViewHolder(private val binding: ItemResultRankingBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(item: SearchResultData) {
             Glide.with(context)
