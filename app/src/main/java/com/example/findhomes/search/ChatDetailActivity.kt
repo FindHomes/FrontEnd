@@ -11,9 +11,9 @@ import com.example.findhomes.data.ChatData
 import com.example.findhomes.databinding.ActivitySearchDetailBinding
 
 
-class SearchDetailActivity : AppCompatActivity(){
+class ChatDetailActivity : AppCompatActivity(){
     lateinit var binding: ActivitySearchDetailBinding
-    private lateinit var chatAdapter : SearchDetailAdapter
+    private lateinit var chatAdapter : ChatDetailAdapter
     private var messages: MutableList<ChatData> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +39,7 @@ class SearchDetailActivity : AppCompatActivity(){
         binding.clDefaultCenter.visibility = View.GONE
         binding.rvChatMessage.visibility = View.VISIBLE
 
-        chatAdapter = SearchDetailAdapter(messages)
+        chatAdapter = ChatDetailAdapter(messages)
         binding.rvChatMessage.adapter = chatAdapter
         binding.rvChatMessage.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
@@ -50,9 +50,9 @@ class SearchDetailActivity : AppCompatActivity(){
             binding.etConditionInput.text.clear()
         }
 
-        chatAdapter.setYesClickListener(object : SearchDetailAdapter.OnYesClickListener{
+        chatAdapter.setYesClickListener(object : ChatDetailAdapter.OnYesClickListener{
             override fun onYesClicked() {
-                val intent = Intent(this@SearchDetailActivity, MainActivity::class.java).apply {
+                val intent = Intent(this@ChatDetailActivity, MainActivity::class.java).apply {
                     Log.d("intent",intent.toString())
                     putExtra("openFragment", "searchFragment")
                     flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP

@@ -1,5 +1,6 @@
 package com.example.findhomes.search
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import android.view.MotionEvent
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.findhomes.R
 import com.example.findhomes.data.RankingInfo
 import com.example.findhomes.data.SearchResultData
 import com.example.findhomes.databinding.FragmentSearchBinding
@@ -50,26 +52,39 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
         binding.rvResultRanking.adapter = rankingAdapter
         binding.rvResultRanking.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
+        rankingAdapter.setOnItemClickListener(object : ResultRankingAdapter.OnItemClickListener{
+            override fun onItemClicked(data: SearchResultData) {
+                val bundle = Bundle()
+                bundle.putString("key", "value")
+
+                val nextFragment = SearchDetailFragment()
+                nextFragment.arguments = bundle
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.main_frm, nextFragment)
+                    .commit()
+            }
+
+        })
     }
 
     private fun initData() {
         rankingInfo.addAll(
             arrayListOf(
-                SearchResultData("https://www.google.com/url?sa=i&url=https%3A%2F%2Fblog.naver.com%2Fgmlghks0810%2F220600327050&psig=AOvVaw22-z9NpaK8yUj9GB8g4t4r&ust=1721734992036000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKjnrefIuocDFQAAAAAdAAAAABAE",
+                SearchResultData("https://cdn.pixabay.com/photo/2021/08/08/14/16/road-6531031_1280.jpg",
                     1, "월세", "1,000만원", "3개", "주차공간 존재"),
-                SearchResultData("https://www.google.com/url?sa=i&url=https%3A%2F%2Fblog.naver.com%2Fgmlghks0810%2F220600327050&psig=AOvVaw22-z9NpaK8yUj9GB8g4t4r&ust=1721734992036000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKjnrefIuocDFQAAAAAdAAAAABAE",
+                SearchResultData("https://cdn.pixabay.com/photo/2019/11/20/14/48/mirror-house-4640243_1280.jpg",
                     2, "월세", "1,000만원", "3개", "주차공간 존재"),
-                SearchResultData("https://www.google.com/url?sa=i&url=https%3A%2F%2Fblog.naver.com%2Fgmlghks0810%2F220600327050&psig=AOvVaw22-z9NpaK8yUj9GB8g4t4r&ust=1721734992036000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKjnrefIuocDFQAAAAAdAAAAABAE",
+                SearchResultData("https://cdn.pixabay.com/photo/2021/08/08/14/16/road-6531031_1280.jpg",
                     3, "월세", "1,000만원", "3개", "주차공간 존재"),
-                SearchResultData("https://www.google.com/url?sa=i&url=https%3A%2F%2Fblog.naver.com%2Fgmlghks0810%2F220600327050&psig=AOvVaw22-z9NpaK8yUj9GB8g4t4r&ust=1721734992036000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKjnrefIuocDFQAAAAAdAAAAABAE",
+                SearchResultData("https://cdn.pixabay.com/photo/2019/11/20/14/48/mirror-house-4640243_1280.jpg",
                     4, "월세", "1,000만원", "3개", "주차공간 존재"),
-                SearchResultData("https://www.google.com/url?sa=i&url=https%3A%2F%2Fblog.naver.com%2Fgmlghks0810%2F220600327050&psig=AOvVaw22-z9NpaK8yUj9GB8g4t4r&ust=1721734992036000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKjnrefIuocDFQAAAAAdAAAAABAE",
+                SearchResultData("https://cdn.pixabay.com/photo/2021/08/08/14/16/road-6531031_1280.jpg",
                     5, "월세", "1,000만원", "3개", "주차공간 존재"),
-                SearchResultData("https://www.google.com/url?sa=i&url=https%3A%2F%2Fblog.naver.com%2Fgmlghks0810%2F220600327050&psig=AOvVaw22-z9NpaK8yUj9GB8g4t4r&ust=1721734992036000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKjnrefIuocDFQAAAAAdAAAAABAE",
+                SearchResultData("https://cdn.pixabay.com/photo/2019/11/20/14/48/mirror-house-4640243_1280.jpg",
                     6, "월세", "1,000만원", "3개", "주차공간 존재"),
-                SearchResultData("https://www.google.com/url?sa=i&url=https%3A%2F%2Fblog.naver.com%2Fgmlghks0810%2F220600327050&psig=AOvVaw22-z9NpaK8yUj9GB8g4t4r&ust=1721734992036000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKjnrefIuocDFQAAAAAdAAAAABAE",
+                SearchResultData("https://cdn.pixabay.com/photo/2021/08/08/14/16/road-6531031_1280.jpg",
                     7, "월세", "1,000만원", "3개", "주차공간 존재"),
-                SearchResultData("https://www.google.com/url?sa=i&url=https%3A%2F%2Fblog.naver.com%2Fgmlghks0810%2F220600327050&psig=AOvVaw22-z9NpaK8yUj9GB8g4t4r&ust=1721734992036000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKjnrefIuocDFQAAAAAdAAAAABAE",
+                SearchResultData("https://cdn.pixabay.com/photo/2019/11/20/14/48/mirror-house-4640243_1280.jpg",
                     8, "월세", "1,000만원", "3개", "주차공간 존재"),
             )
         )

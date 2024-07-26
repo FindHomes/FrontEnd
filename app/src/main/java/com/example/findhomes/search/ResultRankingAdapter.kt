@@ -10,10 +10,16 @@ import com.example.findhomes.data.SearchResultData
 import com.example.findhomes.databinding.ItemResultRankingBinding
 
 class ResultRankingAdapter(private val data: ArrayList<SearchResultData>, val context: Context) : RecyclerView.Adapter<ResultRankingAdapter.ViewHolder>(){
+    lateinit var itemClickListener : OnItemClickListener
 
-    interface onClickListener(){
-
+    interface OnItemClickListener{
+        fun onItemClicked(data : SearchResultData)
     }
+
+    fun setOnItemClickListener(onItemClickListener: OnItemClickListener){
+        itemClickListener = onItemClickListener
+    }
+
     inner class ViewHolder(private val binding: ItemResultRankingBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(item: SearchResultData) {
             Glide.with(context)
@@ -24,6 +30,10 @@ class ResultRankingAdapter(private val data: ArrayList<SearchResultData>, val co
             binding.tvRankingPriceType.text = item.priceType
             binding.tvRankingDetail1.text = item.room
             binding.tvRankingDetail2.text = item.etc
+
+            binding.clRankingItem.setOnClickListener {
+                itemClickListener.onItemClicked(item)
+            }
         }
     }
     override fun onCreateViewHolder(

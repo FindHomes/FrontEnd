@@ -8,7 +8,7 @@ import com.example.findhomes.databinding.ItemChatReceiveBinding
 import com.example.findhomes.data.ChatData
 import com.example.findhomes.databinding.ItemChatEndBinding
 
-class SearchDetailAdapter(private var messages: MutableList<ChatData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ChatDetailAdapter(private var messages: MutableList<ChatData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private lateinit var yesClickListener: OnYesClickListener
 
