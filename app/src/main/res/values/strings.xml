@@ -34,7 +34,7 @@
     <string name="region_county">시/구/군</string>
     <string name="text_before">이전</string>
     <string name="text_after">다음</string>
-    
+
     <!-- ChatDetailActivity -->
     <string name="detail_title">세부 조건 입력</string>
     <string name="detail_sub_title">조건을 입력해주시면\nAI 기반으로 추천해드릴게요!</string>
@@ -50,7 +50,7 @@
     <string name="result_show">결과 보러가기</string>
     <string name="result_ranking">맞춤형 검색 매물 순위</string>
     <string name="result_ranking_kor">위</string>
-    
+
     <!-- SearchDetailFragment -->
     <string name="detail_price_info">가격 정보</string>
     <string name="detail_detail_info">상세 정보</string>

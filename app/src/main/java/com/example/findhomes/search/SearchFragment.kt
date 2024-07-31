@@ -1,33 +1,51 @@
 package com.example.findhomes.search
 
+import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
 import android.os.Bundle
+import android.util.DisplayMetrics
+import android.view.Display
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.MotionEvent
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.findhomes.R
+import com.example.findhomes.data.MarkerItem
 import com.example.findhomes.data.RankingInfo
 import com.example.findhomes.data.SearchResultData
 import com.example.findhomes.databinding.FragmentSearchBinding
+import com.example.findhomes.databinding.ItemMarkerViewBinding
 import com.example.findhomes.search.ResultRankingAdapter
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlin.math.max
 import kotlin.math.min
 
-class SearchFragment : Fragment(), OnMapReadyCallback {
+class SearchFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMapClickListener{
     lateinit var binding: FragmentSearchBinding
     private lateinit var mapView: MapView
     private lateinit var googleMap: GoogleMap
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
     private lateinit var rankingAdapter: ResultRankingAdapter
     private var rankingInfo : ArrayList<SearchResultData> = arrayListOf()
+    private var dummyList : ArrayList<MarkerItem> = arrayListOf()
+    private var selectedMarker: Marker? = null
 
     private var initialTouchY: Float = 0f
     private var initialPeekHeight: Int = 0
@@ -42,8 +60,22 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
         setupBottomSheet()
         initData()
         initRankingRecyclerView()
+        initStatisticFragment()
 
         return binding.root
+    }
+
+    private fun initStatisticFragment() {
+        binding.btnStatisticShow.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("key", "value")
+
+            val nextFragment = SearchDetailFragment()
+            nextFragment.arguments = bundle
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.main_frm, nextFragment)
+                .commit()
+        }
     }
 
     private fun initRankingRecyclerView() {
@@ -126,10 +158,107 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         this.googleMap = googleMap
+
+        getSampleMarker()
+        initCameraPosition()
     }
+
+    private fun initCameraPosition() {
+        val firstMarker = dummyList.firstOrNull { it.ranking == 1 }
+        firstMarker?.let {
+            val location = LatLng(it.lat, it.lon)
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16f))
+        }
+    }
+
+    private fun getSampleMarker() {
+        dummyList.addAll(
+            arrayListOf(
+                MarkerItem(37.5393, 127.0709, 1, "1,000만원"),
+                MarkerItem(37.5432, 127.071, 2, "2,000만원"),
+                MarkerItem(37.5482, 127.0709, 3, "3,000만원"),
+                MarkerItem(37.5363, 127.0711, 4, "4,000만원")
+                )
+        )
+
+        dummyList.forEach { markerItem ->
+            addCustomMarker(markerItem)
+        }
+    }
+
+    private fun addCustomMarker(markerItem: MarkerItem) {
+        val binding: ItemMarkerViewBinding = ItemMarkerViewBinding.inflate(layoutInflater)
+        binding.tvRanking.text = markerItem.ranking.toString()
+        binding.tvPrice.text = markerItem.price
+
+        val markerView = binding.root
+        applyNormalStyle(binding)
+        val markerBitmap = createBitmapFromView(markerView)
+
+        val markerOptions = MarkerOptions()
+            .position(LatLng(markerItem.lat, markerItem.lon))
+            .icon(BitmapDescriptorFactory.fromBitmap(markerBitmap))
+
+        val marker = googleMap.addMarker(markerOptions)
+        marker?.tag = markerItem
+    }
+
+    private fun applySelectedStyle(binding: ItemMarkerViewBinding) {
+        binding.tvPrice.setTextColor(Color.BLACK)
+    }
+
+    private fun applyNormalStyle(binding: ItemMarkerViewBinding) {
+//        binding.tvPrice.setTextColor(Color.WHITE)
+    }
+
+
+    private fun createBitmapFromView(view: View): Bitmap {
+        view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED))
+        view.layout(0, 0, view.measuredWidth, view.measuredHeight)
+        val bitmap = Bitmap.createBitmap(view.measuredWidth, view.measuredHeight, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        view.draw(canvas)
+        return bitmap
+    }
+
 
     override fun onStart() {
         super.onStart()
         mapView.onStart()
     }
+
+    override fun onMarkerClick(marker: Marker): Boolean {
+        selectedMarker?.let {
+            updateMarkerView(it, false)
+        }
+
+        updateMarkerView(marker, true)
+        selectedMarker = marker
+        return true
+    }
+
+    override fun onMapClick(latLng: LatLng) {
+        selectedMarker?.let {
+            updateMarkerView(it, false)
+        }
+        selectedMarker = null
+    }
+
+    private fun updateMarkerView(marker: Marker, isSelected: Boolean) {
+        val markerItem = marker.tag as MarkerItem
+        val binding: ItemMarkerViewBinding = ItemMarkerViewBinding.inflate(layoutInflater)
+        binding.tvRanking.text = markerItem.ranking.toString()
+        binding.tvPrice.text = markerItem.price
+
+        if (isSelected) {
+            applySelectedStyle(binding)
+        } else {
+            applyNormalStyle(binding)
+        }
+
+        val newIcon = BitmapDescriptorFactory.fromBitmap(createBitmapFromView(binding.root))
+        marker.setIcon(newIcon)
+    }
+
+
 }
