@@ -15,6 +15,7 @@
     <!-- 버튼 색상 -->
     <color name="button_color">#1AA69D</color>
     <color name="button_non_color">#E9E9E9</color>
+    <color name="button_clicked_color">#FF5D4B</color>
 
     <!-- 메인 컬러 -->
     <color name="main_1">#1AA69D</color>
