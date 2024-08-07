@@ -1,5 +1,6 @@
 package com.example.findhomes.search
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
@@ -27,6 +28,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlin.math.abs
 
 class SearchFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMapClickListener{
     lateinit var binding: FragmentSearchBinding
@@ -46,13 +48,31 @@ class SearchFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, On
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentSearchBinding.inflate(layoutInflater)
 
-        initMapView(savedInstanceState)
+        initMap(savedInstanceState)
         setupBottomSheet()
         initData()
         initRankingRecyclerView()
         initStatisticFragment()
 
         return binding.root
+    }
+
+    private fun initMap(savedInstanceState: Bundle?) {
+        mapView = binding.mvRanking
+        mapView.onCreate(savedInstanceState)
+        mapView.getMapAsync(this)
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        this.googleMap = googleMap
+        googleMap.setOnMarkerClickListener(this)
+        getSampleMarker()
+        initCameraPosition()
+
+        // 카메라 이동 완료 리스너 등록
+        googleMap.setOnCameraIdleListener {
+            updateVisibleMarkers()
+        }
     }
 
     private fun initStatisticFragment() {
@@ -69,7 +89,7 @@ class SearchFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, On
     }
 
     private fun initRankingRecyclerView() {
-        rankingAdapter = ResultRankingAdapter(resultDataList, requireContext())
+        rankingAdapter = ResultRankingAdapter(requireContext())
 
         binding.rvResultRanking.adapter = rankingAdapter
         binding.rvResultRanking.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -93,36 +113,32 @@ class SearchFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, On
         resultDataList.addAll(
             arrayListOf(
                 SearchResultData(37.5393, 127.0709,"https://cdn.pixabay.com/photo/2021/08/08/14/16/road-6531031_1280.jpg",
-                    1, "월세", "1,000만원", "3개", "주차공간 존재"),
+                    1, 100, "월세", "1,000만원", "100점 짜리", "주차공간 존재"),
                 SearchResultData(37.5432, 127.071,"https://cdn.pixabay.com/photo/2019/11/20/14/48/mirror-house-4640243_1280.jpg",
-                    2, "월세", "1,000만원", "3개", "주차공간 존재"),
+                    2, 200, "월세", "1,000만원", "200점 짜리", "주차공간 존재"),
                 SearchResultData(37.5413, 127.073,"https://cdn.pixabay.com/photo/2021/08/08/14/16/road-6531031_1280.jpg",
-                    3, "월세", "1,000만원", "3개", "주차공간 존재"),
+                    3, 150, "월세", "1,000만원", "150점 짜리", "주차공간 존재"),
                 SearchResultData(37.5373, 127.074,"https://cdn.pixabay.com/photo/2019/11/20/14/48/mirror-house-4640243_1280.jpg",
-                    4, "월세", "1,000만원", "3개", "주차공간 존재"),
+                    4, 50, "월세", "1,000만원", "50점 짜리", "주차공간 존재"),
                 SearchResultData(37.5582, 127.0729,"https://cdn.pixabay.com/photo/2021/08/08/14/16/road-6531031_1280.jpg",
-                    5, "월세", "1,000만원", "3개", "주차공간 존재"),
+                    5, 30, "월세", "1,000만원", "30점 짜리", "주차공간 존재"),
                 SearchResultData(37.5632, 127.0739,"https://cdn.pixabay.com/photo/2019/11/20/14/48/mirror-house-4640243_1280.jpg",
-                    6, "월세", "1,000만원", "3개", "주차공간 존재"),
+                    6, 20, "월세", "1,000만원", "20점 짜리", "주차공간 존재"),
                 SearchResultData(37.5682, 127.0749,"https://cdn.pixabay.com/photo/2021/08/08/14/16/road-6531031_1280.jpg",
-                    7, "월세", "1,000만원", "3개", "주차공간 존재"),
+                    7,700,  "월세", "1,000만원", "700점 짜리", "주차공간 존재"),
                 SearchResultData(38.5732, 127.0759,"https://cdn.pixabay.com/photo/2019/11/20/14/48/mirror-house-4640243_1280.jpg",
-                    8, "월세", "1,000만원", "3개", "주차공간 존재"),
+                    8, 280,"월세", "1,000만원", "280점 짜리", "주차공간 존재"),
             )
         )
-    }
-
-    private fun initMapView(savedInstanceState: Bundle?) {
-        mapView = binding.mvRanking
-        mapView.onCreate(savedInstanceState)
-        mapView.getMapAsync(this)
     }
 
     private fun setupBottomSheet() {
         val bottomSheet = binding.clBottomBar
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
         bottomSheetBehavior.isDraggable = false
-        bottomSheetBehavior.peekHeight = midHeight
+
+        // 사용자 정의 단계 설정
+        val customHeights = arrayOf(minHeight, midHeight, maxHeight)
 
         val viewHandler = binding.clBottomHandler
         viewHandler.setOnTouchListener { view, event ->
@@ -130,15 +146,27 @@ class SearchFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, On
                 MotionEvent.ACTION_DOWN -> {
                     initialTouchY = event.rawY
                     initialPeekHeight = bottomSheetBehavior.peekHeight
+                    Log.d("taejung", "Motion down")
                     true
                 }
                 MotionEvent.ACTION_MOVE -> {
                     val deltaY = event.rawY - initialTouchY
-                    val newPeekHeight = (initialPeekHeight - deltaY).toInt().coerceIn(minHeight, maxHeight)
+                    var newPeekHeight = (initialPeekHeight - deltaY).toInt().coerceIn(minHeight, maxHeight)
+
+                    // 가장 가까운 사용자 정의 높이 찾기
+                    newPeekHeight = customHeights.minByOrNull { abs(it - newPeekHeight) } ?: newPeekHeight
                     bottomSheetBehavior.peekHeight = newPeekHeight
+                    Log.d("taejung", "Motion 움직임")
+
                     true
                 }
                 MotionEvent.ACTION_UP -> {
+                    // 드래그가 끝날 때 최종 높이를 다시 조정하여 가장 가까운 단계에 맞추기
+                    view.performClick()
+                    val endPeekHeight = (bottomSheetBehavior.peekHeight)
+                    val closestHeight = customHeights.minByOrNull { abs(it - endPeekHeight) } ?: endPeekHeight
+                    bottomSheetBehavior.peekHeight = closestHeight
+                    Log.d("taejung", "Motion up")
                     true
                 }
                 else -> false
@@ -146,12 +174,6 @@ class SearchFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, On
         }
     }
 
-    override fun onMapReady(googleMap: GoogleMap) {
-        this.googleMap = googleMap
-        googleMap.setOnMarkerClickListener(this)
-        getSampleMarker()
-        initCameraPosition()
-    }
 
     private fun initCameraPosition() {
         val firstMarker = resultDataList.firstOrNull()
@@ -165,6 +187,15 @@ class SearchFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, On
         resultDataList.forEach { resultData ->
             addCustomMarker(resultData)
         }
+    }
+
+    private fun updateVisibleMarkers() {
+        val bounds = googleMap.projection.visibleRegion.latLngBounds
+        val visibleItems = resultDataList.filter {
+            bounds.contains(LatLng(it.lat, it.lon))
+        }.sortedByDescending { it.score } // 점수 높은 순으로 정렬
+
+        rankingAdapter.submitList(visibleItems.toList())
     }
 
     private fun addCustomMarker(resultData: SearchResultData) {

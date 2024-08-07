@@ -5,6 +5,7 @@ data class SearchResultData(
     val lon : Double,
     val img : String,
     val ranking : Int,
+    val score : Int,
     val priceType : String,
     val price : String,
     val room : String,
