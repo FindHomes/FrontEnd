@@ -2,10 +2,8 @@ package com.example.findhomes.search
 
 import android.content.Intent
 import android.os.Bundle
-import android.telephony.SignalStrength
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.findhomes.data.City
 import com.example.findhomes.data.County
 import com.example.findhomes.databinding.ActivityContractRegionBinding
 import com.example.findhomes.dataprovider.DataProvider
@@ -33,7 +31,7 @@ class RegionSelectActivity : AppCompatActivity() {
 
     private fun initNext() {
         binding.btnNext.setOnClickListener {
-            val intent = Intent(this, SearchDetailActivity::class.java)
+            val intent = Intent(this, ChatDetailActivity::class.java)
             startActivity(intent)
         }
     }
