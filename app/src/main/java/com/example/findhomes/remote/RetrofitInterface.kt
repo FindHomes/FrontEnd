@@ -8,9 +8,14 @@ import retrofit2.http.Query
 interface RetrofitInterface {
 
     // SearchComplete API
+//    @GET("test/api/search/complete")
+//    fun searchComplete()
+//    : Call<BaseResponse<SearchCompleteResponse>>
+
+    // SearchComplete API
     @GET("test/api/search/complete")
-    fun searchUpdate()
-    : Call<BaseResponse<SearchCompleteResponse>>
+    fun searchComplete()
+    : Call<SearchCompleteResponse>
 
     // SearchUpdate API
     @GET("test/api/search/update")

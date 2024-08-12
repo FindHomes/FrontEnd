@@ -22,25 +22,25 @@ class AuthService() {
     }
 
     fun searchComplete(){
-        authService.searchUpdate()
-            .enqueue(object : Callback<BaseResponse<SearchCompleteResponse>> {
+        authService.searchComplete()
+            .enqueue(object : Callback<SearchCompleteResponse> {
                 override fun onResponse(
-                    call: Call<BaseResponse<SearchCompleteResponse>>,
-                    response: Response<BaseResponse<SearchCompleteResponse>>
+                    call: Call<SearchCompleteResponse>,
+                    response: Response<SearchCompleteResponse>
                 ) {
-//                    Log.d("bringUser response", response.toString())
+                    Log.d("SearchComplete response", response.toString())
                     if (response.isSuccessful) {
                         val resp = response.body()
-//                        Log.d("bringUser Response Body", resp.toString())
-//                        Log.d("bringUser Response Body result", resp?.result.toString())
-                        when (resp!!.status) {
-                            200 -> searchCompleteView.SearchCompleteSuccess(resp.result)
-                            else -> searchCompleteView.SearchCompleteFailure(resp.status, resp.message)
-                        }
+                        Log.d("SearchComplete Response Body", resp.toString())
+                        searchCompleteView.SearchCompleteSuccess(resp!!)
+//                        when (resp!!) {
+//                            200 -> searchCompleteView.SearchCompleteSuccess(resp.result)
+////                            else -> searchCompleteView.SearchCompleteFailure()
+//                        }
                     }
                 }
 
-                override fun onFailure(call: Call<BaseResponse<SearchCompleteResponse>>, t: Throwable) {
+                override fun onFailure(call: Call<SearchCompleteResponse>, t: Throwable) {
                     Log.d("SearchComplete Failed", t.toString())
                 }
             })

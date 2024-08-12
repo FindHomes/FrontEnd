@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.findhomes.data.SearchResultData
 import com.example.findhomes.databinding.ItemResultRankingBinding
+import com.example.findhomes.remote.HousesResponse
 
 class ResultRankingAdapter(private val context: Context) : ListAdapter<SearchResultData, ResultRankingAdapter.ViewHolder>(DiffCallback()) {
     lateinit var itemClickListener: OnItemClickListener
@@ -30,7 +31,7 @@ class ResultRankingAdapter(private val context: Context) : ListAdapter<SearchRes
             binding.tvRankingPrice.text = item.price
             binding.tvRankingPriceType.text = item.priceType
             binding.tvRankingDetail1.text = item.room
-            binding.tvRankingDetail2.text = item.etc
+            binding.tvRankingDetail2.text = item.washRoom
 
             binding.clRankingItem.setOnClickListener {
                 itemClickListener.onItemClicked(item)
@@ -49,7 +50,7 @@ class ResultRankingAdapter(private val context: Context) : ListAdapter<SearchRes
 
     class DiffCallback : DiffUtil.ItemCallback<SearchResultData>() {
         override fun areItemsTheSame(oldItem: SearchResultData, newItem: SearchResultData): Boolean {
-            return oldItem.score== newItem.score  // 새로운 아이템과 이전 아이템을 비교할 수 있는 고윳 값
+            return oldItem.houseId== newItem.houseId  // 새로운 아이템과 이전 아이템을 비교할 수 있는 고윳 값
         }
 
         override fun areContentsTheSame(oldItem: SearchResultData, newItem: SearchResultData): Boolean {
