@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.view.MotionEvent
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.findhomes.R
 import com.example.findhomes.data.SearchResultData
 import com.example.findhomes.databinding.FragmentSearchBinding
@@ -35,23 +36,17 @@ class SearchFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, On
     lateinit var binding: FragmentSearchBinding
     private lateinit var mapView: MapView
     private lateinit var googleMap: GoogleMap
-    private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
     private lateinit var rankingAdapter: ResultRankingAdapter
     private var resultDataList : ArrayList<SearchResultData> = arrayListOf()
     private var selectedMarker: Marker? = null
+    private var markerMap = mutableMapOf<Int, Marker>()
 
-    private var initialTouchY: Float = 0f
-    private var initialPeekHeight: Int = 0
-    private val minHeight by lazy { resources.displayMetrics.heightPixels / 4 }
-    private val midHeight by lazy { resources.displayMetrics.heightPixels / 2 }
-    private val maxHeight by lazy { resources.displayMetrics.heightPixels }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentSearchBinding.inflate(layoutInflater)
         initDataManager()
 
         initMap(savedInstanceState)
-        setupBottomSheet()
         initRankingRecyclerView()
         initStatisticFragment()
 
@@ -76,6 +71,16 @@ class SearchFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, On
         }
     }
 
+    private fun updateMap(position: Int) {
+        resultDataList.getOrNull(position)?.let {
+            val location = LatLng(it.lon, it.lat)
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 17f))
+            selectedMarker = markerMap[position]
+            updateMarkerView(selectedMarker, true)
+        }
+    }
+
+
     private fun initStatisticFragment() {
         binding.btnStatisticShow.setOnClickListener {
             val bundle = Bundle()
@@ -93,7 +98,20 @@ class SearchFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, On
         rankingAdapter = ResultRankingAdapter(requireContext())
 
         binding.rvResultRanking.adapter = rankingAdapter
-        binding.rvResultRanking.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.rvResultRanking.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+        binding.rvResultRanking.addOnScrollListener(object: RecyclerView.OnScrollListener(){
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                    val position = layoutManager.findFirstCompletelyVisibleItemPosition()
+                    if (position != RecyclerView.NO_POSITION) {
+                        updateMap(position)
+                    }
+                }
+            }
+        })
 
         rankingAdapter.setOnItemClickListener(object : ResultRankingAdapter.OnItemClickListener{
             override fun onItemClicked(data: SearchResultData) {
@@ -106,50 +124,7 @@ class SearchFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, On
                     .replace(R.id.main_frm, nextFragment)
                     .commit()
             }
-
         })
-    }
-
-    private fun setupBottomSheet() {
-        val bottomSheet = binding.clBottomBar
-        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
-        bottomSheetBehavior.isDraggable = false
-
-        // 사용자 정의 단계 설정
-        val customHeights = arrayOf(minHeight, midHeight, maxHeight)
-
-        val viewHandler = binding.clBottomHandler
-        viewHandler.setOnTouchListener { view, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    initialTouchY = event.rawY
-                    initialPeekHeight = bottomSheetBehavior.peekHeight
-                    Log.d("taejung", "Motion down")
-                    true
-                }
-                MotionEvent.ACTION_MOVE -> {
-                    val deltaY = event.rawY - initialTouchY
-                    var newPeekHeight = (initialPeekHeight - deltaY).toInt().coerceIn(minHeight, maxHeight)
-
-                    // 가장 가까운 사용자 정의 높이 찾기
-                    newPeekHeight = customHeights.minByOrNull { abs(it - newPeekHeight) } ?: newPeekHeight
-                    bottomSheetBehavior.peekHeight = newPeekHeight
-                    Log.d("taejung", "Motion 움직임")
-
-                    true
-                }
-                MotionEvent.ACTION_UP -> {
-                    // 드래그가 끝날 때 최종 높이를 다시 조정하여 가장 가까운 단계에 맞추기
-                    view.performClick()
-                    val endPeekHeight = (bottomSheetBehavior.peekHeight)
-                    val closestHeight = customHeights.minByOrNull { abs(it - endPeekHeight) } ?: endPeekHeight
-                    bottomSheetBehavior.peekHeight = closestHeight
-                    Log.d("taejung", "Motion up")
-                    true
-                }
-                else -> false
-            }
-        }
     }
 
 
@@ -172,16 +147,15 @@ class SearchFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, On
         val bounds = googleMap.projection.visibleRegion.latLngBounds
         val visibleItems = resultDataList.filter {
             bounds.contains(LatLng(it.lon, it.lat))
-        }.sortedByDescending { it.score } // 점수 높은 순으로 정렬
+        }.sortedByDescending { it.score }
 
         rankingAdapter.submitList(visibleItems.toList())
-        Log.d("visibleItems", visibleItems.toString())
     }
 
     private fun addCustomMarker(resultData: SearchResultData, index: Int) {
         val binding: ItemMarkerViewBinding = ItemMarkerViewBinding.inflate(layoutInflater)
-        binding.tvRanking.text = (index+1).toString()
-        binding.tvPrice.text = resultData.price.toString()
+        binding.tvRanking.text = (index + 1).toString()
+        binding.tvPrice.text = resultData.price
 
         val markerView = binding.root
         val markerBitmap = createBitmapFromView(markerView)
@@ -192,6 +166,7 @@ class SearchFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, On
 
         val marker = googleMap.addMarker(markerOptions)
         marker?.tag = resultData
+        markerMap[index] = marker!!
     }
 
     private fun createBitmapFromView(view: View): Bitmap {
@@ -228,16 +203,18 @@ class SearchFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, On
         selectedMarker = null
     }
 
-    private fun updateMarkerView(marker: Marker, isSelected: Boolean) {
-        val markerItem = marker.tag as SearchResultData
-        val binding: ItemMarkerViewBinding = ItemMarkerViewBinding.inflate(layoutInflater)
+    private fun updateMarkerView(marker: Marker?, isSelected: Boolean) {
+        marker?.let {
+            val markerItem = it.tag as SearchResultData
+            val binding: ItemMarkerViewBinding = ItemMarkerViewBinding.inflate(layoutInflater)
 
-        binding.root.isSelected = isSelected
-        binding.tvRanking.text = markerItem.score.toString()
-        binding.tvPrice.text = markerItem.price.toString()
+            binding.root.isSelected = isSelected
+            binding.tvRanking.text = markerItem.price
+            binding.tvPrice.text = markerItem.price
 
-        val newIcon = BitmapDescriptorFactory.fromBitmap(createBitmapFromView(binding.root))
-        marker.setIcon(newIcon)
+            val newIcon = BitmapDescriptorFactory.fromBitmap(createBitmapFromView(binding.root))
+            it.setIcon(newIcon)
+        }
     }
 
     private fun initDataManager() {
@@ -261,7 +238,7 @@ class SearchFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, On
 
     override fun SearchCompleteSuccess(content: SearchCompleteResponse) {
         resultDataList.clear()
-        resultDataList.addAll(content.houses.map { house ->
+        resultDataList.addAll(content.houses.mapIndexed { index, house ->
             SearchResultData(
                 houseId = house.houseId,
                 price = house.price.toString(),
@@ -272,7 +249,9 @@ class SearchFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, On
                 lat = house.x,
                 lon = house.y,
                 score = house.score.toInt()
-            )
+            ).also {
+                addCustomMarker(it, index)
+            }
         })
     }
 
