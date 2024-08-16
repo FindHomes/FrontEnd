@@ -23,24 +23,23 @@ class AuthService() {
 
     fun searchComplete(){
         authService.searchComplete()
-            .enqueue(object : Callback<SearchCompleteResponse> {
+            .enqueue(object : Callback<BaseResponse<SearchCompleteResponse>> {
                 override fun onResponse(
-                    call: Call<SearchCompleteResponse>,
-                    response: Response<SearchCompleteResponse>
+                    call: Call<BaseResponse<SearchCompleteResponse>>,
+                    response: Response<BaseResponse<SearchCompleteResponse>>
                 ) {
                     Log.d("SearchComplete response", response.toString())
                     if (response.isSuccessful) {
                         val resp = response.body()
                         Log.d("SearchComplete Response Body", resp.toString())
-                        searchCompleteView.SearchCompleteSuccess(resp!!)
-//                        when (resp!!) {
-//                            200 -> searchCompleteView.SearchCompleteSuccess(resp.result)
-////                            else -> searchCompleteView.SearchCompleteFailure()
-//                        }
+                        when (resp!!.code) {
+                            200 -> searchCompleteView.SearchCompleteSuccess(resp.result)
+                            else -> searchCompleteView.SearchCompleteFailure(resp.code, resp.message)
+                        }
                     }
                 }
 
-                override fun onFailure(call: Call<SearchCompleteResponse>, t: Throwable) {
+                override fun onFailure(call: Call<BaseResponse<SearchCompleteResponse>>, t: Throwable) {
                     Log.d("SearchComplete Failed", t.toString())
                 }
             })
@@ -58,9 +57,9 @@ class AuthService() {
                         val resp = response.body()
 //                        Log.d("bringUser Response Body", resp.toString())
 //                        Log.d("bringUser Response Body result", resp?.result.toString())
-                        when (resp!!.status) {
+                        when (resp!!.code) {
                             200 -> searchUpdateView.SearchUpdateSuccess(resp.result)
-                            else -> searchUpdateView.SearchUpdateFailure(resp.status, resp.message)
+                            else -> searchUpdateView.SearchUpdateFailure(resp.code, resp.message)
                         }
                     }
                 }
