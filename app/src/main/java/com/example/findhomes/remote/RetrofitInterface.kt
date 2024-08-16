@@ -15,7 +15,7 @@ interface RetrofitInterface {
     // SearchComplete API
     @GET("test/api/search/complete")
     fun searchComplete()
-    : Call<SearchCompleteResponse>
+    : Call<BaseResponse<SearchCompleteResponse>>
 
     // SearchUpdate API
     @GET("test/api/search/update")

@@ -1,7 +1,5 @@
 package com.example.findhomes.data
 
-import com.google.gson.annotations.SerializedName
-
 data class SearchResultData(
     val houseId : Int,
     val img : String,
