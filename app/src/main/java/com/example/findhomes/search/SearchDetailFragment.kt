@@ -23,23 +23,31 @@ class SearchDetailFragment : Fragment() {
     ): View? {
         binding = FragmentSearchDetailBinding.inflate(layoutInflater)
 
+        initBack()
         initData()
         initRecyclerView()
-        initBefore()
 
         return binding.root
+    }
+
+    private fun initBack() {
+        binding.ivBtnBack.setOnClickListener {
+            val nextFragment = SearchFragment()
+            val bundle = Bundle()
+            bundle.putString("key", "value")
+
+            nextFragment.arguments = bundle
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.main_frm, nextFragment)
+                .commit()
+            onDestroy()
+        }
     }
 
     private fun initRecyclerView() {
         detailPropertyAdapter = SearchDetailPropertyAdapter(propertyData)
         binding.rvDetail.adapter = detailPropertyAdapter
         binding.rvDetail.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-    }
-
-    private fun initBefore() {
-        binding.ivBtnBack.setOnClickListener {
-
-        }
     }
 
     private fun initData() {

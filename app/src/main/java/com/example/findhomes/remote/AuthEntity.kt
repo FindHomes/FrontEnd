@@ -4,10 +4,10 @@ import com.google.gson.annotations.SerializedName
 
 data class SearchCompleteResponse(
     @SerializedName("houses") val houses: ArrayList<HousesResponse>,
-    @SerializedName("xMax") val xMax : Double,
-    @SerializedName("xMin") val xMin : Double,
-    @SerializedName("yMax") val yMax : Double,
-    @SerializedName("yMin") val yMin : Double
+    @SerializedName("xmax") val xmax : Double,
+    @SerializedName("xmin") val xmin : Double,
+    @SerializedName("ymax") val ymax : Double,
+    @SerializedName("ymin") val ymin : Double
 )
 
 data class HousesResponse(
