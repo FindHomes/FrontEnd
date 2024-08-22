@@ -94,7 +94,7 @@ class SearchFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, On
     private fun addCustomMarker(resultData: SearchResultData, index: Int) {
         val binding: ItemMarkerViewBinding = ItemMarkerViewBinding.inflate(layoutInflater)
         binding.tvRanking.text = (index + 1).toString()
-        binding.tvPrice.text = resultData.price
+        binding.tvPrice.text = "${resultData.price}만원"
 
         val markerView = binding.root
         val markerBitmap = createBitmapFromView(markerView)
@@ -236,7 +236,7 @@ class SearchFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, On
         }
 
         // RecyclerView 스크롤
-        binding.rvResultRanking.smoothScrollToPosition(position)
+        binding.rvResultRanking.scrollToPosition(position)
     }
 
     private fun updateMarkerView(marker: Marker?, isSelected: Boolean) {
@@ -247,7 +247,7 @@ class SearchFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, On
 
             binding.root.isSelected = isSelected
             binding.tvRanking.text = (index+1).toString()
-            binding.tvPrice.text = markerItem.price
+            binding.tvPrice.text = "${markerItem.price}만원"
 
             // 아이콘 업데이트
             val newIcon = BitmapDescriptorFactory.fromBitmap(createBitmapFromView(binding.root))
@@ -280,10 +280,11 @@ class SearchFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, On
                 priceType = house.priceType,
                 room = house.roomNum.toString(),
                 washRoom = house.washroomNum.toString(),
-                img = house.url,
+                img = house.imgUrl,
                 lat = house.x,
                 lon = house.y,
-                score = house.score.toInt()
+                score = house.score.toInt(),
+                size = house.size
             )
         })
 

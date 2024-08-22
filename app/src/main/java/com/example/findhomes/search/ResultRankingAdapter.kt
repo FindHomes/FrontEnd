@@ -1,5 +1,6 @@
 package com.example.findhomes.search
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -23,15 +24,18 @@ class ResultRankingAdapter(private val context: Context) : ListAdapter<SearchRes
     }
 
     inner class ViewHolder(private val binding: ItemResultRankingBinding) : RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("SetTextI18n")
         fun bind(item: SearchResultData) {
             Glide.with(context)
                 .load(item.img)
                 .into(binding.ivRanking)
             binding.tvRanking.text = (adapterPosition + 1).toString()
-            binding.tvRankingPrice.text = item.price
+            binding.tvRankingPrice.text = "${item.price}만원"
             binding.tvRankingPriceType.text = item.priceType
-            binding.tvRankingDetail1.text = item.room
-            binding.tvRankingDetail2.text = item.washRoom
+            binding.tvRankingDetail1.text = "방 " + item.room + "개"
+            binding.tvRankingDetail2.text = "욕실 " + item.washRoom + "개"
+            binding.tvRankingDetail3.text = item.size.toString() + "m"
+
 
             binding.clRankingItem.setOnClickListener {
                 itemClickListener.onItemClicked(item)

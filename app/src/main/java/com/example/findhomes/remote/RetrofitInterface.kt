@@ -1,6 +1,7 @@
 package com.example.findhomes.remote
 
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -25,4 +26,17 @@ interface RetrofitInterface {
         @Query ("yMax") yMax : Double,
         @Query ("yMin") yMin : Double)
     : Call<BaseResponse<SearchUpdateResponse>>
+
+    // SearchEssential API
+    @POST("api/search/man-con")
+    fun searchEssential(
+        @Body request : SearchEssentialRequest
+    ) : Call<BaseResponse<SearchEssentialResponse>>
+
+    // SearchChat API
+    @POST("api/search/user-chat")
+    fun searchChat(
+        @Body request : SearchChatRequest
+    ) : Call<BaseResponse<SearchChatResponse>>
+
 }

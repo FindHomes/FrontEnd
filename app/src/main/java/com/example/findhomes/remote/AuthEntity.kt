@@ -57,3 +57,26 @@ data class SearchUpdateResponse(
     @SerializedName("imgUrl") val imgUrl: String,
     @SerializedName("score") val score: Double
 )
+
+data class SearchChatRequest(
+    @SerializedName("userInput") val userInput : String
+)
+
+data class SearchChatResponse(
+    @SerializedName("chatResponse") val chatResponse : String
+)
+
+data class SearchEssentialRequest(
+    @SerializedName("housingTypes") val housingTypes: List<String>,
+    @SerializedName("prices") val prices : PricesInfo,
+    @SerializedName("region") val region : String
+)
+data class PricesInfo(
+    @SerializedName("mm") val mm : Int,
+    @SerializedName("js") val js : Int,
+    @SerializedName("ws") val ws : List<Int>,
+)
+
+data class SearchEssentialResponse(
+    @SerializedName("result") val result : String
+)

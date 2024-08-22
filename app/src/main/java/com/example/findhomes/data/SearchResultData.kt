@@ -9,5 +9,6 @@ data class SearchResultData(
     val lon : Double,
     val score : Int,
     val room : String,
-    val washRoom : String
+    val washRoom : String,
+    val size : Double
 )

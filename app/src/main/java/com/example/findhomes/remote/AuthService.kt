@@ -12,6 +12,8 @@ class AuthService() {
 
     private lateinit var searchUpdateView: SearchUpdateView
     private lateinit var searchCompleteView: SearchCompleteView
+    private lateinit var searchChatView : SearchChatView
+    private lateinit var searchEssentialView : SearchEssentialView
 
 
     fun setSearchUpdateView(searchUpdateView: SearchUpdateView) {
@@ -19,6 +21,14 @@ class AuthService() {
     }
     fun setSearchCompleteView(searchCompleteView: SearchCompleteView) {
         this.searchCompleteView = searchCompleteView
+    }
+
+    fun setSearchChatView(searchChatView: SearchChatView){
+        this.searchChatView = searchChatView
+    }
+
+    fun setSearchEssentialView(searchEssentialView : SearchEssentialView){
+        this.searchEssentialView = searchEssentialView
     }
 
     fun searchComplete(){
@@ -66,6 +76,56 @@ class AuthService() {
 
                 override fun onFailure(call: Call<BaseResponse<SearchUpdateResponse>>, t: Throwable) {
                     Log.d("SearchUpdate Failed", t.toString())
+                }
+            })
+    }
+
+    fun searchChat(usersInput : String){
+        val request = SearchChatRequest(usersInput)
+        authService.searchChat(request)
+            .enqueue(object : Callback<BaseResponse<SearchChatResponse>> {
+                override fun onResponse(
+                    call: Call<BaseResponse<SearchChatResponse>>,
+                    response: Response<BaseResponse<SearchChatResponse>>
+                ) {
+                    Log.d("SearchChat response", response.toString())
+                    if (response.isSuccessful) {
+                        val resp = response.body()
+                        Log.d("SearchChat Response Body", resp.toString())
+                        when (resp!!.code) {
+                            200 -> searchChatView.SearchChatSuccess(resp.result)
+                            else -> searchChatView.SearchChatFailure(resp.code, resp.message)
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<BaseResponse<SearchChatResponse>>, t: Throwable) {
+                    Log.d("SearchChat Failed", t.toString())
+                }
+            })
+    }
+
+    fun searchEssentialView(housingTypes : List<String>, prices : PricesInfo, region : String){
+        val request = SearchEssentialRequest(housingTypes, prices, region)
+        authService.searchEssential(request)
+            .enqueue(object : Callback<BaseResponse<SearchEssentialResponse>> {
+                override fun onResponse(
+                    call: Call<BaseResponse<SearchEssentialResponse>>,
+                    response: Response<BaseResponse<SearchEssentialResponse>>
+                ) {
+                    Log.d("SearchChat response", response.toString())
+                    if (response.isSuccessful) {
+                        val resp = response.body()
+                        Log.d("SearchChat Response Body", resp.toString())
+                        when (resp!!.code) {
+                            200 -> searchEssentialView.SearchEssentialSuccess(resp.result)
+                            else -> searchEssentialView.SearchEssentialFailure(resp.code, resp.message)
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<BaseResponse<SearchEssentialResponse>>, t: Throwable) {
+                    Log.d("SearchChat Failed", t.toString())
                 }
             })
     }
