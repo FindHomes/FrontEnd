@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
+import com.example.findhomes.remote.XAccessTokenInterceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -22,20 +23,20 @@ class ApplicationClass : Application() {
         lateinit var mSharedPreferences: SharedPreferences
     }
 
-//    val client : OkHttpClient = OkHttpClient.Builder()
-//        .readTimeout(30000, TimeUnit.MILLISECONDS)
-//        .connectTimeout(30000, TimeUnit.MILLISECONDS)
-//        .addNetworkInterceptor(XAccessTokenInterceptor())
-//        .build()
+    val client : OkHttpClient = OkHttpClient.Builder()
+        .readTimeout(30000, TimeUnit.MILLISECONDS)
+        .connectTimeout(30000, TimeUnit.MILLISECONDS)
+        .addNetworkInterceptor(XAccessTokenInterceptor())
+        .build()
 
     override fun onCreate() {
         super.onCreate()
 
         retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
-//            .client(client)
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-//        mSharedPreferences = applicationContext.getSharedPreferences("My App Spf", Context.MODE_PRIVATE)
+        mSharedPreferences = applicationContext.getSharedPreferences("My App Spf", Context.MODE_PRIVATE)
     }
 }
