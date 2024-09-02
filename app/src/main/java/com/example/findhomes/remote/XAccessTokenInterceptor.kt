@@ -2,7 +2,7 @@ package com.example.findhomes.remote
 
 import android.util.Log
 import com.example.findhomes.ApplicationClass.Companion.X_ACCESS_TOKEN
-import com.example.findhomes.local.getJwt
+import com.example.findhomes.data.getJwt
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response

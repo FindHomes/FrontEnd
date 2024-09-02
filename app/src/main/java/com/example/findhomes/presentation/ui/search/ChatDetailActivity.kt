@@ -1,4 +1,4 @@
-package com.example.findhomes.domain.ui.search
+package com.example.findhomes.presentation.ui.search
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,7 +7,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.findhomes.MainActivity
-import com.example.findhomes.data.ChatData
+import com.example.findhomes.data.model.ChatData
 import com.example.findhomes.databinding.ActivitySearchDetailBinding
 import com.example.findhomes.remote.AuthService
 import com.example.findhomes.remote.SearchChatResponse

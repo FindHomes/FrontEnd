@@ -1,12 +1,11 @@
-package com.example.findhomes.domain.ui.search
+package com.example.findhomes.presentation.ui.search
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.findhomes.R
-import com.example.findhomes.data.County
+import com.example.findhomes.data.model.County
 import com.example.findhomes.databinding.ItemRegionCountyBinding
 
 class RegionCountyAdapter(private var counties: List<County>) : RecyclerView.Adapter<RegionCountyAdapter.ViewHolder>(){

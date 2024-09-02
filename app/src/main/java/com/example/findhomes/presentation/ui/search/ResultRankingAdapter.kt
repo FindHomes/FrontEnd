@@ -1,4 +1,4 @@
-package com.example.findhomes.domain.ui.search
+package com.example.findhomes.presentation.ui.search
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -8,9 +8,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.findhomes.data.SearchResultData
+import com.example.findhomes.data.model.SearchResultData
 import com.example.findhomes.databinding.ItemResultRankingBinding
-import com.example.findhomes.remote.HousesResponse
 
 class ResultRankingAdapter(private val context: Context) : ListAdapter<SearchResultData, ResultRankingAdapter.ViewHolder>(
     DiffCallback()

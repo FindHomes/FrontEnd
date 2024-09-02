@@ -1,12 +1,12 @@
-package com.example.findhomes.domain.ui.search
+package com.example.findhomes.presentation.ui.search
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.findhomes.data.County
+import com.example.findhomes.data.model.County
 import com.example.findhomes.databinding.ActivityContractRegionBinding
-import com.example.findhomes.dataprovider.DataProvider
+import com.example.findhomes.data.dataprovider.DataProvider
 
 class RegionSelectActivity : AppCompatActivity() {
     lateinit var binding: ActivityContractRegionBinding

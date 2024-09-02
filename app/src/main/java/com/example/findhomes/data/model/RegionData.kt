@@ -1,4 +1,4 @@
-package com.example.findhomes.data
+package com.example.findhomes.data.model
 
 data class City(
     val name : String,

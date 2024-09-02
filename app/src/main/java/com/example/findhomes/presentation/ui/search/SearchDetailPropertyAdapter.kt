@@ -1,9 +1,9 @@
-package com.example.findhomes.domain.ui.search
+package com.example.findhomes.presentation.ui.search
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.findhomes.data.DetailPropertyData
+import com.example.findhomes.data.model.DetailPropertyData
 import com.example.findhomes.databinding.ItemDetailPropertyBinding
 
 class SearchDetailPropertyAdapter(val data : ArrayList<DetailPropertyData>) : RecyclerView.Adapter<SearchDetailPropertyAdapter.ViewHolder>() {

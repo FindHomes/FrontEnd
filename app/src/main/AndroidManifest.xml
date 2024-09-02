@@ -17,14 +17,14 @@
         android:name=".ApplicationClass"
         tools:targetApi="31">
         <activity
-            android:name=".search.ChatDetailActivity"
+            android:name=".presentation.ui.search.ChatDetailActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize"/>
         <activity
-            android:name=".search.RegionSelectActivity"
+            android:name=".presentation.ui.search.RegionSelectActivity"
             android:exported="false" />
         <activity
-            android:name=".search.ContractSelectActivity"
+            android:name=".presentation.ui.search.ContractSelectActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

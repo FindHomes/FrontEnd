@@ -1,4 +1,4 @@
-package com.example.findhomes.local
+package com.example.findhomes.data
 
 import android.content.SharedPreferences
 import com.example.findhomes.ApplicationClass

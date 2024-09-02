@@ -1,4 +1,4 @@
-package com.example.findhomes.domain.ui.mypage
+package com.example.findhomes.presentation.ui.mypage
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

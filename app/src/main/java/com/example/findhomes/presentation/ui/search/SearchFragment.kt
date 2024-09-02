@@ -1,21 +1,17 @@
-package com.example.findhomes.domain.ui.search
+package com.example.findhomes.presentation.ui.search
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.MotionEvent
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.SnapHelper
 import com.example.findhomes.R
-import com.example.findhomes.data.SearchResultData
+import com.example.findhomes.data.model.SearchResultData
 import com.example.findhomes.databinding.FragmentSearchBinding
 import com.example.findhomes.databinding.ItemMarkerViewBinding
 import com.example.findhomes.remote.AuthService
@@ -33,7 +29,6 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import kotlin.math.abs
 
 class SearchFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMapClickListener, SearchCompleteView{
     lateinit var binding: FragmentSearchBinding

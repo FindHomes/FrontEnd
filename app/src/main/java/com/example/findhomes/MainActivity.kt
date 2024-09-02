@@ -6,10 +6,10 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.findhomes.databinding.ActivityMainBinding
-import com.example.findhomes.home.HomeFragment
-import com.example.findhomes.mypage.MyPageFragment
-import com.example.findhomes.search.SearchFragment
-import com.example.findhomes.wish.WishFragment
+import com.example.findhomes.presentation.ui.home.HomeFragment
+import com.example.findhomes.presentation.ui.mypage.MyPageFragment
+import com.example.findhomes.presentation.ui.search.SearchFragment
+import com.example.findhomes.presentation.ui.wish.WishFragment
 import com.google.android.gms.common.api.internal.LifecycleCallback.getFragment
 
 

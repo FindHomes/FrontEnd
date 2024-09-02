@@ -1,4 +1,4 @@
-package com.example.findhomes.domain.ui.search
+package com.example.findhomes.presentation.ui.search
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,7 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.findhomes.R
 import com.example.findhomes.databinding.ActivityContractSelectBinding
-import com.example.findhomes.dataprovider.DataProvider
+import com.example.findhomes.data.dataprovider.DataProvider
 
 class ContractSelectActivity : AppCompatActivity() {
     private lateinit var btnOne: Button

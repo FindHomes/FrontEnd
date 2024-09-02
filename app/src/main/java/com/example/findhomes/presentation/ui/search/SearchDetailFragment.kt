@@ -1,4 +1,4 @@
-package com.example.findhomes.domain.ui.search
+package com.example.findhomes.presentation.ui.search
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,10 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.findhomes.R
-import com.example.findhomes.data.DetailPropertyData
-import com.example.findhomes.data.SearchDetailData
+import com.example.findhomes.data.model.DetailPropertyData
+import com.example.findhomes.data.model.SearchDetailData
 import com.example.findhomes.databinding.FragmentSearchDetailBinding
 
 class SearchDetailFragment : Fragment() {

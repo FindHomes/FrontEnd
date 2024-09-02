@@ -1,11 +1,11 @@
-package com.example.findhomes.domain.ui.search
+package com.example.findhomes.presentation.ui.search
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.findhomes.databinding.ItemChatSendBinding
 import com.example.findhomes.databinding.ItemChatReceiveBinding
-import com.example.findhomes.data.ChatData
+import com.example.findhomes.data.model.ChatData
 import com.example.findhomes.databinding.ItemChatEndBinding
 
 class ChatDetailAdapter(private var messages: MutableList<ChatData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
