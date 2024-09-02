@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.example.findhomes.data.model.SearchResultData
 import com.example.findhomes.databinding.ItemResultRankingBinding
 
+
 class ResultRankingAdapter(private val context: Context) : ListAdapter<SearchResultData, ResultRankingAdapter.ViewHolder>(
     DiffCallback()
 ) {

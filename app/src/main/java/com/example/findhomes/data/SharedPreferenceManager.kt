@@ -1,24 +1,23 @@
 package com.example.findhomes.data
 
-import android.content.SharedPreferences
-import com.example.findhomes.ApplicationClass
+import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
 
-fun getJwt() : String{
-    val prefs: SharedPreferences = ApplicationClass.mSharedPreferences
-//    return prefs.getString("token", null) ?: ""
-    return "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhMjgwMmI0MS04YjAwLTQzZGYtYWQ3My1lYmMwZWQ0NjNkNzIiLCJpYXQiOjE3MjQ4NTA2MjcsImV4cCI6MTcyNDg1NDIyN30.oCa6X9pRlN4b7hLrkQYqaHS_wrRC0XHcH3dvcG36cwM"
+fun saveAccessToken(context: Context, token: String) {
+    val preferences = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+    val editor = preferences.edit()
+    editor.putString("access_token", "Bearer "+token)
+    editor.apply()
 }
 
-fun removeJwt(){
-    ApplicationClass.mSharedPreferences.edit().apply{
-        remove("token")
-        apply()
-    }
+fun saveId(context: Context, userId: String) {
+    val preferences = context.getSharedPreferences("app_preferences", AppCompatActivity.MODE_PRIVATE)
+    val editor = preferences.edit()
+    editor.putString("userId", userId)
+    editor.apply()
 }
 
-fun saveJwt(token : String){
-    ApplicationClass.mSharedPreferences.edit().apply{
-        putString("token", token)
-        apply()
-    }
+fun getAccessToken(context: Context): String? {
+    val preferences = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+    return preferences.getString("access_token", null)
 }

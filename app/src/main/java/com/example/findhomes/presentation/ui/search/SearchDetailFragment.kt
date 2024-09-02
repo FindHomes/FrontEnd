@@ -10,6 +10,7 @@ import com.example.findhomes.R
 import com.example.findhomes.data.model.DetailPropertyData
 import com.example.findhomes.data.model.SearchDetailData
 import com.example.findhomes.databinding.FragmentSearchDetailBinding
+import com.example.findhomes.presentation.ui.search.SearchFragment
 
 class SearchDetailFragment : Fragment() {
     lateinit var binding : FragmentSearchDetailBinding

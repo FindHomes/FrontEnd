@@ -9,12 +9,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.findhomes.MainActivity
 import com.example.findhomes.data.model.ChatData
 import com.example.findhomes.databinding.ActivitySearchDetailBinding
-import com.example.findhomes.remote.AuthService
-import com.example.findhomes.remote.SearchChatResponse
-import com.example.findhomes.remote.SearchChatView
+import com.example.findhomes.data.remote.SearchChatResponse
+import com.example.findhomes.domain.ui.search.ChatDetailAdapter
 
 
-class ChatDetailActivity : AppCompatActivity(), SearchChatView{
+class ChatDetailActivity : AppCompatActivity(), SearchChatView {
     lateinit var binding: ActivitySearchDetailBinding
     private lateinit var chatAdapter : ChatDetailAdapter
     private var messages: MutableList<ChatData> = mutableListOf()
