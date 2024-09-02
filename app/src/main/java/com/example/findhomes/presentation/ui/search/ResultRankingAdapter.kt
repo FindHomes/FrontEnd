@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.findhomes.data.SearchResultData
 import com.example.findhomes.databinding.ItemResultRankingBinding
-import com.example.findhomes.remote.HousesResponse
+import com.example.findhomes.data.remote.HousesResponse
 
 class ResultRankingAdapter(private val context: Context) : ListAdapter<SearchResultData, ResultRankingAdapter.ViewHolder>(
     DiffCallback()

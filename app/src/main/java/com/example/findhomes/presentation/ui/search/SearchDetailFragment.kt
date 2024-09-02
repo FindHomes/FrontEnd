@@ -6,11 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.findhomes.R
 import com.example.findhomes.data.DetailPropertyData
 import com.example.findhomes.data.SearchDetailData
 import com.example.findhomes.databinding.FragmentSearchDetailBinding
+import com.example.findhomes.presentation.ui.search.SearchFragment
 
 class SearchDetailFragment : Fragment() {
     lateinit var binding : FragmentSearchDetailBinding

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.findhomes.data.County
 import com.example.findhomes.databinding.ActivityContractRegionBinding
 import com.example.findhomes.dataprovider.DataProvider
+import com.example.findhomes.presentation.ui.search.ChatDetailActivity
 
 class RegionSelectActivity : AppCompatActivity() {
     lateinit var binding: ActivityContractRegionBinding

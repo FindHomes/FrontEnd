@@ -1,4 +1,4 @@
-package com.example.findhomes.domain.ui.search
+package com.example.findhomes.presentation.ui.search
 
 import android.os.Bundle
 import android.util.Log
@@ -6,10 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.findhomes.data.RankingInfo
 import com.example.findhomes.data.SearchResultData
 import com.example.findhomes.databinding.FragmentSearchResultBinding
+import com.example.findhomes.domain.ui.search.ResultRankingAdapter
 
 class SearchResultFragment : Fragment() {
     private lateinit var binding: FragmentSearchResultBinding
