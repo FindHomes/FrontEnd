@@ -1,4 +1,4 @@
-package com.example.findhomes.search
+package com.example.findhomes.domain.ui.search
 
 import android.content.Intent
 import android.os.Bundle
@@ -47,7 +47,7 @@ class RegionSelectActivity : AppCompatActivity() {
         countyAdapter = RegionCountyAdapter(DataProvider.cities[0].counties)
         binding.rvCounty.adapter = countyAdapter
         binding.rvCounty.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        countyAdapter.setOnCountyClickListener(object : RegionCountyAdapter.OnCountyClickListener{
+        countyAdapter.setOnCountyClickListener(object : RegionCountyAdapter.OnCountyClickListener {
             override fun onCountyClicked(data: County) {
                 binding.tvSelectRegion.text = data.name
             }

@@ -1,19 +1,20 @@
-package com.example.findhomes.mypage
+package com.example.findhomes.domain.ui.search
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.findhomes.databinding.FragmentMyPageBinding
+import com.example.findhomes.R
+import com.example.findhomes.databinding.FragmentShowStatisticBinding
 
-class MyPageFragment : Fragment() {
-    private lateinit var binding : FragmentMyPageBinding
+class ShowStatisticFragment : Fragment() {
+    lateinit var binding : FragmentShowStatisticBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentMyPageBinding.inflate(inflater, container, false)
+        binding = FragmentShowStatisticBinding.inflate(layoutInflater)
 
         return binding.root
     }

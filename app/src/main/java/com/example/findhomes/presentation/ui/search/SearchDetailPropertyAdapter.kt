@@ -1,4 +1,4 @@
-package com.example.findhomes.search
+package com.example.findhomes.domain.ui.search
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -16,12 +16,12 @@ class SearchDetailPropertyAdapter(val data : ArrayList<DetailPropertyData>) : Re
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): SearchDetailPropertyAdapter.ViewHolder {
+    ): ViewHolder {
         val binding = ItemDetailPropertyBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: SearchDetailPropertyAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(data[position])
     }
 

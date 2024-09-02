@@ -1,4 +1,4 @@
-package com.example.findhomes.wish
+package com.example.findhomes.domain.ui.wish
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

@@ -1,4 +1,4 @@
-package com.example.findhomes.search
+package com.example.findhomes.domain.ui.search
 
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -43,12 +43,12 @@ class RegionCountyAdapter(private var counties: List<County>) : RecyclerView.Ada
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): RegionCountyAdapter.ViewHolder {
+    ): ViewHolder {
         val binding = ItemRegionCountyBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: RegionCountyAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val isSelected = position == selectedPosition
         holder.bind(counties[position], isSelected)
     }

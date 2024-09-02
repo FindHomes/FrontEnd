@@ -1,4 +1,4 @@
-package com.example.findhomes.search
+package com.example.findhomes.domain.ui.search
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

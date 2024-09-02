@@ -1,4 +1,4 @@
-package com.example.findhomes.home
+package com.example.findhomes.domain.ui.home
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,9 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.findhomes.R
 import com.example.findhomes.databinding.FragmentHomeBinding
-import com.example.findhomes.mypage.MyPageFragment
-import com.example.findhomes.search.ContractSelectActivity
-import com.example.findhomes.wish.WishFragment
+import com.example.findhomes.domain.ui.mypage.MyPageFragment
+import com.example.findhomes.domain.ui.search.ContractSelectActivity
+import com.example.findhomes.domain.ui.wish.WishFragment
 
 class HomeFragment : Fragment() {
 

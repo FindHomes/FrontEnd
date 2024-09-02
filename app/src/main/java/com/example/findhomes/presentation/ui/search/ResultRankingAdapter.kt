@@ -1,4 +1,4 @@
-package com.example.findhomes.search
+package com.example.findhomes.domain.ui.search
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -12,7 +12,9 @@ import com.example.findhomes.data.SearchResultData
 import com.example.findhomes.databinding.ItemResultRankingBinding
 import com.example.findhomes.remote.HousesResponse
 
-class ResultRankingAdapter(private val context: Context) : ListAdapter<SearchResultData, ResultRankingAdapter.ViewHolder>(DiffCallback()) {
+class ResultRankingAdapter(private val context: Context) : ListAdapter<SearchResultData, ResultRankingAdapter.ViewHolder>(
+    DiffCallback()
+) {
     lateinit var itemClickListener: OnItemClickListener
 
     interface OnItemClickListener {

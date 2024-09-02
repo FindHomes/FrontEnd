@@ -1,4 +1,4 @@
-package com.example.findhomes.search
+package com.example.findhomes.domain.ui.search
 
 import android.content.Intent
 import android.os.Bundle
@@ -53,7 +53,7 @@ class ChatDetailActivity : AppCompatActivity(), SearchChatView{
             binding.etConditionInput.text.clear()
         }
 
-        chatAdapter.setYesClickListener(object : ChatDetailAdapter.OnYesClickListener{
+        chatAdapter.setYesClickListener(object : ChatDetailAdapter.OnYesClickListener {
             override fun onYesClicked() {
                 val intent = Intent(this@ChatDetailActivity, MainActivity::class.java).apply {
                     Log.d("intent",intent.toString())

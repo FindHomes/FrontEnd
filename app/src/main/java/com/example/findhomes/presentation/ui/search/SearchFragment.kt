@@ -1,4 +1,4 @@
-package com.example.findhomes.search
+package com.example.findhomes.domain.ui.search
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -162,7 +162,7 @@ class SearchFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, On
             }
         })
 
-        rankingAdapter.setOnItemClickListener(object : ResultRankingAdapter.OnItemClickListener{
+        rankingAdapter.setOnItemClickListener(object : ResultRankingAdapter.OnItemClickListener {
             override fun onItemClicked(data: SearchResultData) {
                 val bundle = Bundle()
                 bundle.putString("key", "value")
