@@ -32,7 +32,7 @@ object NetworkModule {
             .readTimeout(30000, TimeUnit.MILLISECONDS)
             .connectTimeout(30000, TimeUnit.MILLISECONDS)
             .addInterceptor(loggingInterceptor)
-            .addInterceptor(XAccessTokenInterceptor())
+            .addInterceptor(XAccessTokenInterceptor(context))
             .build()
     }
 

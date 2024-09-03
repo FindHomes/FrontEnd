@@ -1,5 +1,8 @@
 package com.example.findhomes.data.remote
 
+import com.example.findhomes.data.di.BaseResponse
+import com.example.findhomes.data.model.SearchCompleteResponse
+import com.example.findhomes.data.model.SearchUpdateResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -10,7 +13,7 @@ interface SearchApi {
 
     @GET("test/api/search/complete")
     suspend fun searchComplete(
-    ): SearchCompleteResponse
+    ): BaseResponse<SearchCompleteResponse?>
 
     @GET("test/api/search/update")
     fun searchUpdate(
@@ -18,16 +21,16 @@ interface SearchApi {
         @Query("xMin") xMin : Double,
         @Query("yMax") yMax : Double,
         @Query("yMin") yMin : Double)
-            : SearchUpdateResponse
+            : BaseResponse<SearchUpdateResponse>
 
-    @POST("api/search/man-con")
-    fun searchEssential(
-        @Body request : SearchEssentialRequest
-    ) : SearchEssentialResponse
+//    @POST("api/search/man-con")
+//    fun searchEssential(
+//        @Body request : SearchEssentialRequest
+//    ) : SearchEssentialResponse
 
     // SearchChat API
-    @POST("api/search/user-chat")
-    fun searchChat(
-        @Body request : SearchChatRequest
-    ) : SearchChatResponse
+//    @POST("api/search/user-chat")
+//    fun searchChat(
+//        @Body request : SearchChatRequest
+//    ) : SearchChatResponse
 }

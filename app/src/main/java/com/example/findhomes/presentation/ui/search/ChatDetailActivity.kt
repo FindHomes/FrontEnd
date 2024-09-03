@@ -9,11 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.findhomes.MainActivity
 import com.example.findhomes.data.model.ChatData
 import com.example.findhomes.databinding.ActivitySearchDetailBinding
-import com.example.findhomes.data.remote.SearchChatResponse
-import com.example.findhomes.domain.ui.search.ChatDetailAdapter
 
 
-class ChatDetailActivity : AppCompatActivity(), SearchChatView {
+class ChatDetailActivity : AppCompatActivity(){
     lateinit var binding: ActivitySearchDetailBinding
     private lateinit var chatAdapter : ChatDetailAdapter
     private var messages: MutableList<ChatData> = mutableListOf()
@@ -48,7 +46,6 @@ class ChatDetailActivity : AppCompatActivity(), SearchChatView {
         val inputText = binding.etConditionInput.text.toString()
         if (inputText.isNotBlank()) {
             addMessage(ChatData(inputText, false))
-            initDataManager(inputText)
             binding.etConditionInput.text.clear()
         }
 
@@ -65,26 +62,10 @@ class ChatDetailActivity : AppCompatActivity(), SearchChatView {
         })
     }
 
-    private fun initDataManager(inputText : String) {
-        val authService = AuthService()
-        authService.setSearchChatView(this)
-        authService.searchChat(inputText)
-    }
-
     private fun addMessage(message: ChatData) {
         messages.add(message)
         chatAdapter.notifyItemInserted(messages.size - 1)
         binding.rvChatMessage.scrollToPosition(messages.size - 1)
     }
 
-    override fun SearchChatLoading() { }
-
-    override fun SearchChatSuccess(content: SearchChatResponse) {
-        val chatMessage = content.chatResponse
-        addMessage(ChatData(chatMessage, true))
-    }
-
-    override fun SearchChatFailure(code: Int, message: String) {
-        TODO("Not yet implemented")
-    }
 }

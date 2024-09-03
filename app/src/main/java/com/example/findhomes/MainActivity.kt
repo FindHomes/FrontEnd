@@ -10,9 +10,9 @@ import com.example.findhomes.presentation.ui.home.HomeFragment
 import com.example.findhomes.presentation.ui.mypage.MyPageFragment
 import com.example.findhomes.presentation.ui.search.SearchFragment
 import com.example.findhomes.presentation.ui.wish.WishFragment
-import com.google.android.gms.common.api.internal.LifecycleCallback.getFragment
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 

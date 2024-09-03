@@ -37,8 +37,8 @@
         </activity>
 
         <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBTydLPHhlrrDeUCwDpfPHfTHaIOeVGkA4" />
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="qzye8q2lmc" />
     </application>
 
 </manifest>
