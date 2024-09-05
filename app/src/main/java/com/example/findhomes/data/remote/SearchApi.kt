@@ -11,6 +11,11 @@ import retrofit2.http.Query
 
 interface SearchApi {
 
+    @POST("api/search/user-chat")
+    fun searchChat(
+        @Body request : String
+    ) : BaseResponse<String>
+
     @GET("test/api/search/complete")
     suspend fun searchComplete(
     ): BaseResponse<SearchCompleteResponse?>
@@ -27,10 +32,4 @@ interface SearchApi {
 //    fun searchEssential(
 //        @Body request : SearchEssentialRequest
 //    ) : SearchEssentialResponse
-
-    // SearchChat API
-//    @POST("api/search/user-chat")
-//    fun searchChat(
-//        @Body request : SearchChatRequest
-//    ) : SearchChatResponse
 }

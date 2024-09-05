@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.findhomes.databinding.ItemChatSendBinding
 import com.example.findhomes.databinding.ItemChatReceiveBinding
-import com.example.findhomes.data.model.ChatData
 import com.example.findhomes.databinding.ItemChatEndBinding
 
 class ChatDetailAdapter(private var messages: MutableList<ChatData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

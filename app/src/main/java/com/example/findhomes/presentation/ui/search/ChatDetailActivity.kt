@@ -7,10 +7,10 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.findhomes.MainActivity
-import com.example.findhomes.data.model.ChatData
 import com.example.findhomes.databinding.ActivitySearchDetailBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class ChatDetailActivity : AppCompatActivity(){
     lateinit var binding: ActivitySearchDetailBinding
     private lateinit var chatAdapter : ChatDetailAdapter
