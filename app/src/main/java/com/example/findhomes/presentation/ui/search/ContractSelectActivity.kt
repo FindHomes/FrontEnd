@@ -1,7 +1,6 @@
 package com.example.findhomes.presentation.ui.search
 
 import android.content.Intent
-import android.databinding.tool.Context.resources
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -35,7 +34,7 @@ class ContractSelectActivity : AppCompatActivity() {
 
         initBefore()
         initHousingTypes()
-        initPricesType()
+        initContractTypes()
         initSeekBar()
 
         binding.btnNext.setOnClickListener {
@@ -76,7 +75,20 @@ class ContractSelectActivity : AppCompatActivity() {
         }
     }
 
-    private fun initPricesType() {
+    // manCon에 추가될 housingTypes
+    private fun updateHousingTypes(button: Button, manConRequest : ManConRequest) {
+        val type = button.text.toString()
+        if (button.isSelected) {
+            if (!manConRequest.housingTypes.contains(type)) {
+                manConRequest.housingTypes.add(type)
+            }
+        } else {
+            manConRequest.housingTypes.remove(type)
+        }
+    }
+
+    // 계약 형태 선택
+    private fun initContractTypes() {
         btnMonthly = binding.btnContractMonthly
         btnCharter = binding.btnContractCharter
         btnTrading = binding.btnContractTrading
@@ -91,8 +103,7 @@ class ContractSelectActivity : AppCompatActivity() {
                 if (!warningSelected(listOf(btnMonthly, btnCharter, btnTrading))) {
                     button.isSelected = previous
                 }
-
-                updatePriceUI(button)
+                initPriceTypes(button)
             }
         }
     }
@@ -102,34 +113,62 @@ class ContractSelectActivity : AppCompatActivity() {
         button.setTextColor(resources.getColorStateList(R.color.button_selector_text_color, null))
     }
 
-    private fun updateHousingTypes(button: Button, manConRequest : ManConRequest) {
-        val type = button.text.toString()
-        if (button.isSelected) {
-            if (!manConRequest.housingTypes.contains(type)) {
-                manConRequest.housingTypes.add(type)
+
+    // 계약 형태 선택에 따른 가격 UI 변경
+    private fun initPriceTypes(button: Button) {
+        when (button) {
+            btnMonthly-> {
+                val isVisible = btnMonthly.isSelected
+                binding.clContractMonthly.visibility = if (isVisible) View.VISIBLE else View.GONE
+                binding.clContractDeposit.visibility = if (btnMonthly.isSelected || btnCharter.isSelected) View.VISIBLE else View.GONE
+                updatePriceTypes("월세", binding.sbMonthly.progress)
+                updatePriceTypes("보증금", binding.sbDeposit.progress)
             }
-        } else {
-            manConRequest.housingTypes.remove(type)
+            btnCharter ->{
+                binding.clContractDeposit.visibility = if (btnMonthly.isSelected || btnCharter.isSelected) View.VISIBLE else View.GONE
+                updatePriceTypes("월세", binding.sbMonthly.progress)
+                updatePriceTypes("보증금", binding.sbDeposit.progress)
+            }
+            btnTrading -> {
+                binding.clContractTrading.visibility = if (btnTrading.isSelected) View.VISIBLE else View.GONE
+                updatePriceTypes("매매", binding.sbTrading.progress)
+            }
         }
     }
 
-    private fun updatePriceUI(button: Button) {
-        when (button) {
-            btnMonthly -> {
-                binding.clContractMonthly.visibility =
-                    if (btnMonthly.isSelected) View.VISIBLE else View.GONE
-                binding.clContractDeposit.visibility =
-                    if (btnMonthly.isSelected || btnCharter.isSelected) View.VISIBLE else View.GONE
+    // ManCon에 추가될 pricesTypes
+    private fun updatePriceTypes(type: String, progress: Int) {
+        when (type) {
+            "월세" -> {
+                if (btnMonthly.isSelected) {
+                    manConRequest.prices.ws.rent = progress
+                    manConRequest.prices.ws.deposit = binding.sbDeposit.progress
+                } else {
+                    manConRequest.prices.ws.rent = 0
+                    manConRequest.prices.ws.deposit = 0
+                }
             }
 
-            btnCharter -> {
-                binding.clContractDeposit.visibility =
-                    if (btnCharter.isSelected || btnMonthly.isSelected) View.VISIBLE else View.GONE
+            "보증금" -> {
+                if (btnMonthly.isSelected) {
+                    manConRequest.prices.ws.deposit = progress
+                } else {
+                    manConRequest.prices.ws.deposit = 0
+                }
+
+                if (btnCharter.isSelected) {
+                    manConRequest.prices.js = progress
+                } else {
+                    manConRequest.prices.js = 0
+                }
             }
 
-            btnTrading -> {
-                binding.clContractTrading.visibility =
-                    if (btnTrading.isSelected) View.VISIBLE else View.GONE
+            "매매" -> {
+                if (btnTrading.isSelected) {
+                    manConRequest.prices.mm = progress
+                } else {
+                    manConRequest.prices.mm = 0
+                }
             }
         }
     }
@@ -153,10 +192,9 @@ class ContractSelectActivity : AppCompatActivity() {
             seekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                     price.text = DataProvider.getSbData(type, progress)
+                    updatePriceTypes(type, progress)
                 }
-
                 override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-
                 override fun onStopTrackingTouch(seekBar: SeekBar?) {}
             })
         }
