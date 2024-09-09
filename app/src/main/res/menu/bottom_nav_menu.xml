@@ -4,30 +4,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:title="홈"
         android:id="@+id/homeFragment"
-        android:icon="@drawable/selector_home"
-        tools:ignore="MenuTitle"
-        app:showAsAction="ifRoom"/>
+        android:icon="@drawable/ic_home"
+        android:enabled="true"
+        android:checked="true"/>
 
     <item
+        android:title="검색"
         android:id="@+id/searchFragment"
-        android:icon="@drawable/selector_search"
-        tools:ignore="MenuTitle"
-        app:showAsAction="always"
+        android:icon="@drawable/ic_search"
+        android:enabled="true"
         />
 
     <item
+        android:title="찜목록"
         android:id="@+id/interestFragment"
-        android:icon="@drawable/btn_selector_heart_on"
-        tools:ignore="MenuTitle"
-        app:showAsAction="always"
+        android:icon="@drawable/ic_heart"
+        android:enabled="true"
         />
 
     <item
+        android:title="마이페이지"
         android:id="@+id/myPageFragment"
-        android:icon="@drawable/btn_selector_my_page_on"
-        tools:ignore="MenuTitle"
-        app:showAsAction="always"
+        android:icon="@drawable/ic_my"
+        android:enabled="true"
         />
 
 </menu>

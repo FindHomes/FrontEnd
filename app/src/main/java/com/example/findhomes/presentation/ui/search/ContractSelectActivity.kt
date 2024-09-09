@@ -1,6 +1,7 @@
 package com.example.findhomes.presentation.ui.search
 
 import android.content.Intent
+import android.databinding.tool.Context.resources
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.findhomes.R
 import com.example.findhomes.databinding.ActivityContractSelectBinding
 import com.example.findhomes.data.dataprovider.DataProvider
+import com.example.findhomes.data.model.ManConRequest
 
 class ContractSelectActivity : AppCompatActivity() {
     private lateinit var btnOne: Button
@@ -22,37 +24,43 @@ class ContractSelectActivity : AppCompatActivity() {
     private lateinit var btnMonthly: Button
     private lateinit var btnCharter: Button
     private lateinit var btnTrading: Button
+    private val manConRequest = ManConRequest()
+
     lateinit var binding: ActivityContractSelectBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityContractSelectBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         initBefore()
-        initRoomType()
-        initContractType()
+        initHousingTypes()
+        initPricesType()
         initSeekBar()
 
         binding.btnNext.setOnClickListener {
             val intent = Intent(this, RegionSelectActivity::class.java)
+            intent.putExtra("manConRequest", manConRequest)
             startActivity(intent)
         }
     }
 
     private fun initBefore() {
         binding.btnBefore.setOnClickListener {
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
         }
     }
 
-    private fun initRoomType() {
+    private fun initHousingTypes() {
         btnOne = binding.btnEssentialCategoryOne
         btnTwo = binding.btnEssentialCategoryTwo
         btnThree = binding.btnEssentialCategoryThree
         btnOffice = binding.btnEssentialCategoryOffice
         btnApart = binding.btnEssentialCategoryApart
 
+        // 초기 월세 버튼 선택된 상태, manConRequest 에도 추가
         btnOne.isSelected = true
+        updateHousingTypes(btnOne, manConRequest)
         btnOne.setTextColor(resources.getColorStateList(R.color.button_selector_text_color, null))
 
         listOf(btnOne, btnTwo, btnThree, btnOffice, btnApart).forEach { button ->
@@ -61,13 +69,14 @@ class ContractSelectActivity : AppCompatActivity() {
                 toggleButton(button)
                 if(!warningSelected(listOf(btnOne, btnTwo, btnThree, btnOffice, btnApart))){
                     button.isSelected = previous
+                } else {
+                    updateHousingTypes(button, manConRequest)
                 }
-                updatePrice(button)
             }
         }
     }
 
-    private fun initContractType() {
+    private fun initPricesType() {
         btnMonthly = binding.btnContractMonthly
         btnCharter = binding.btnContractCharter
         btnTrading = binding.btnContractTrading
@@ -82,7 +91,8 @@ class ContractSelectActivity : AppCompatActivity() {
                 if (!warningSelected(listOf(btnMonthly, btnCharter, btnTrading))) {
                     button.isSelected = previous
                 }
-                updatePrice(button)
+
+                updatePriceUI(button)
             }
         }
     }
@@ -92,7 +102,18 @@ class ContractSelectActivity : AppCompatActivity() {
         button.setTextColor(resources.getColorStateList(R.color.button_selector_text_color, null))
     }
 
-    private fun updatePrice(button: Button) {
+    private fun updateHousingTypes(button: Button, manConRequest : ManConRequest) {
+        val type = button.text.toString()
+        if (button.isSelected) {
+            if (!manConRequest.housingTypes.contains(type)) {
+                manConRequest.housingTypes.add(type)
+            }
+        } else {
+            manConRequest.housingTypes.remove(type)
+        }
+    }
+
+    private fun updatePriceUI(button: Button) {
         when (button) {
             btnMonthly -> {
                 binding.clContractMonthly.visibility =
@@ -122,7 +143,6 @@ class ContractSelectActivity : AppCompatActivity() {
     }
 
     private fun initSeekBar() {
-
         val config: List<Triple<SeekBar, String, TextView>> = listOf(
             Triple(binding.sbMonthly, "월세", binding.tvMaxMonthly),
             Triple(binding.sbDeposit, "보증금", binding.tvMaxDeposit),

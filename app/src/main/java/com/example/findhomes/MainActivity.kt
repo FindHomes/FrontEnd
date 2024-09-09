@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         val fragmentToOpen = getFragmentFromIntent(intent)
         initBottomNavigation(fragmentToOpen)
     }
@@ -84,6 +83,6 @@ class MainActivity : AppCompatActivity() {
     private fun openFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_frm, fragment)
-            .commitAllowingStateLoss()
+            .commit()
     }
 }

@@ -7,18 +7,18 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.findhomes.MainActivity
-import com.example.findhomes.databinding.ActivitySearchDetailBinding
+import com.example.findhomes.databinding.ActivityChatDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ChatDetailActivity : AppCompatActivity(){
-    lateinit var binding: ActivitySearchDetailBinding
+    lateinit var binding: ActivityChatDetailBinding
     private lateinit var chatAdapter : ChatDetailAdapter
     private var messages: MutableList<ChatData> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySearchDetailBinding.inflate(layoutInflater)
+        binding = ActivityChatDetailBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
 
@@ -31,7 +31,7 @@ class ChatDetailActivity : AppCompatActivity(){
 
     private fun initBefore() {
         binding.ivBtnBack.setOnClickListener {
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
         }
     }
 
