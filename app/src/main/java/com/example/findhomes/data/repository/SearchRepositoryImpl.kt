@@ -23,4 +23,17 @@ class SearchRepositoryImpl @Inject constructor(
             null
         }
     }
+
+    override suspend fun postChatData(userInput : String) : String? {
+        return try {
+            val response = searchApi.searchChat(userInput)
+            if (response.success) {
+                response.result
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            null
+        }
+    }
 }

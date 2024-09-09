@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.findhomes.data.model.HousesResponse
-import com.example.findhomes.data.model.SearchResultData
 import com.example.findhomes.databinding.ItemResultRankingBinding
 
 
@@ -32,7 +31,7 @@ class ResultRankingAdapter(private val context: Context) : ListAdapter<HousesRes
             Glide.with(context)
                 .load(item.imgUrl)
                 .into(binding.ivRanking)
-            binding.tvRanking.text = (adapterPosition + 1).toString()
+            binding.tvRanking.text = (absoluteAdapterPosition + 1).toString()
             binding.tvRankingPrice.text = "${item.price}만원"
             binding.tvRankingPriceType.text = item.priceType
             binding.tvRankingDetail1.text = "방 " + item.roomNum + "개"

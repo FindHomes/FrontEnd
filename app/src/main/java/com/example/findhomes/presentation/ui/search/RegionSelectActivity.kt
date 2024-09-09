@@ -2,11 +2,13 @@ package com.example.findhomes.presentation.ui.search
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.findhomes.data.model.County
 import com.example.findhomes.databinding.ActivityContractRegionBinding
 import com.example.findhomes.data.dataprovider.DataProvider
+import com.example.findhomes.data.model.ManConRequest
 
 class RegionSelectActivity : AppCompatActivity() {
     lateinit var binding: ActivityContractRegionBinding
@@ -18,8 +20,10 @@ class RegionSelectActivity : AppCompatActivity() {
         binding = ActivityContractRegionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val manConRequest = intent.getSerializableExtra("manConRequest") as ManConRequest
+        Log.d("manConRequest", manConRequest.toString())
         initBefore()
-        initNext()
+        initNext(manConRequest)
         initRecyclerView()
     }
 
@@ -29,7 +33,7 @@ class RegionSelectActivity : AppCompatActivity() {
         }
     }
 
-    private fun initNext() {
+    private fun initNext(manConRequest: ManConRequest) {
         binding.btnNext.setOnClickListener {
             val intent = Intent(this, ChatDetailActivity::class.java)
             startActivity(intent)

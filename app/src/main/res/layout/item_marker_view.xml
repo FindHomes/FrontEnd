@@ -3,46 +3,64 @@
     android:id="@+id/cl_ranking"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/marker_selector_background"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_ranking"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_ranking_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="100dp"
-        android:backgroundTint="@color/marker_selector_text"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/marker_selector_background">
 
-        <TextView
-            android:id="@+id/tv_ranking"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_ranking"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="14dp"
-            android:text="0"
+            app:cardCornerRadius="100dp"
+            android:backgroundTint="@color/marker_selector_text"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/tv_ranking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="14dp"
+                android:text="0"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/pretendard_semibold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_price"
+                app:layout_constraintBottom_toBottomOf="@id/tv_price"/>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:textColor="@color/white"
-            android:fontFamily="@font/pretendard_semibold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_price"
-            app:layout_constraintBottom_toBottomOf="@id/tv_price"/>
+            android:textColor="@color/marker_selector_text"
+            app:layout_constraintStart_toEndOf="@id/cv_ranking"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:paddingEnd="16dp"
+            android:paddingStart="8dp"
+            android:text="매매 / 0원"/>
 
-    </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    <TextView
-        android:id="@+id/tv_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:textColor="@color/marker_selector_text"
-        app:layout_constraintStart_toEndOf="@id/cv_ranking"
-        app:layout_constraintTop_toTopOf="parent"
+    <View
+        android:layout_width="2dp"
+        android:layout_height="20dp"
+        android:background="@color/main_1"
+        app:layout_constraintTop_toBottomOf="@id/cl_ranking_info"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:paddingEnd="16dp"
-        android:paddingStart="8dp"
-        android:text="매매 / 0원"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

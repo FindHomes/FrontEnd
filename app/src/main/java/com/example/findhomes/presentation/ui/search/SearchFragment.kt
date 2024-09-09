@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.findhomes.R
 import com.example.findhomes.data.model.HousesResponse
 import com.example.findhomes.data.model.SearchCompleteResponse
-import com.example.findhomes.data.model.SearchResultData
 import com.example.findhomes.databinding.FragmentSearchBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.naver.maps.geometry.LatLng
