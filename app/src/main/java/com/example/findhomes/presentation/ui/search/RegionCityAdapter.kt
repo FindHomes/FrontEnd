@@ -26,9 +26,9 @@ class RegionCityAdapter(
             )
             itemView.setOnClickListener {
                 val previousPosition = selectedPosition
-                if(previousPosition != adapterPosition){
+                if(previousPosition != absoluteAdapterPosition){
                     onCitySelected(item.counties)
-                    selectedPosition = adapterPosition
+                    selectedPosition = absoluteAdapterPosition
                     notifyItemChanged(previousPosition)
                     notifyItemChanged(selectedPosition)
                 }

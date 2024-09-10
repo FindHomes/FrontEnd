@@ -170,6 +170,7 @@
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:stateListAnimator="@null"
+            android:elevation="0dp"
             android:background="@drawable/button_selector_100"
             android:text="@string/contract_room_one"
             android:textSize="14sp"
@@ -295,8 +296,8 @@
 
         <SeekBar
             android:id="@+id/sb_monthly"
-            android:progress="0"
-            android:max="10"
+            android:progress="40"
+            android:max="40"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingVertical="6dp"
@@ -376,8 +377,8 @@
 
         <SeekBar
             android:id="@+id/sb_deposit"
-            android:progress="45"
-            android:max="45"
+            android:progress="46"
+            android:max="46"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingVertical="6dp"
@@ -458,8 +459,8 @@
 
         <SeekBar
             android:id="@+id/sb_trading"
-            android:progress="45"
-            android:max="45"
+            android:progress="22"
+            android:max="22"
             android:paddingVertical="6dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
