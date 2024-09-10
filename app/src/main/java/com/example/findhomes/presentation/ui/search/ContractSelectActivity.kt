@@ -136,13 +136,49 @@ class ContractSelectActivity : AppCompatActivity() {
         }
     }
 
+    // Data Provider의 금액 text와 mapping
+    fun parsePrice(text: String): Int {
+        return when {
+            text.contains("무제한") -> Int.MAX_VALUE
+            text.contains("억") -> {
+                val parts = text.split("억")
+                var sum = 0
+                if (parts[0].isNotEmpty()) {
+                    // "억" 앞의 수치 계산 (억은 10,000으로 계산)
+                    sum += (parts[0].filter { it.isDigit() }.toIntOrNull() ?: 0) * 10000
+                }
+                if (parts.size > 1 && parts[1].isNotEmpty()) {
+                    // "억" 뒤의 "만" 단위 수치 계산
+                    val millionPart = parts[1].filter { it.isDigit() }
+                    if (millionPart.isNotEmpty()) {
+                        sum += millionPart.toInt() // 억 + 만
+                    }
+                }
+                sum
+            }
+            else -> {
+                // "만" 단위만 있는 경우 수치 계산
+                val millionPart = text.filter { it.isDigit() }
+                if (millionPart.isNotEmpty()) {
+                    millionPart.toInt() // 만
+                } else {
+                    0
+                }
+            }
+        }
+    }
+
+
     // ManCon에 추가될 pricesTypes
     private fun updatePriceTypes(type: String, progress: Int) {
+        val priceText = DataProvider.getSbData(type, progress)
+        val priceValue = parsePrice(priceText)
+
         when (type) {
             "월세" -> {
                 if (btnMonthly.isSelected) {
-                    manConRequest.prices.ws.rent = progress
-                    manConRequest.prices.ws.deposit = binding.sbDeposit.progress
+                    manConRequest.prices.ws.rent = priceValue
+                    manConRequest.prices.ws.deposit = parsePrice(DataProvider.getSbData("보증금", binding.sbDeposit.progress))
                 } else {
                     manConRequest.prices.ws.rent = 0
                     manConRequest.prices.ws.deposit = 0
@@ -151,13 +187,13 @@ class ContractSelectActivity : AppCompatActivity() {
 
             "보증금" -> {
                 if (btnMonthly.isSelected) {
-                    manConRequest.prices.ws.deposit = progress
+                    manConRequest.prices.ws.deposit = priceValue
                 } else {
                     manConRequest.prices.ws.deposit = 0
                 }
 
                 if (btnCharter.isSelected) {
-                    manConRequest.prices.js = progress
+                    manConRequest.prices.js = priceValue
                 } else {
                     manConRequest.prices.js = 0
                 }
@@ -165,7 +201,7 @@ class ContractSelectActivity : AppCompatActivity() {
 
             "매매" -> {
                 if (btnTrading.isSelected) {
-                    manConRequest.prices.mm = progress
+                    manConRequest.prices.mm = priceValue
                 } else {
                     manConRequest.prices.mm = 0
                 }
