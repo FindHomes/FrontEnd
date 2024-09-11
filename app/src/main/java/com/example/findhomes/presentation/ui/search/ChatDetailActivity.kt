@@ -62,6 +62,12 @@ class ChatDetailActivity : AppCompatActivity(){
                 showLoadingAnimation(false)
             }
         }
+        viewModel.chatData.observe(this) { chatData ->
+            chatData?.let {
+                addMessage(it)
+            }
+        }
+
     }
 
     private fun initBefore() {
@@ -72,6 +78,7 @@ class ChatDetailActivity : AppCompatActivity(){
 
     private fun initChat() {
         binding.clDefaultCenter.visibility = View.GONE
+        binding.rvRecommend.visibility = View.GONE
         binding.rvChatMessage.visibility = View.VISIBLE
 
         chatAdapter = ChatDetailAdapter(messages)
@@ -79,10 +86,14 @@ class ChatDetailActivity : AppCompatActivity(){
         binding.rvChatMessage.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
         val inputText = binding.etConditionInput.text.toString()
+        Log.d("inputText", inputText)
         if (inputText.isNotBlank()) {
-            addMessage(ChatData(inputText, false))
+            // 입력받은 텍스트를 viewModel로 보내기
+            viewModel.sendUserMessage(inputText)
+            // 입력 완료되면 지우기
             binding.etConditionInput.text.clear()
         }
+
 
         chatAdapter.setYesClickListener(object : ChatDetailAdapter.OnYesClickListener {
             override fun onYesClicked() {

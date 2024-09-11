@@ -1,11 +1,11 @@
 package com.example.findhomes.presentation.ui.search
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.findhomes.data.model.ManConRequest
+import com.example.findhomes.data.model.SearchChatRequest
 import com.example.findhomes.data.model.SearchCompleteResponse
 import com.example.findhomes.domain.usecase.search.GetSearchDataUseCase
 import com.example.findhomes.domain.usecase.search.PostChatDataUseCase
@@ -23,11 +23,14 @@ class SearchViewModel @Inject constructor(
     private val _searchData = MutableLiveData<SearchCompleteResponse?>()
     val searchData: LiveData<SearchCompleteResponse?> = _searchData
 
-    private val _chatData = MutableLiveData<String?>()
-    val chatData : LiveData<String?> = _chatData
+    private val _chatData = MutableLiveData<ChatData?>()
+    val chatData : LiveData<ChatData?> = _chatData
 
     private val _recommendData = MutableLiveData<List<String>?>()
     val recommendData : LiveData<List<String>?> = _recommendData
+
+    private var currentMaxIndex = 20  // 초기에 로드할 아이템 수
+
 
     fun loadSearchData() {
         viewModelScope.launch {
@@ -35,11 +38,21 @@ class SearchViewModel @Inject constructor(
         }
     }
 
+    fun loadMoreData() {
+        currentMaxIndex += 20  // 20개의 아이템을 더 로드
+        _searchData.value = _searchData.value  // LiveData를 갱신하여 View에 통지
+    }
+
     fun postChatData(userInput : String) {
         viewModelScope.launch {
-            val response = postChatDataUseCase(userInput)
-
+            val response = postChatDataUseCase(SearchChatRequest(userInput))
+            _chatData.postValue(ChatData(response, true))
         }
+    }
+
+    fun sendUserMessage(inputText: String) {
+        _chatData.postValue(ChatData(inputText, false))
+        postChatData(inputText)
     }
 
     fun postManConData(manConRequest: ManConRequest){

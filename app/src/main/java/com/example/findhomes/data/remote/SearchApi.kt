@@ -2,6 +2,7 @@ package com.example.findhomes.data.remote
 
 import com.example.findhomes.data.di.BaseResponse
 import com.example.findhomes.data.model.ManConRequest
+import com.example.findhomes.data.model.SearchChatRequest
 import com.example.findhomes.data.model.SearchCompleteResponse
 import retrofit2.Call
 import retrofit2.http.Body
@@ -13,7 +14,7 @@ interface SearchApi {
 
     @POST("api/search/user-chat")
     suspend fun searchChat(
-        @Body request : String
+        @Body request : SearchChatRequest
     ) : BaseResponse<String>
 
     @GET("test/api/search/complete")
