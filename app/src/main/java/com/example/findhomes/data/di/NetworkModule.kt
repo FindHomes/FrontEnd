@@ -33,6 +33,7 @@ object NetworkModule {
             .connectTimeout(30000, TimeUnit.MILLISECONDS)
             .addInterceptor(loggingInterceptor)
             .addInterceptor(XAccessTokenInterceptor(context))
+            .cookieJar(MyCookieJar())
             .build()
     }
 

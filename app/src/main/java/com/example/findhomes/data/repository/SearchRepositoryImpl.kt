@@ -3,6 +3,7 @@ package com.example.findhomes.data.repository
 import android.util.Log
 import com.example.findhomes.data.model.ManConRequest
 import com.example.findhomes.data.model.SearchChatRequest
+import com.example.findhomes.data.model.SearchChatResponse
 import com.example.findhomes.data.model.SearchCompleteResponse
 import com.example.findhomes.data.remote.SearchApi
 import com.example.findhomes.domain.repository.SearchRepository
@@ -26,7 +27,7 @@ class SearchRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun postChatData(searchChatRequest: SearchChatRequest) : String? {
+    override suspend fun postChatData(searchChatRequest: SearchChatRequest) : SearchChatResponse? {
         return try {
             val response = searchApi.searchChat(searchChatRequest)
             if (response.success) {

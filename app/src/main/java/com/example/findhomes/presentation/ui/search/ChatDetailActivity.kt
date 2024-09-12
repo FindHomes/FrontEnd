@@ -34,7 +34,7 @@ class ChatDetailActivity : AppCompatActivity(){
         viewModel.postManConData(manConRequest)
 
         observeViewModel()
-        initRecyclerView()
+        initRecommend()
 
 
         initBefore()
@@ -50,10 +50,17 @@ class ChatDetailActivity : AppCompatActivity(){
         binding.clChat.visibility = if (show) View.GONE else View.VISIBLE
     }
 
-    private fun initRecyclerView() {
+    private fun initRecommend() {
         recommendAdapter = ChatRecommendAdapter()
         binding.rvRecommend.adapter = recommendAdapter
         binding.rvRecommend.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+
+        recommendAdapter.setOnItemClickListener(object : ChatRecommendAdapter.OnItemClickListener{
+            override fun onItemClicked(data: String) {
+                initChat(data)
+            }
+
+        })
     }
 
     private fun observeViewModel() {
@@ -76,7 +83,7 @@ class ChatDetailActivity : AppCompatActivity(){
         }
     }
 
-    private fun initChat() {
+    private fun initChat(inputText: String? = null) {
         binding.clDefaultCenter.visibility = View.GONE
         binding.rvRecommend.visibility = View.GONE
         binding.rvChatMessage.visibility = View.VISIBLE
@@ -85,11 +92,11 @@ class ChatDetailActivity : AppCompatActivity(){
         binding.rvChatMessage.adapter = chatAdapter
         binding.rvChatMessage.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
-        val inputText = binding.etConditionInput.text.toString()
-        Log.d("inputText", inputText)
-        if (inputText.isNotBlank()) {
+        val sendText = inputText ?: binding.etConditionInput.text.toString()
+        Log.d("inputText", sendText)
+        if (sendText.isNotBlank()) {
             // 입력받은 텍스트를 viewModel로 보내기
-            viewModel.sendUserMessage(inputText)
+            viewModel.sendUserMessage(sendText)
             // 입력 완료되면 지우기
             binding.etConditionInput.text.clear()
         }

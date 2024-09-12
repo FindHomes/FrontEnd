@@ -2,6 +2,7 @@ package com.example.findhomes.domain.repository
 
 import com.example.findhomes.data.model.ManConRequest
 import com.example.findhomes.data.model.SearchChatRequest
+import com.example.findhomes.data.model.SearchChatResponse
 import com.example.findhomes.data.model.SearchCompleteResponse
 
 interface SearchRepository {
@@ -10,7 +11,7 @@ interface SearchRepository {
 
     suspend fun postChatData(
         searchChatRequest: SearchChatRequest
-    ) : String?
+    ) : SearchChatResponse?
 
     suspend fun postManConData(
         manConRequest: ManConRequest

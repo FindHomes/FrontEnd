@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.findhomes.data.model.ManConRequest
 import com.example.findhomes.data.model.SearchChatRequest
+import com.example.findhomes.data.model.SearchChatResponse
 import com.example.findhomes.data.model.SearchCompleteResponse
 import com.example.findhomes.domain.usecase.search.GetSearchDataUseCase
 import com.example.findhomes.domain.usecase.search.PostChatDataUseCase
@@ -46,7 +47,7 @@ class SearchViewModel @Inject constructor(
     fun postChatData(userInput : String) {
         viewModelScope.launch {
             val response = postChatDataUseCase(SearchChatRequest(userInput))
-            _chatData.postValue(ChatData(response, true))
+            _chatData.postValue(ChatData(response?.chatResponse, true))
         }
     }
 
