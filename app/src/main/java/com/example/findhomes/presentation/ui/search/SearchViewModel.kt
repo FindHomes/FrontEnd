@@ -23,6 +23,8 @@ class SearchViewModel @Inject constructor(
 ): ViewModel() {
     private val _searchData = MutableLiveData<SearchCompleteResponse?>()
     val searchData: LiveData<SearchCompleteResponse?> = _searchData
+    private val _canLoadMore = MutableLiveData<Boolean>()
+    val canLoadMore: LiveData<Boolean> = _canLoadMore
 
     private val _chatData = MutableLiveData<ChatData?>()
     val chatData : LiveData<ChatData?> = _chatData
@@ -30,7 +32,7 @@ class SearchViewModel @Inject constructor(
     private val _recommendData = MutableLiveData<List<String>?>()
     val recommendData : LiveData<List<String>?> = _recommendData
 
-    private var currentMaxIndex = 20  // 초기에 로드할 아이템 수
+    var currentMaxIndex = 20  // 초기에 로드할 아이템 수
 
 
     fun loadSearchData() {
@@ -41,7 +43,14 @@ class SearchViewModel @Inject constructor(
 
     fun loadMoreData() {
         currentMaxIndex += 20  // 20개의 아이템을 더 로드
-        _searchData.value = _searchData.value  // LiveData를 갱신하여 View에 통지
+        _searchData.value?.let {
+            _searchData.value = it
+            updateCanLoadMore(it)
+        }
+    }
+
+    private fun updateCanLoadMore(data: SearchCompleteResponse?) {
+        _canLoadMore.value = (data?.houses?.size ?: 0) > currentMaxIndex
     }
 
     fun postChatData(userInput : String) {
