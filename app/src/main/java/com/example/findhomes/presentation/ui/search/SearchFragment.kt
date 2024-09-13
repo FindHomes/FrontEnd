@@ -60,6 +60,7 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
 
         observeViewModel()
         initRecyclerView()
+        initMoreButton()
 
         return binding.root
     }
@@ -75,26 +76,43 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
                 updateMapData(searchData)
             }
         }
-    }
 
-    private fun updateMapData(searchData: SearchCompleteResponse?) {
-        if (searchData == null) return
-        // RecyclerView와 마커 업데이트
-        rankingAdapter.submitList(searchData.houses)
-        updateMarkers(searchData.houses)
-
-        // 마커와 지도 경계 업데이트
-        if (searchData.houses.isNotEmpty()) {
-            updateMapBounds(searchData.xmax, searchData.xmin, searchData.ymax, searchData.ymin)
+        viewModel.canLoadMore.observe(viewLifecycleOwner) { canLoad ->
+            binding.btnMore.isEnabled = canLoad
         }
     }
 
-    private fun updateMapBounds(xmax: Double, xmin: Double, ymax: Double, ymin: Double) {
-        val bounds = LatLngBounds(
-            LatLng(ymin, xmin),  // 남서쪽 코너
-            LatLng(ymax, xmax)   // 북동쪽 코너
-        )
-        naverMap.moveCamera(CameraUpdate.fitBounds(bounds))
+    private fun updateMapData(searchData: SearchCompleteResponse?) {
+        searchData ?: return  // searchData가 null인 경우 함수를 종료
+
+        // 현재 보여줄 최대 인덱스까지의 매물 데이터
+        val housesToShow = searchData.houses.take(viewModel.currentMaxIndex)
+
+        // RecyclerView와 마커 업데이트
+        rankingAdapter.submitList(housesToShow)
+        updateMarkers(housesToShow)
+
+        // 마커와 지도 경계 업데이트
+        updateMapBounds(housesToShow)
+    }
+
+
+    private fun initMoreButton() {
+        binding.btnMore.setOnClickListener {
+            viewModel.loadMoreData()
+        }
+    }
+
+    private fun updateMapBounds(houses: List<HousesResponse>) {
+        if (houses.isEmpty()) return
+
+        val boundsBuilder = LatLngBounds.Builder()
+        houses.forEach { house ->
+            boundsBuilder.include(LatLng(house.y, house.x))
+        }
+        val bounds = boundsBuilder.build()
+
+        naverMap.moveCamera(CameraUpdate.fitBounds(bounds, 100))  // 100은 여백을 의미
     }
 
     private fun initRecyclerView() {
@@ -147,10 +165,12 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
         markerMap.clear()
         houses?.forEachIndexed { index, house ->
             val viewMarker = LayoutInflater.from(context).inflate(R.layout.item_marker_view, null)
+            val tvPriceType = viewMarker.findViewById<TextView>(R.id.tv_price_type)
             val tvRanking = viewMarker.findViewById<TextView>(R.id.tv_ranking)
             val tvPrice = viewMarker.findViewById<TextView>(R.id.tv_price)
+            tvPriceType.text = house.priceType
             tvRanking.text = (index + 1).toString()
-            tvPrice.text = "${house.price}만원"
+            tvPrice.text = house.price.toString()
 
             val bitmap = createBitmapFromView(viewMarker)
             val marker = Marker().apply {
@@ -185,6 +205,7 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
             Log.d("SearchFragment", "Map clicked.")
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             // 모든 마커의 선택 해제
+            Log.d("bottom", bottomSheetBehavior.state.toString())
             deselectMarkers()
         }
     }

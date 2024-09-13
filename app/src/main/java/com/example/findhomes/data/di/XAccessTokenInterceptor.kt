@@ -12,7 +12,7 @@ class XAccessTokenInterceptor(val context: Context) : Interceptor {
 //        val accessToken = getAccessToken(context)
 
 //        accessToken?.let {
-            builder.addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhMjgwMmI0MS04YjAwLTQzZGYtYWQ3My1lYmMwZWQ0NjNkNzIiLCJpYXQiOjE3MjUzNDM1NjksImV4cCI6MTcyNTM0NzE2OX0.MzTqJlGZ510E5jkkAio5U5aW1NnQ3j7O40b13zFx8QU")
+            builder.addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhMjgwMmI0MS04YjAwLTQzZGYtYWQ3My1lYmMwZWQ0NjNkNzIiLCJpYXQiOjE3MjYwNDM2NTgsImV4cCI6MTcyNjA0NzI1OH0.tVZyMNwPHgYTVZ0tST5Rk5Li1wl4MJvZErPWdB9DO8Y")
 //            Log.d("NetworkInterceptor", "Authorization: $it")
 //        }
 

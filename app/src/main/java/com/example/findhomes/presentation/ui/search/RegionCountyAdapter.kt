@@ -8,10 +8,10 @@ import com.example.findhomes.R
 import com.example.findhomes.data.model.County
 import com.example.findhomes.databinding.ItemRegionCountyBinding
 
-class RegionCountyAdapter(private var counties: List<County>) : RecyclerView.Adapter<RegionCountyAdapter.ViewHolder>(){
+class RegionCountyAdapter(var counties: List<County>) : RecyclerView.Adapter<RegionCountyAdapter.ViewHolder>(){
 
     private lateinit var countyClickListener: OnCountyClickListener
-    private var selectedPosition = RecyclerView.NO_POSITION
+    var selectedPosition = RecyclerView.NO_POSITION
 
     interface OnCountyClickListener{
         fun onCountyClicked(data : County)

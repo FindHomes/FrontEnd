@@ -12,7 +12,7 @@ import com.example.findhomes.databinding.ItemRegionCityBinding
 
 class RegionCityAdapter(
     private val data: List<City>,
-    private val onCitySelected: (List<County>) -> Unit
+    private val onCitySelected: (City) -> Unit
 ) : RecyclerView.Adapter<RegionCityAdapter.ViewHolder>() {
     private var selectedPosition = 0
 
@@ -27,7 +27,7 @@ class RegionCityAdapter(
             itemView.setOnClickListener {
                 val previousPosition = selectedPosition
                 if(previousPosition != absoluteAdapterPosition){
-                    onCitySelected(item.counties)
+                    onCitySelected(item)
                     selectedPosition = absoluteAdapterPosition
                     notifyItemChanged(previousPosition)
                     notifyItemChanged(selectedPosition)
