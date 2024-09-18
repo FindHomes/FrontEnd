@@ -18,7 +18,7 @@ interface SearchApi {
 
     @GET("test/api/search/complete")
     suspend fun searchComplete(
-    ): BaseResponse<SearchCompleteResponse?>
+    ): BaseResponse<List<SearchCompleteResponse>?>
 
     @POST("api/search/man-con")
     suspend fun searchManCon(

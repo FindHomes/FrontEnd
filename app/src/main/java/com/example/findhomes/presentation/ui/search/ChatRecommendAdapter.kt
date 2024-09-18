@@ -8,9 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.findhomes.data.model.HousesResponse
 import com.example.findhomes.databinding.ItemChatRecommendBinding
-import com.example.findhomes.databinding.ItemResultRankingBinding
 
 
 class ChatRecommendAdapter() : ListAdapter<String, ChatRecommendAdapter.ViewHolder>(

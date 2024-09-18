@@ -1,5 +1,6 @@
 package com.example.findhomes.presentation.ui.search
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,8 +22,8 @@ class SearchViewModel @Inject constructor(
     private val postChatDataUseCase: PostChatDataUseCase,
     private val postManConUseCase: PostManConUseCase
 ): ViewModel() {
-    private val _searchData = MutableLiveData<SearchCompleteResponse?>()
-    val searchData: LiveData<SearchCompleteResponse?> = _searchData
+    private val _searchData = MutableLiveData<List<SearchCompleteResponse>?>()
+    val searchData: LiveData<List<SearchCompleteResponse>?> = _searchData
     private val _canLoadMore = MutableLiveData<Boolean>()
     val canLoadMore: LiveData<Boolean> = _canLoadMore
 
@@ -38,6 +39,7 @@ class SearchViewModel @Inject constructor(
     fun loadSearchData() {
         viewModelScope.launch {
             _searchData.value = getSearchDataUseCase()
+            Log.d("searchData3", _searchData.value.toString())
         }
     }
 
@@ -49,8 +51,8 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private fun updateCanLoadMore(data: SearchCompleteResponse?) {
-        _canLoadMore.value = (data?.houses?.size ?: 0) > currentMaxIndex
+    private fun updateCanLoadMore(data: List<SearchCompleteResponse>?) {
+        _canLoadMore.value = (data?.size ?: 0) > currentMaxIndex
     }
 
     fun postChatData(userInput : String) {

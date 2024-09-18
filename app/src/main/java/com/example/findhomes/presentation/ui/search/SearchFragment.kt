@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.findhomes.R
-import com.example.findhomes.data.model.HousesResponse
 import com.example.findhomes.data.model.SearchCompleteResponse
 import com.example.findhomes.databinding.FragmentSearchBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -75,6 +74,7 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
             } else {
                 updateMapData(searchData)
             }
+            Log.d("searchData", searchData.toString())
         }
 
         viewModel.canLoadMore.observe(viewLifecycleOwner) { canLoad ->
@@ -82,11 +82,12 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    private fun updateMapData(searchData: SearchCompleteResponse?) {
+    private fun updateMapData(searchData: List<SearchCompleteResponse>?) {
+        Log.d("searchData2", searchData.toString())
         searchData ?: return  // searchData가 null인 경우 함수를 종료
 
         // 현재 보여줄 최대 인덱스까지의 매물 데이터
-        val housesToShow = searchData.houses.take(viewModel.currentMaxIndex)
+        val housesToShow = searchData.take(viewModel.currentMaxIndex)
 
         // RecyclerView와 마커 업데이트
         rankingAdapter.submitList(housesToShow)
@@ -103,7 +104,7 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    private fun updateMapBounds(houses: List<HousesResponse>) {
+    private fun updateMapBounds(houses: List<SearchCompleteResponse>) {
         if (houses.isEmpty()) return
 
         val boundsBuilder = LatLngBounds.Builder()
@@ -137,7 +138,7 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
         })
 
         rankingAdapter.setOnItemClickListener(object : ResultRankingAdapter.OnItemClickListener{
-            override fun onItemClicked(data: HousesResponse) {
+            override fun onItemClicked(data: SearchCompleteResponse) {
                 val bundle = Bundle()
                 bundle.putString("key", "value")
 
@@ -161,7 +162,7 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun updateMarkers(houses: List<HousesResponse>?) {
+    private fun updateMarkers(houses: List<SearchCompleteResponse>?) {
         markerMap.clear()
         houses?.forEachIndexed { index, house ->
             val viewMarker = LayoutInflater.from(context).inflate(R.layout.item_marker_view, null)

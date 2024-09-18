@@ -8,17 +8,17 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.findhomes.data.model.HousesResponse
+import com.example.findhomes.data.model.SearchCompleteResponse
 import com.example.findhomes.databinding.ItemResultRankingBinding
 
 
-class ResultRankingAdapter(private val context: Context) : ListAdapter<HousesResponse, ResultRankingAdapter.ViewHolder>(
+class ResultRankingAdapter(private val context: Context) : ListAdapter<SearchCompleteResponse, ResultRankingAdapter.ViewHolder>(
     DiffCallback()
 ) {
     lateinit var itemClickListener: OnItemClickListener
 
     interface OnItemClickListener {
-        fun onItemClicked(data: HousesResponse)
+        fun onItemClicked(data: SearchCompleteResponse)
     }
 
     fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
@@ -27,9 +27,9 @@ class ResultRankingAdapter(private val context: Context) : ListAdapter<HousesRes
 
     inner class ViewHolder(private val binding: ItemResultRankingBinding) : RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
-        fun bind(item: HousesResponse) {
+        fun bind(item: SearchCompleteResponse) {
             Glide.with(context)
-                .load(item.imgUrl)
+                .load(item.imgUrl[0])
                 .into(binding.ivRanking)
             binding.tvRanking.text = (absoluteAdapterPosition + 1).toString()
             binding.tvRankingPrice.text = "${item.price}만원"
@@ -54,13 +54,13 @@ class ResultRankingAdapter(private val context: Context) : ListAdapter<HousesRes
         holder.bind(getItem(position))  // ListAdapter에서는 data.size 대신 getItem
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<HousesResponse>() {
-        override fun areItemsTheSame(oldItem: HousesResponse, newItem: HousesResponse): Boolean {
+    class DiffCallback : DiffUtil.ItemCallback<SearchCompleteResponse>() {
+        override fun areItemsTheSame(oldItem: SearchCompleteResponse, newItem: SearchCompleteResponse): Boolean {
             return oldItem.houseId== newItem.houseId  // 새로운 아이템과 이전 아이템을 비교할 수 있는 고윳 값
         }
 
-        override fun areContentsTheSame(oldItem: HousesResponse, newItem: HousesResponse): Boolean {
-            return oldItem == newItem
+        override fun areContentsTheSame(oldItem: SearchCompleteResponse, newItem: SearchCompleteResponse): Boolean {
+            return oldItem.houseId == newItem.houseId
         }
     }
 }

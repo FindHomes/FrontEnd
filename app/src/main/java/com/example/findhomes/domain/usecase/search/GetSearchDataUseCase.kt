@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetSearchDataUseCase @Inject constructor(
     private val searchRepository: SearchRepository
 ) {
-    suspend operator fun invoke() : SearchCompleteResponse? {
+    suspend operator fun invoke() : List<SearchCompleteResponse>? {
         return searchRepository.getSearchData()
     }
 }

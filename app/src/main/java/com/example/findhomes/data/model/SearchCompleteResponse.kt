@@ -1,14 +1,6 @@
 package com.example.findhomes.data.model
 
 data class SearchCompleteResponse(
-    val houses: ArrayList<HousesResponse>,
-    val xmax : Double,
-    val xmin : Double,
-    val ymax : Double,
-    val ymin : Double
-)
-
-data class HousesResponse(
     val houseId: Int,
     val url: String,
     val priceType: String,
@@ -28,6 +20,6 @@ data class HousesResponse(
     val address: String,
     val x: Double,
     val y: Double,
-    val imgUrl: String,
+    val imgUrl: List<String>,
     val score: Double
 )
