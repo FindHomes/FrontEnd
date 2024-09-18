@@ -86,20 +86,56 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
         searchData ?: return  // searchData가 null인 경우 함수를 종료
 
         // 현재 보여줄 최대 인덱스까지의 매물 데이터
-        val housesToShow = searchData.houses.take(viewModel.currentMaxIndex)
+        val showingHouses = searchData.houses.take(viewModel.currentMaxIndex)
 
         // RecyclerView와 마커 업데이트
-        rankingAdapter.submitList(housesToShow)
-        updateMarkers(housesToShow)
-
-        // 마커와 지도 경계 업데이트
-        updateMapBounds(housesToShow)
+        rankingAdapter.submitList(showingHouses)
+        updateMarkers(showingHouses)
+        updateMapBounds(showingHouses)
     }
 
 
     private fun initMoreButton() {
         binding.btnMore.setOnClickListener {
             viewModel.loadMoreData()
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun updateMarkers(houses: List<HousesResponse>?) {
+        markerMap.clear()
+        houses?.forEachIndexed { index, house ->
+            val viewMarker = LayoutInflater.from(context).inflate(R.layout.item_marker_view, null)
+            val tvPriceType = viewMarker.findViewById<TextView>(R.id.tv_price_type)
+            val tvRanking = viewMarker.findViewById<TextView>(R.id.tv_ranking)
+            val tvPrice = viewMarker.findViewById<TextView>(R.id.tv_price)
+            tvPriceType.text = house.priceType
+            tvRanking.text = (index + 1).toString()
+            tvPrice.text = house.price.toString()
+
+            val bitmap = createBitmapFromView(viewMarker)
+            val marker = Marker().apply {
+                position = LatLng(house.y, house.x)
+                map = naverMap
+                icon = OverlayImage.fromBitmap(bitmap)
+                setOnClickListener {
+                    binding.rvResultRanking.scrollToPosition(index)
+                    updateMap(index)
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+                    true
+                }
+            }
+            markerMap[index] = marker
+        }
+    }
+
+    private fun updateMap(position: Int) {
+        val house = markerMap[position]?.position
+        house?.let {
+            naverMap.moveCamera(CameraUpdate.scrollTo(it))
+            selectedMarker?.map = null
+            selectedMarker = markerMap[position]
+            selectedMarker?.map = naverMap
         }
     }
 
@@ -160,44 +196,6 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
         return bitmap
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun updateMarkers(houses: List<HousesResponse>?) {
-        markerMap.clear()
-        houses?.forEachIndexed { index, house ->
-            val viewMarker = LayoutInflater.from(context).inflate(R.layout.item_marker_view, null)
-            val tvPriceType = viewMarker.findViewById<TextView>(R.id.tv_price_type)
-            val tvRanking = viewMarker.findViewById<TextView>(R.id.tv_ranking)
-            val tvPrice = viewMarker.findViewById<TextView>(R.id.tv_price)
-            tvPriceType.text = house.priceType
-            tvRanking.text = (index + 1).toString()
-            tvPrice.text = house.price.toString()
-
-            val bitmap = createBitmapFromView(viewMarker)
-            val marker = Marker().apply {
-                position = LatLng(house.y, house.x)
-                map = naverMap
-                icon = OverlayImage.fromBitmap(bitmap)
-                setOnClickListener {
-                    binding.rvResultRanking.scrollToPosition(index)
-                    updateMap(index)
-                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-                    true
-                }
-            }
-            markerMap[index] = marker
-        }
-    }
-
-
-    private fun updateMap(position: Int) {
-        val house = markerMap[position]?.position
-        house?.let {
-            naverMap.moveCamera(CameraUpdate.scrollTo(it))
-            selectedMarker?.map = null
-            selectedMarker = markerMap[position]
-            selectedMarker?.map = naverMap
-        }
-    }
 
     override fun onMapReady(naverMap: NaverMap) {
         this.naverMap = naverMap
