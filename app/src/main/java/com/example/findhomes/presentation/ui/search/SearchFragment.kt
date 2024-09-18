@@ -92,8 +92,6 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
         // RecyclerView와 마커 업데이트
         rankingAdapter.submitList(housesToShow)
         updateMarkers(housesToShow)
-
-        // 마커와 지도 경계 업데이트
         updateMapBounds(housesToShow)
     }
 
