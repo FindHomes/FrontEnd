@@ -18,11 +18,9 @@ class SearchRepositoryImpl @Inject constructor(
             if (response.success) {
                 response.result
             } else {
-                Log.e("error1", "error1")
                 null
             }
         } catch (e: Exception) {
-            Log.e("error2", "error2",e)
             null
         }
     }
