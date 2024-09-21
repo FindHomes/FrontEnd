@@ -50,8 +50,6 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
         binding.mvRanking.onCreate(savedInstanceState)
         binding.mvRanking.getMapAsync(this)
 
-        viewModel.loadSearchData()
-
         // BottomSheet 설정
         val bottomSheet = binding.rvResultRanking
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)

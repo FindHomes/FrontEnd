@@ -7,32 +7,45 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.findhomes.data.model.ManConRequest
 import com.example.findhomes.databinding.ActivityMainBinding
 import com.example.findhomes.presentation.ui.home.HomeFragment
 import com.example.findhomes.presentation.ui.mypage.MyPageFragment
 import com.example.findhomes.presentation.ui.search.SearchFragment
+import com.example.findhomes.presentation.ui.search.SearchViewModel
 import com.example.findhomes.presentation.ui.wish.WishFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private val viewModel: SearchViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
+
+        initBottomNavigation(getFragmentFromIntent(intent))
         setContentView(binding.root)
-        val fragmentToOpen = getFragmentFromIntent(intent)
-        initBottomNavigation(fragmentToOpen)
     }
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        setIntent(intent)  // 새 인텐트로 현재 인텐트 업데이트
+        setIntent(intent) // 새 인텐트 설정
+
+        val manConRequest = intent.getSerializableExtra("manConRequest") as? ManConRequest
         val fragmentToOpen = getFragmentFromIntent(intent)
-        initBottomNavigation(fragmentToOpen)
+
+        if (manConRequest != null && fragmentToOpen is SearchFragment) {
+            viewModel.loadSearchData(manConRequest)
+        }
+
+        openFragment(fragmentToOpen)
     }
 
     private fun getFragmentFromIntent(intent: Intent): Fragment {

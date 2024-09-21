@@ -36,10 +36,15 @@ class SearchViewModel @Inject constructor(
     var currentMaxIndex = 20  // 초기에 로드할 아이템 수
 
 
-    fun loadSearchData() {
+    fun loadSearchData(manConRequest: ManConRequest) {
         viewModelScope.launch {
-            _searchData.value = getSearchDataUseCase()
-            Log.d("searchData3", _searchData.value.toString())
+            try {
+                Log.d("SearchViewModel", "데이터 로딩 시작")
+                _searchData.value = getSearchDataUseCase(manConRequest)
+                Log.d("SearchViewModel", "로드된 데이터: ${_searchData.value}")
+            } catch (e : Exception){
+                Log.e("SearchViewModel", "loadSearchData 오류", e)
+            }
         }
     }
 
