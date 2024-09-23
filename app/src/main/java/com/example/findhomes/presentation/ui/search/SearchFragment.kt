@@ -52,8 +52,6 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
         binding.mvRanking.onCreate(savedInstanceState)
         binding.mvRanking.getMapAsync(this)
 
-        viewModel.loadSearchData()
-
         // BottomSheet 설정
         val bottomSheet = binding.rvResultRanking
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
@@ -76,7 +74,6 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
             } else {
                 updateMapData(searchData)
             }
-            Log.d("searchData", searchData.toString())
         }
 
         viewModel.canLoadMore.observe(viewLifecycleOwner) { canLoad ->
@@ -206,7 +203,7 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
                 setOnClickListener {
                     binding.rvResultRanking.scrollToPosition(index)
                     updateMap(index)
-                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                     true
                 }
             }
@@ -230,10 +227,10 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
         initClusterer()
         naverMap.setOnMapClickListener { _, _ ->
             Log.d("SearchFragment", "Map clicked.")
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            deselectMarkers()
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
             // 모든 마커의 선택 해제
             Log.d("bottom", bottomSheetBehavior.state.toString())
-            deselectMarkers()
         }
     }
 

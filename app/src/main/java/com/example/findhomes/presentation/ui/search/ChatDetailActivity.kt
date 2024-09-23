@@ -18,6 +18,7 @@ class ChatDetailActivity : AppCompatActivity(){
     private lateinit var recommendAdapter: ChatRecommendAdapter
     private lateinit var chatAdapter : ChatDetailAdapter
     private var messages: MutableList<ChatData> = mutableListOf()
+    private lateinit var manConRequest : ManConRequest
     private val viewModel: SearchViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +29,7 @@ class ChatDetailActivity : AppCompatActivity(){
 
         setContentView(binding.root)
 
-        val manConRequest = intent.getSerializableExtra("manConRequest") as ManConRequest
+        manConRequest = intent.getSerializableExtra("manConRequest") as ManConRequest
         Log.d("manConRequest", manConRequest.toString())
 
         viewModel.postManConData(manConRequest)
@@ -107,6 +108,7 @@ class ChatDetailActivity : AppCompatActivity(){
                 val intent = Intent(this@ChatDetailActivity, MainActivity::class.java).apply {
                     Log.d("intent",intent.toString())
                     putExtra("openFragment", "searchFragment")
+                    putExtra("manConRequest", manConRequest)
                     flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
                 }
                 startActivity(intent)

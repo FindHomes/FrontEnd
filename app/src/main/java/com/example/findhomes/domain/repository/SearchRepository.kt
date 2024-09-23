@@ -7,6 +7,7 @@ import com.example.findhomes.data.model.SearchCompleteResponse
 
 interface SearchRepository {
     suspend fun getSearchData(
+        manConRequest: ManConRequest
     ) : List<SearchCompleteResponse>?
 
     suspend fun postChatData(

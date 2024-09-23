@@ -8,6 +8,7 @@ import com.example.findhomes.data.model.SearchCompleteResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface SearchApi {
 
@@ -16,8 +17,13 @@ interface SearchApi {
         @Body request : SearchChatRequest
     ) : BaseResponse<SearchChatResponse?>
 
-    @GET("test/api/search/complete")
+//    @GET("test/api/search/complete")
+//    suspend fun searchComplete(
+//    ): BaseResponse<List<SearchCompleteResponse>?>
+
+    @GET("api/search/complete")
     suspend fun searchComplete(
+        @Query ("manConRequest") manConRequest: ManConRequest
     ): BaseResponse<List<SearchCompleteResponse>?>
 
     @POST("api/search/man-con")

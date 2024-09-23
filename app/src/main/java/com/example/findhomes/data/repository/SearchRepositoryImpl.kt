@@ -12,17 +12,17 @@ import javax.inject.Inject
 class SearchRepositoryImpl @Inject constructor(
     private val searchApi: SearchApi
 ) : SearchRepository {
-    override suspend fun getSearchData(): List<SearchCompleteResponse>? {
+    override suspend fun getSearchData(manConRequest: ManConRequest): List<SearchCompleteResponse>? {
         return try {
-            val response = searchApi.searchComplete()
+            val response = searchApi.searchComplete(manConRequest)
             if (response.success) {
                 response.result
             } else {
-                Log.e("error1", "error1")
+                Log.e("SearchUseCase", "Error fetching data")
                 null
             }
         } catch (e: Exception) {
-            Log.e("error2", "error2",e)
+            Log.e("SearchUseCase", "Error fetching data", e)
             null
         }
     }
