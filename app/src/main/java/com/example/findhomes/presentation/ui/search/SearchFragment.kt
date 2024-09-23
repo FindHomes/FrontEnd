@@ -24,6 +24,7 @@ import com.naver.maps.geometry.LatLngBounds
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
+import com.naver.maps.map.clustering.Clusterer
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.MarkerIcons
@@ -36,6 +37,7 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
     private lateinit var rankingAdapter: ResultRankingAdapter
     private var selectedMarker: Marker? = null
     private var markerMap = mutableMapOf<Int, Marker>()
+    private lateinit var clusterer: Clusterer<ItemKey>
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
     private val viewModel: SearchViewModel by activityViewModels()
 
@@ -82,17 +84,42 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    private fun initClusterer() {
+        clusterer = Clusterer.Builder<ItemKey>()
+            .screenDistance(20.0)  // dp 단위의 클러스터링 거리
+            .minZoom(4)
+            .maxZoom(16)
+            .build()
+        clusterer.map = naverMap
+    }
+
     private fun updateMapData(searchData: List<SearchCompleteResponse>?) {
-        Log.d("searchData2", searchData.toString())
         searchData ?: return  // searchData가 null인 경우 함수를 종료
 
         // 현재 보여줄 최대 인덱스까지의 매물 데이터
         val housesToShow = searchData.take(viewModel.currentMaxIndex)
 
+        // 클러스터러에 기존 아이템 제거
+        clusterer.clear()
+
+        // 새로운 아이템을 클러스터러에 추가
+        searchData.forEachIndexed { index, house ->
+            val itemKey = ItemKey(index, LatLng(house.y, house.x))
+            clusterer.add(itemKey, null)
+        }
+
         // RecyclerView와 마커 업데이트
         rankingAdapter.submitList(housesToShow)
         updateMarkers(housesToShow)
         updateMapBounds(housesToShow)
+    }
+
+    private fun createCustomMarkerView(house: SearchCompleteResponse): View {
+        val view = LayoutInflater.from(context).inflate(R.layout.item_marker_view, null)
+        view.findViewById<TextView>(R.id.tv_price_type).text = house.priceType
+//        view.findViewById<TextView>(R.id.tv_ranking).text = house .toString()
+        view.findViewById<TextView>(R.id.tv_price).text = "${house.price}만원"
+        return view
     }
 
 
@@ -200,6 +227,7 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
 
     override fun onMapReady(naverMap: NaverMap) {
         this.naverMap = naverMap
+        initClusterer()
         naverMap.setOnMapClickListener { _, _ ->
             Log.d("SearchFragment", "Map clicked.")
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
