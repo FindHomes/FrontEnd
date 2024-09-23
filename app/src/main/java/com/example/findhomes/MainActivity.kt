@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         setIntent(intent) // 새 인텐트 설정
 
         val manConRequest = intent.getSerializableExtra("manConRequest") as? ManConRequest
+        Log.d("manConRequest", manConRequest.toString())
         val fragmentToOpen = getFragmentFromIntent(intent)
 
         if (manConRequest != null && fragmentToOpen is SearchFragment) {
