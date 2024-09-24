@@ -84,7 +84,7 @@
                 app:layout_constraintStart_toEndOf="@id/tv_detail_priceType"
                 app:layout_constraintTop_toTopOf="@id/tv_detail_priceType"
                 app:layout_constraintBottom_toBottomOf="@id/tv_detail_priceType"
-                android:text="@{viewModel.detailData.price}"/>
+                android:text="@{String.valueOf(viewModel.detailData.price)}"/>
 
             <TextView
                 android:id="@+id/tv_detail_main_center"
@@ -108,7 +108,7 @@
                 app:layout_constraintStart_toEndOf="@id/tv_detail_main_center"
                 app:layout_constraintTop_toTopOf="@id/tv_detail_priceType"
                 app:layout_constraintBottom_toBottomOf="@id/tv_detail_priceType"
-                android:text="@{viewModel.detailData.priceForWs}"/>
+                android:text="@{String.valueOf(viewModel.detailData.priceForWs)}"/>
 
             <TextView
                 android:id="@+id/tv_detail_sub"

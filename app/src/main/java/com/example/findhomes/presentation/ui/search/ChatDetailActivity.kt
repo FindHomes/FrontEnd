@@ -88,21 +88,30 @@ class ChatDetailActivity : AppCompatActivity(){
         binding.clDefaultCenter.visibility = View.GONE
         binding.rvRecommend.visibility = View.GONE
         binding.rvChatMessage.visibility = View.VISIBLE
+        binding.tvChatForceEnd.visibility = View.VISIBLE
 
         chatAdapter = ChatDetailAdapter(messages)
         binding.rvChatMessage.adapter = chatAdapter
         binding.rvChatMessage.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
         val sendText = inputText ?: binding.etConditionInput.text.toString()
-        Log.d("inputText", sendText)
         if (sendText.isNotBlank()) {
-            // 입력받은 텍스트를 viewModel로 보내기
             viewModel.sendUserMessage(sendText)
-            // 입력 완료되면 지우기
             binding.etConditionInput.text.clear()
         }
 
+        // 강제로 넘어가기 버튼
+        binding.tvChatForceEnd.setOnClickListener {
+            val intent = Intent(this@ChatDetailActivity, MainActivity::class.java).apply {
+                Log.d("intent",intent.toString())
+                putExtra("openFragment", "searchFragment")
+                putExtra("manConRequest", manConRequest)
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            }
+            startActivity(intent)
+        }
 
+        // 대화 완료 넘어가기 버튼
         chatAdapter.setYesClickListener(object : ChatDetailAdapter.OnYesClickListener {
             override fun onYesClicked() {
                 val intent = Intent(this@ChatDetailActivity, MainActivity::class.java).apply {
