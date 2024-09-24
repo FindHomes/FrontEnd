@@ -188,6 +188,7 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
                 nextFragment.arguments = bundle
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.main_frm, nextFragment)
+                    .addToBackStack(null)
                     .commit()
             }
         })

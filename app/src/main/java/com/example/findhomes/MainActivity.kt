@@ -47,6 +47,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         openFragment(fragmentToOpen)
+        updateBottomNavigationSelection(fragmentToOpen)
+    }
+
+    private fun updateBottomNavigationSelection(fragment: Fragment) {
+        binding.mainBnv.selectedItemId = when (fragment) {
+            is HomeFragment -> R.id.homeFragment
+            is SearchFragment -> R.id.searchFragment
+            is WishFragment -> R.id.interestFragment
+            is MyPageFragment -> R.id.myPageFragment
+            else -> throw IllegalStateException("Unknown fragment type")
+        }
     }
 
     private fun getFragmentFromIntent(intent: Intent): Fragment {
