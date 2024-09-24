@@ -5,9 +5,11 @@ import com.example.findhomes.data.model.ManConRequest
 import com.example.findhomes.data.model.SearchChatRequest
 import com.example.findhomes.data.model.SearchChatResponse
 import com.example.findhomes.data.model.SearchCompleteResponse
+import com.example.findhomes.data.model.SearchDetailResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface SearchApi {
@@ -30,4 +32,9 @@ interface SearchApi {
     suspend fun searchManCon(
         @Body request : ManConRequest
     ) : BaseResponse<List<String>>
+
+    @GET("api/house/{houseId}")
+    suspend fun searchDetail(
+        @Path("houseId") houseId : Int
+    ) : BaseResponse<SearchDetailResponse?>
 }
