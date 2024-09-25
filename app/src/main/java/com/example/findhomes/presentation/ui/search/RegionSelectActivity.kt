@@ -47,8 +47,8 @@ class RegionSelectActivity : AppCompatActivity() {
                 } else
                     ""
 
-            manConRequest.region.city = city
-            manConRequest.region.district = district
+            manConRequest.region.city = district
+            manConRequest.region.district = city
 
             val intent = Intent(this, ChatDetailActivity::class.java)
             intent.putExtra("manConRequest", manConRequest)

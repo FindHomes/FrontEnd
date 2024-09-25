@@ -58,10 +58,14 @@
     <string name="detail_floor">해당층/건물층</string>
     <string name="detail_area">전용/공급면적</string>
     <string name="detail_room_number">방 수/욕실 수</string>
-    <string name="detail_heating">난방 종류</string>
-    <string name="detail_car">총 주차대수</string>
-    <string name="detail_in">입주가능일</string>
+    <string name="detail_housing_option">기타 옵션</string>
+    <string name="detail_address">상세 주소</string>
+    <string name="detail_complete">완공일</string>
     <string name="detail_for">건축물용도</string>
+    <string name="detail_maintenance_fee_text">%1$d만원</string>
+    <string name="detail_size_text">%1$.2fm2</string>
+    <string name="detail_room_washroom_text">%1$d개 / %2$d개</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

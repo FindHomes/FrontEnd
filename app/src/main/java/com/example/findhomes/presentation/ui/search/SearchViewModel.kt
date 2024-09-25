@@ -9,7 +9,9 @@ import com.example.findhomes.data.model.ManConRequest
 import com.example.findhomes.data.model.SearchChatRequest
 import com.example.findhomes.data.model.SearchChatResponse
 import com.example.findhomes.data.model.SearchCompleteResponse
+import com.example.findhomes.data.model.SearchDetailResponse
 import com.example.findhomes.domain.usecase.search.GetSearchDataUseCase
+import com.example.findhomes.domain.usecase.search.GetSearchDetailDataUseCase
 import com.example.findhomes.domain.usecase.search.PostChatDataUseCase
 import com.example.findhomes.domain.usecase.search.PostManConUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +22,8 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val getSearchDataUseCase: GetSearchDataUseCase,
     private val postChatDataUseCase: PostChatDataUseCase,
-    private val postManConUseCase: PostManConUseCase
+    private val postManConUseCase: PostManConUseCase,
+    private val getSearchDetailDataUseCase: GetSearchDetailDataUseCase
 ): ViewModel() {
     private val _searchData = MutableLiveData<List<SearchCompleteResponse>?>()
     val searchData: LiveData<List<SearchCompleteResponse>?> = _searchData
@@ -33,13 +36,32 @@ class SearchViewModel @Inject constructor(
     private val _recommendData = MutableLiveData<List<String>?>()
     val recommendData : LiveData<List<String>?> = _recommendData
 
+    private val _detailData = MutableLiveData<SearchDetailResponse?>()
+    val detailData: LiveData<SearchDetailResponse?> = _detailData
+
     var currentMaxIndex = 20  // 초기에 로드할 아이템 수
 
 
-    fun loadSearchData() {
+    fun loadSearchData(manConRequest: ManConRequest) {
         viewModelScope.launch {
-            _searchData.value = getSearchDataUseCase()
-            Log.d("searchData3", _searchData.value.toString())
+            try {
+                Log.d("SearchViewModel", "데이터 로딩 시작")
+                _searchData.value = getSearchDataUseCase(manConRequest)
+                Log.d("SearchViewModel", "로드된 데이터: ${_searchData.value}")
+            } catch (e : Exception){
+                Log.e("SearchViewModel", "loadSearchData 오류", e)
+            }
+        }
+    }
+
+    fun loadSearchDetailData(houseId : Int){
+        viewModelScope.launch {
+            try {
+                _detailData.value = getSearchDetailDataUseCase(houseId)
+                Log.d("SearchViewModel", "로드된 데이터: ${_detailData.value}")
+            } catch (e: Exception){
+                Log.e("SearchViewModel", "loadSearchDetailData 오류", e)
+            }
         }
     }
 

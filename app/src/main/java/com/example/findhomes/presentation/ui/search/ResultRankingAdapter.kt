@@ -25,6 +25,10 @@ class ResultRankingAdapter(private val context: Context) : ListAdapter<SearchCom
         itemClickListener = onItemClickListener
     }
 
+    fun getItemAtPosition(position: Int): SearchCompleteResponse {
+        return getItem(position)
+    }
+
     inner class ViewHolder(private val binding: ItemResultRankingBinding) : RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
         fun bind(item: SearchCompleteResponse) {
