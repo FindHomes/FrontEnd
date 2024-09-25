@@ -42,9 +42,9 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
     private lateinit var binding: FragmentSearchBinding
     private lateinit var naverMap: NaverMap
     private lateinit var rankingAdapter: ResultRankingAdapter
-    private var selectedMarker: Marker? = null
     private var itemPositionMap = mutableMapOf<Int, LatLng>()
     private lateinit var clusterer: Clusterer<ItemKey>
+    private var selectedMarker: Marker? = null
     private lateinit var markerBinding: ItemMarkerViewBinding
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
     private val viewModel: SearchViewModel by activityViewModels()
@@ -97,12 +97,24 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
     private fun updateMapData(searchData: List<SearchCompleteResponse>?) {
         searchData ?: return  // searchData가 null인 경우 함수를 종료
 
-        // 현재 보여줄 최대 인덱스까지의 매물 데이터
         val housesToShow = searchData.take(viewModel.currentMaxIndex)
 
-        // RecyclerView와 마커 업데이트
         rankingAdapter.submitList(housesToShow)
         updateClusterer(housesToShow)
+        updateCameraBounds(housesToShow)
+    }
+
+    private fun updateCameraBounds(housesToShow: List<SearchCompleteResponse>) {
+        if (housesToShow.isEmpty()) return
+
+        val boundsBuilder = LatLngBounds.Builder()
+        housesToShow.forEach {
+            boundsBuilder.include(LatLng(it.y, it.x))
+        }
+        val bounds = boundsBuilder.build()
+
+        val cameraUpdate = CameraUpdate.fitBounds(bounds, 100)
+        naverMap.moveCamera(cameraUpdate)
     }
 
     private fun updateClusterer(housesToShow: List<SearchCompleteResponse>) {
@@ -111,8 +123,9 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
                 override fun updateLeafMarker(info: LeafMarkerInfo, marker: Marker) {
                     super.updateLeafMarker(info, marker)
                     val item = (info.key as ItemKey).searchCompleteResponse
-                    markerBinding.tvPrice.text = item.price.toString()
+                    markerBinding.tvPrice.text = formatPrice(item.price)
                     markerBinding.tvPriceType.text = item.priceType
+                    markerBinding.tvRanking.text = item.ranking.toString()
 
                     itemPositionMap[item.houseId] = marker.position
                     marker.setOnClickListener {
@@ -129,8 +142,19 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
 
         clusterer = builder.build()
         clusterer.map = naverMap
-
         addItemsToClusterer(housesToShow)
+    }
+
+    private fun formatPrice(price: Int): String {
+        return when {
+            price >= 10000 -> {
+                val billions = price / 10000
+                val remainder = price % 10000
+                if (remainder == 0) "${billions}억"
+                else "${billions}억 $remainder"
+            }
+            else -> "$price"
+        }
     }
 
     private fun createBitmapFromView(view: View): Bitmap {
@@ -196,20 +220,5 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
 
     override fun onMapReady(naverMap: NaverMap) {
         this.naverMap = naverMap
-        naverMap.setOnMapClickListener { _, _ ->
-            Log.d("SearchFragment", "Map clicked.")
-            deselectMarkers()
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-            // 모든 마커의 선택 해제
-            Log.d("bottom", bottomSheetBehavior.state.toString())
-        }
-    }
-
-    private fun deselectMarkers() {
-        selectedMarker?.let {
-            it.map = null  // 마커를 지도에서 제거
-            it.map = naverMap  // 다시 마커를 지도에 추가하지만, 선택은 해제된 상태
-        }
-        selectedMarker = null
     }
 }

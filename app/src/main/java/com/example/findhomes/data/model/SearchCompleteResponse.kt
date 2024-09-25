@@ -1,6 +1,7 @@
 package com.example.findhomes.data.model
 
 data class SearchCompleteResponse(
+    val ranking : Int,
     val houseId: Int,
     val url: String,
     val priceType: String,
