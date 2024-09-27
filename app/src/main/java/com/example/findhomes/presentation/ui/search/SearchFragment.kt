@@ -129,9 +129,18 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
 
                     itemPositionMap[item.houseId] = marker.position
                     marker.setOnClickListener {
+                        // 마커 변경 함수 추가
+                        updateSelectedMarker(marker)
                         val position = housesToShow.indexOfFirst { it.houseId == item.houseId }
                         binding.rvResultRanking.scrollToPosition(position)
                         true
+                    }
+
+                    // index = 1 마커 수정
+                    if (marker == selectedMarker) {
+                        markerBinding.clRankingInfo.setBackgroundResource(R.drawable.rectangle_orange_100)
+                    } else {
+                        markerBinding.clRankingInfo.setBackgroundResource(R.drawable.rectangle_green_100)
                     }
 
                     val bitmap = createBitmapFromView(markerBinding.root)
@@ -174,6 +183,19 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
         clusterer.addAll(keyTagMap)
     }
 
+    private fun updateSelectedMarker(newMarker: Marker) {
+        selectedMarker?.let {
+            val bitmap = createBitmapFromView(markerBinding.root.apply {
+                setBackgroundResource(R.drawable.rectangle_green_100)
+            })
+            it.icon = OverlayImage.fromBitmap(bitmap)
+        }
+        selectedMarker = newMarker
+        val bitmap = createBitmapFromView(markerBinding.root.apply {
+            setBackgroundResource(R.drawable.rectangle_orange_100)
+        })
+        selectedMarker?.icon = OverlayImage.fromBitmap(bitmap)
+    }
 
     private fun initMoreButton() {
         binding.btnMore.setOnClickListener {
