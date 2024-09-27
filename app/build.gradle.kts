@@ -99,4 +99,6 @@ dependencies {
 
     // Lottie animation
     implementation("com.airbnb.android:lottie:3.7.0")
+
+    implementation(libs.v2.user) // 카카오 로그인
 }
