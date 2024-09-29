@@ -15,6 +15,9 @@ class LogInActivity : AppCompatActivity() {
         var keyHash = Utility.getKeyHash(this)
         Log.d("keyHash", keyHash.toString())
 
+        // 카카오 로그인 구현
+        // ACTIVITY LAUNCHER로 CALL BACK 구현 예정
+
         setContentView(binding.root)
     }
 }
