@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -5,12 +7,20 @@ plugins {
     kotlin("kapt")
 }
 
+val properties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+properties.load(localPropertiesFile.inputStream())
+
 android {
     namespace = "com.example.findhomes"
     compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.findhomes"
+
+        // 카카오 로그인
+        buildConfigField("String", "KAKAO_NATIVE_APP_KEY", "\"${properties["kakao_native_app_key"].toString()}\"")
+
         minSdk = 24
         targetSdk = 34
         versionCode = 1

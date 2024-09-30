@@ -1,6 +1,7 @@
 package com.example.findhomes.data.remote
 
 import com.example.findhomes.data.di.BaseResponse
+import com.example.findhomes.data.model.LogInResponse
 import com.example.findhomes.data.model.ManConRequest
 import com.example.findhomes.data.model.SearchChatRequest
 import com.example.findhomes.data.model.SearchChatResponse
