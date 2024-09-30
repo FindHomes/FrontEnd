@@ -95,6 +95,7 @@ class ContractSelectActivity : AppCompatActivity() {
 
         btnMonthly.isSelected = true
         btnMonthly.setTextColor(resources.getColorStateList(R.color.button_selector_text_color,null))
+        initPriceTypes(btnMonthly)
 
         listOf(btnMonthly, btnCharter, btnTrading).forEach { button ->
             button.setOnClickListener {
@@ -102,8 +103,10 @@ class ContractSelectActivity : AppCompatActivity() {
                 toggleButton(button)
                 if (!warningSelected(listOf(btnMonthly, btnCharter, btnTrading))) {
                     button.isSelected = previous
+                } else {
+                    initPriceTypes(button)
+
                 }
-                initPriceTypes(button)
             }
         }
     }
@@ -224,10 +227,15 @@ class ContractSelectActivity : AppCompatActivity() {
             Triple(binding.sbTrading, "매매", binding.tvMaxTrading)
         )
 
-        config.forEach { (seekBar, type, price) ->
+        config.forEach { (seekBar, type, textView) ->
+            val maxProgress = seekBar.max
+            seekBar.progress = maxProgress  // 초기 진행 상태를 최대로 설정
+            textView.text = DataProvider.getSbData(type, maxProgress)  // 최대값 표시
+            updatePriceTypes(type, maxProgress)  // 초기 가격 유형을 최대값으로 업데이트
+
             seekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                    price.text = DataProvider.getSbData(type, progress)
+                    textView.text = DataProvider.getSbData(type, progress)
                     updatePriceTypes(type, progress)
                 }
                 override fun onStartTrackingTouch(seekBar: SeekBar?) {}
