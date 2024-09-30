@@ -25,11 +25,13 @@ class LogInActivity : AppCompatActivity() {
         binding.viewModel = viewModel
 
         // 카카오 로그인 구현
-        // ACTIVITY LAUNCHER로 CALL BACK 구현 예정
         binding.logInClKakao.setOnClickListener {
             UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
                 if(error != null){
                     Log.e("카카오 로그인", "카카오 로그인 실패 : ${error.message}")
+                    if (error.toString().contains("KakaoTalk not installed")){
+                        loginWithWeb()
+                    }
                 } else if(token!= null){
                     val kakaoAccessToken = token.accessToken
                     requestKakaoUserInfo()
@@ -43,6 +45,22 @@ class LogInActivity : AppCompatActivity() {
         }
 
         setContentView(binding.root)
+    }
+
+    private fun loginWithWeb() {
+        UserApiClient.instance.loginWithKakaoAccount(this) { token, error ->
+            if (error != null) {
+                // 웹 브라우저를 통한 로그인 실패
+                Log.e("카카오 로그인", "웹을 통한 로그인 실패: ${error.message}")
+            } else if (token != null) {
+                // 웹 브라우저를 통한 로그인 성공
+                val kakaoAccessToken = token.accessToken
+                Log.d("카카오 로그인", "웹을 통한 로그인 성공")
+                Log.d("카카오 토큰", kakaoAccessToken)
+                requestKakaoUserInfo()
+                initLogin()
+            }
+        }
     }
 
     private fun initLogin() {
