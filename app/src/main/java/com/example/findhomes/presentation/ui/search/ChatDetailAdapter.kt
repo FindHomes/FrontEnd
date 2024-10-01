@@ -1,6 +1,7 @@
 package com.example.findhomes.presentation.ui.search
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.findhomes.databinding.ItemChatSendBinding
@@ -41,6 +42,16 @@ class ChatDetailAdapter(private var messages: MutableList<ChatData>) : RecyclerV
     inner class ReceiveViewHolder(val binding: ItemChatReceiveBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ChatData) {
             binding.tvChatMessage.text = item.message
+            if (item.isLoading) {
+                binding.laChatLoading.visibility = View.VISIBLE
+                binding.laChatLoading.playAnimation()
+                binding.tvChatMessage.visibility = View.GONE
+            } else {
+                binding.laChatLoading.visibility = View.GONE
+                binding.laChatLoading.pauseAnimation()
+                binding.tvChatMessage.visibility = View.VISIBLE
+                binding.tvChatMessage.text = item.message
+            }
         }
     }
 

@@ -23,15 +23,16 @@
         android:layout_height="wrap_content"
         android:text="여기에 메시지 쓰임"/>
 
-<!--    <com.airbnb.lottie.LottieAnimationView-->
-<!--        android:id="@+id/la_chat_loading"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="0dp"-->
-<!--        app:lottie_autoPlay="true"-->
-<!--        app:lottie_loop="true"-->
-<!--        app:layout_constraintTop_toTopOf="@id/tv_chat_message"-->
-<!--        app:layout_constraintBottom_toBottomOf="@id/tv_chat_message"-->
-<!--        app:layout_constraintStart_toStartOf="@id/tv_chat_message"-->
-<!--        app:lottie_rawRes="@raw/waitingchatnew"/>-->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/la_chat_loading"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:foregroundGravity="left"
+        app:layout_constraintTop_toTopOf="@id/tv_chat_message"
+        app:layout_constraintBottom_toBottomOf="@id/tv_chat_message"
+        app:layout_constraintStart_toStartOf="@id/tv_chat_message"
+        app:lottie_rawRes="@raw/waitingchatnew"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
