@@ -118,6 +118,13 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun updateClusterer(housesToShow: List<SearchCompleteResponse>) {
+        // 클러스터러 초기화 전 클러스터러가 올바르게 설정되었는지 확인
+        if (!::clusterer.isInitialized) {
+            Log.d("clusterer","clusterer error")
+        } else {
+            clusterer.clear()  // 이전 데이터 클리어
+        }
+
         val builder = Clusterer.ComplexBuilder<ItemKey>().apply {
             leafMarkerUpdater(object : DefaultLeafMarkerUpdater() {
                 override fun updateLeafMarker(info: LeafMarkerInfo, marker: Marker) {
@@ -151,9 +158,9 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
                 val billions = price / 10000
                 val remainder = price % 10000
                 if (remainder == 0) "${billions}억"
-                else "${billions}억 $remainder"
+                else "${billions}억 ${remainder}만원"
             }
-            else -> "$price"
+            else -> "${price}만원"
         }
     }
 
@@ -195,6 +202,7 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
                     if (position != RecyclerView.NO_POSITION) {
                         val item = rankingAdapter.getItemAtPosition(position)
                         itemPositionMap[item.houseId]?.let {
+                            Log.d("item", it.toString())
                             naverMap.moveCamera(CameraUpdate.scrollTo(it))
                         }
                     }
