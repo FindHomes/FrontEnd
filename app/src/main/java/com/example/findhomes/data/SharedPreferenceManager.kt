@@ -6,7 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 fun saveAccessToken(context: Context, token: String) {
     val preferences = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
     val editor = preferences.edit()
-    editor.putString("access_token", "Bearer "+"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhMjgwMmI0MS04YjAwLTQzZGYtYWQ3My1lYmMwZWQ0NjNkNzIiLCJpYXQiOjE3MjYwNDM2NTgsImV4cCI6MTcyNjA0NzI1OH0.tVZyMNwPHgYTVZ0tST5Rk5Li1wl4MJvZErPWdB9DO8Y")
+//    editor.putString("access_token", "Bearer "+"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhMjgwMmI0MS04YjAwLTQzZGYtYWQ3My1lYmMwZWQ0NjNkNzIiLCJpYXQiOjE3MjYwNDM2NTgsImV4cCI6MTcyNjA0NzI1OH0.tVZyMNwPHgYTVZ0tST5Rk5Li1wl4MJvZErPWdB9DO8Y")
+    editor.putString("access_token", "Bearer $token")
     editor.apply()
 }
 
@@ -19,6 +20,6 @@ fun saveId(context: Context, userId: String) {
 
 fun getAccessToken(context: Context): String? {
     val preferences = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-//    return preferences.getString("access_token", null)
-    return "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhMjgwMmI0MS04YjAwLTQzZGYtYWQ3My1lYmMwZWQ0NjNkNzIiLCJpYXQiOjE3MjYwNDM2NTgsImV4cCI6MTcyNjA0NzI1OH0.tVZyMNwPHgYTVZ0tST5Rk5Li1wl4MJvZErPWdB9DO8Y"
+    return preferences.getString("access_token", null)
+//    return "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhMjgwMmI0MS04YjAwLTQzZGYtYWQ3My1lYmMwZWQ0NjNkNzIiLCJpYXQiOjE3MjYwNDM2NTgsImV4cCI6MTcyNjA0NzI1OH0.tVZyMNwPHgYTVZ0tST5Rk5Li1wl4MJvZErPWdB9DO8Y"
 }

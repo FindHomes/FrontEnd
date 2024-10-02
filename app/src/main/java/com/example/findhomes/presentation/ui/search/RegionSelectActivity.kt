@@ -19,6 +19,12 @@ class RegionSelectActivity : AppCompatActivity() {
     private lateinit var countyAdapter: RegionCountyAdapter
     private var selectedCity: City? = null // 현재 선택된 도시 정보를 저장
 
+    private val cityNameMapping = mapOf(
+        "서울" to "서울특별시",
+        "부산" to "부산광역시",
+        "경기" to "경기도"
+    )
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +46,9 @@ class RegionSelectActivity : AppCompatActivity() {
 
     private fun initNext(manConRequest: ManConRequest) {
         binding.btnNext.setOnClickListener {
-            val city = selectedCity?.name ?: ""
+            val city = selectedCity?.name?.let { cityName ->
+                cityNameMapping[cityName] ?: cityName // Map에서 찾고, 없으면 기본 이름 사용
+            } ?: ""
             val district =
                 if (countyAdapter.selectedPosition != RecyclerView.NO_POSITION) {
                     countyAdapter.counties[countyAdapter.selectedPosition].name

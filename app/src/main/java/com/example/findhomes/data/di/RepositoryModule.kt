@@ -1,6 +1,8 @@
 package com.example.findhomes.data.di
 
+import com.example.findhomes.data.repository.LogInRepositoryImpl
 import com.example.findhomes.data.repository.SearchRepositoryImpl
+import com.example.findhomes.domain.repository.LogInRepository
 import com.example.findhomes.domain.repository.SearchRepository
 import dagger.Binds
 import dagger.Module
@@ -17,4 +19,10 @@ abstract class RepositoryModule {
     abstract fun bindSearchRepository(
         searchRepository: SearchRepositoryImpl
     ): SearchRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindLogInRepository(
+        logInRepositoryImpl: LogInRepositoryImpl
+    ) : LogInRepository
 }

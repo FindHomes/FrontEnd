@@ -80,7 +80,7 @@ class SearchViewModel @Inject constructor(
     fun postChatData(userInput : String) {
         viewModelScope.launch {
             val response = postChatDataUseCase(SearchChatRequest(userInput))
-            _chatData.postValue(ChatData(response?.chatResponse, true))
+            _chatData.postValue(ChatData(response?.chatResponse, true, isLoading = false))
         }
     }
 
