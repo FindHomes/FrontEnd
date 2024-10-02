@@ -17,6 +17,9 @@
         android:theme="@style/Theme.FindHomes"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.ui.login.LogInActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
@@ -30,7 +33,7 @@
             android:name=".presentation.ui.search.ContractSelectActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.ui.login.LogInActivity"
+            android:name=".presentation.ui.login.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,26 +41,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+        <activity
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <data android:host="oauth"
-                    android:scheme="kakao7b27b50e823492b1022bb9a5f0e1eeeb"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="oauth"
+                    android:scheme="kakao7b27b50e823492b1022bb9a5f0e1eeeb" />
             </intent-filter>
         </activity>
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="qzye8q2lmc" />
-
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="7b27b50e823492b1022bb9a5f0e1eeeb"/>
-
+            android:value="7b27b50e823492b1022bb9a5f0e1eeeb" />
     </application>
 
 </manifest>
