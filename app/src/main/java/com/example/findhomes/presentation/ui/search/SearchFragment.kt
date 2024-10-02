@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -134,15 +135,29 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
                     markerBinding.tvPriceType.text = item.priceType
                     markerBinding.tvRanking.text = item.ranking.toString()
 
-                    itemPositionMap[item.houseId] = marker.position
-                    marker.setOnClickListener {
-                        val position = housesToShow.indexOfFirst { it.houseId == item.houseId }
-                        binding.rvResultRanking.scrollToPosition(position)
-                        true
-                    }
+                    itemPositionMap[item.houseId] = LatLng(item.y, item.x)
+                    marker.tag = ItemKey(item, marker.position)
 
                     val bitmap = createBitmapFromView(markerBinding.root)
                     marker.icon = OverlayImage.fromBitmap(bitmap)
+
+                    if (item.price == 1 && selectedMarker == null) {
+                        // 특정 조건에 따라 초기 선택된 마커 설정
+                        updateMarkerAppearance(marker, true, item)
+                        selectedMarker = marker
+                    } else {
+                        marker.setOnClickListener {
+                            // 클릭된 마커의 정보와 선택 상태를 업데이트
+                            updateMarkerAppearance(marker, true, item)
+                            if (selectedMarker != null && selectedMarker != marker) {
+                                updateMarkerAppearance(selectedMarker!!, false, (selectedMarker!!.tag as ItemKey).searchCompleteResponse)
+                            }
+                            selectedMarker = marker
+                            val position = housesToShow.indexOfFirst { it.houseId == item.houseId }
+                            binding.rvResultRanking.scrollToPosition(position)
+                            true
+                        }
+                    }
                 }
             })
         }
@@ -150,6 +165,23 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
         clusterer = builder.build()
         clusterer.map = naverMap
         addItemsToClusterer(housesToShow)
+    }
+
+    private fun updateMarkerAppearance(marker: Marker, isSelected: Boolean, item: SearchCompleteResponse) {
+        // 마커 뷰 설정
+        markerBinding.tvPrice.text = formatPrice(item.price)
+        markerBinding.tvPriceType.text = item.priceType
+        markerBinding.tvRanking.text = item.ranking.toString()
+
+        // 배경색과 텍스트 색상 변경
+        markerBinding.clRankingInfo.isSelected = isSelected
+        markerBinding.cvRanking.isSelected = isSelected
+        markerBinding.tvPriceType.isSelected = isSelected
+        markerBinding.tvPriceCenter.isSelected = isSelected
+        markerBinding.tvPrice.isSelected = isSelected
+
+        val bitmap = createBitmapFromView(markerBinding.root)
+        marker.icon = OverlayImage.fromBitmap(bitmap)
     }
 
     private fun formatPrice(price: Int): String {
@@ -199,11 +231,12 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     val position = (recyclerView.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+                    Log.d("position", position.toString())
                     if (position != RecyclerView.NO_POSITION) {
                         val item = rankingAdapter.getItemAtPosition(position)
                         itemPositionMap[item.houseId]?.let {
-                            Log.d("item", it.toString())
                             naverMap.moveCamera(CameraUpdate.scrollTo(it))
+                            Log.d("positionLatLng", it.toString())
                         }
                     }
                 }
