@@ -99,6 +99,9 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
         searchData ?: return  // searchData가 null인 경우 함수를 종료
 
         val housesToShow = searchData.take(viewModel.currentMaxIndex)
+        housesToShow.forEach {
+            itemPositionMap[it.houseId] = LatLng(it.y, it.x)
+        }
 
         rankingAdapter.submitList(housesToShow)
         updateClusterer(housesToShow)
@@ -135,7 +138,6 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
                     markerBinding.tvPriceType.text = item.priceType
                     markerBinding.tvRanking.text = item.ranking.toString()
 
-                    itemPositionMap[item.houseId] = LatLng(item.y, item.x)
                     marker.tag = ItemKey(item, marker.position)
 
                     val bitmap = createBitmapFromView(markerBinding.root)
