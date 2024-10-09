@@ -38,7 +38,7 @@ class LogInActivity : AppCompatActivity() {
                     Log.d("카카오 로그인", "카카오 로그인 성공")
                     Log.d("카카오 토큰", kakaoAccessToken)
                     requestKakaoUserInfo()
-                    initLogin()
+                    initLogin(kakaoAccessToken)
                 }
 
             }
@@ -58,12 +58,13 @@ class LogInActivity : AppCompatActivity() {
                 Log.d("카카오 로그인", "웹을 통한 로그인 성공")
                 Log.d("카카오 토큰", kakaoAccessToken)
                 requestKakaoUserInfo()
-                initLogin()
+                initLogin(kakaoAccessToken)
             }
         }
     }
 
-    private fun initLogin() {
+    private fun initLogin(kakaoToken : String) {
+        viewModel.loadLogInData(kakaoToken)
         viewModel.logInData.observe(this){ token ->
             saveAccessToken(this, token!!.token)
         }

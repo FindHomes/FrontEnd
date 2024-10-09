@@ -11,9 +11,9 @@ import javax.inject.Inject
 class LogInRepositoryImpl @Inject constructor(
     private val logInApi: LogInApi
 ) : LogInRepository {
-    override suspend fun getLogInData(code : String): LogInResponse? {
+    override suspend fun getLogInData(accessToken : String): LogInResponse? {
         return try {
-            val response = logInApi.logIn(code)
+            val response = logInApi.logIn(accessToken)
             if (response.success) {
                 response.result
             } else {

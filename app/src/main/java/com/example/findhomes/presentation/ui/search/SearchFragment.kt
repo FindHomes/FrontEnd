@@ -105,10 +105,10 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
 
         rankingAdapter.submitList(housesToShow)
         updateClusterer(housesToShow)
-        updateCameraBounds(housesToShow)
+        initCameraBounds(housesToShow)
     }
 
-    private fun updateCameraBounds(housesToShow: List<SearchCompleteResponse>) {
+    private fun initCameraBounds(housesToShow: List<SearchCompleteResponse>) {
         if (housesToShow.isEmpty()) return
 
         val boundsBuilder = LatLngBounds.Builder()
@@ -139,11 +139,10 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
                     markerBinding.tvRanking.text = item.ranking.toString()
 
                     marker.tag = ItemKey(item, marker.position)
-
                     val bitmap = createBitmapFromView(markerBinding.root)
                     marker.icon = OverlayImage.fromBitmap(bitmap)
 
-                    if (item.price == 1 && selectedMarker == null) {
+                    if (item.ranking == 1 && selectedMarker == null) {
                         // 특정 조건에 따라 초기 선택된 마커 설정
                         updateMarkerAppearance(marker, true, item)
                         selectedMarker = marker
