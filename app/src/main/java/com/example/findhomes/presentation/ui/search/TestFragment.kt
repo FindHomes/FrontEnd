@@ -1,5 +1,6 @@
 package com.example.findhomes.presentation.ui.search
 
+import android.content.ClipData
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
@@ -9,11 +10,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.RecyclerView
+import com.example.findhomes.R
 import com.example.findhomes.data.model.SearchCompleteResponse
 import com.example.findhomes.databinding.FragmentSearchBinding
 import com.example.findhomes.databinding.ItemMarkerViewBinding
+import com.example.findhomes.databinding.ItemSelectedMarkerViewBinding
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.geometry.LatLngBounds
+import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
@@ -26,15 +34,21 @@ import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.MarkerIcons
 import dagger.hilt.android.AndroidEntryPoint
+import retrofit2.http.Tag
 
 @AndroidEntryPoint
 class TestFragment : Fragment(), OnMapReadyCallback {
     private lateinit var binding: FragmentSearchBinding
     private lateinit var naverMap: NaverMap
     private var itemPositionMap = mutableMapOf<Int, LatLng>()
+    private var aloneMarkerMap = mutableMapOf<Int, Marker>()
     private lateinit var clusterer: Clusterer<ItemKey>
     private var selectedMarker: Marker? = null
+    private var selectedAloneMarker: Marker? = null
+    private lateinit var aloneMarkerBinding: ItemSelectedMarkerViewBinding
     private lateinit var markerBinding: ItemMarkerViewBinding
+    private lateinit var rankingAdapter: ResultRankingAdapter
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
     private val viewModel: SearchViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -48,15 +62,32 @@ class TestFragment : Fragment(), OnMapReadyCallback {
         binding.mvRanking.onCreate(savedInstanceState)
         binding.mvRanking.getMapAsync(this)
 
+        // BottomSheet 설정
+        val bottomSheet = binding.rvResultRanking
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+
         observeViewModel()
+        initRecyclerView()
         initMoreButton()
+        initDetailButton()
 
         return binding.root
+    }
+
+    private fun initDetailButton() {
+        binding.btnDetailShow.setOnClickListener {
+            selectedAloneMarker?.let { marker ->
+                val cameraPosition = CameraPosition(marker.position, 16.0, 90.0, 0.0)
+                naverMap.moveCamera(CameraUpdate.toCameraPosition(cameraPosition))
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         markerBinding = ItemMarkerViewBinding.inflate(layoutInflater)
+        aloneMarkerBinding = ItemSelectedMarkerViewBinding.inflate(layoutInflater)
     }
 
     private fun observeViewModel() {
@@ -80,10 +111,15 @@ class TestFragment : Fragment(), OnMapReadyCallback {
         searchData ?: return  // searchData가 null인 경우 함수를 종료
 
         val housesToShow = searchData.take(viewModel.currentMaxIndex)
+        housesToShow.forEach {
+            itemPositionMap[it.ranking] = LatLng(it.y, it.x)
+        }
 
+        rankingAdapter.submitList(housesToShow)
         updateClusterer(housesToShow)
         updateCameraBounds(housesToShow)
     }
+
 
     private fun updateCameraBounds(housesToShow: List<SearchCompleteResponse>) {
         if (housesToShow.isEmpty()) return
@@ -106,32 +142,24 @@ class TestFragment : Fragment(), OnMapReadyCallback {
             clusterer.clear()  // 이전 데이터 클리어
         }
 
+        housesToShow.forEach { item ->
+            createAloneMarker(item)
+        }
+
         val builder = Clusterer.ComplexBuilder<ItemKey>().apply {
             leafMarkerUpdater(object : DefaultLeafMarkerUpdater() {
                 override fun updateLeafMarker(info: LeafMarkerInfo, marker: Marker) {
                     super.updateLeafMarker(info, marker)
                     val item = (info.key as ItemKey).searchCompleteResponse
-                    markerBinding.tvPrice.text = formatPrice(item.price)
-                    markerBinding.tvPriceType.text = item.priceType
-                    markerBinding.tvRanking.text = item.ranking.toString()
 
-                    itemPositionMap[item.houseId] = LatLng(item.y, item.x)
-                    marker.tag = ItemKey(item, marker.position)
-
-                    val bitmap = createBitmapFromView(markerBinding.root)
-                    marker.icon = OverlayImage.fromBitmap(bitmap)
-
+                    createMarker(item, marker)
                     marker.setOnClickListener {
-                        // 클릭된 마커의 정보와 선택 상태를 업데이트
-                        updateMarkerAppearance(marker, true, item)
-                        if (selectedMarker != null && selectedMarker != marker) {
-                            updateMarkerAppearance(selectedMarker!!, false, (selectedMarker!!.tag as ItemKey).searchCompleteResponse)
-                        }
-                        selectedMarker = marker
+                        selectItem(item)
                         true
-                    }
 
+                    }
                 }
+
             })
         }
 
@@ -140,21 +168,48 @@ class TestFragment : Fragment(), OnMapReadyCallback {
         addItemsToClusterer(housesToShow)
     }
 
-    private fun updateMarkerAppearance(marker: Marker, isSelected: Boolean, item: SearchCompleteResponse) {
-        // 마커 뷰 설정
+    private fun selectItem(item: SearchCompleteResponse) {
+        // 마커 가시성 조정
+        selectedMarker?.isVisible = false
+        selectedAloneMarker?.isVisible = false
+
+        selectedAloneMarker = aloneMarkerMap[item.ranking]?.apply {
+            isVisible = true
+            map = naverMap
+        }
+
+        // RecyclerView 스크롤
+        val position = rankingAdapter.currentList.indexOfFirst { it.ranking == item.ranking }
+        if (position != RecyclerView.NO_POSITION) {
+            binding.rvResultRanking.scrollToPosition(position)
+        }
+    }
+
+    private fun createMarker(item: SearchCompleteResponse, marker: Marker) {
         markerBinding.tvPrice.text = formatPrice(item.price)
         markerBinding.tvPriceType.text = item.priceType
         markerBinding.tvRanking.text = item.ranking.toString()
 
-        // 배경색과 텍스트 색상 변경
-        markerBinding.clRankingInfo.isSelected = isSelected
-        markerBinding.cvRanking.isSelected = isSelected
-        markerBinding.tvPriceType.isSelected = isSelected
-        markerBinding.tvPriceCenter.isSelected = isSelected
-        markerBinding.tvPrice.isSelected = isSelected
+        marker.tag = ItemKey(item, marker.position)
 
         val bitmap = createBitmapFromView(markerBinding.root)
         marker.icon = OverlayImage.fromBitmap(bitmap)
+    }
+
+    private fun createAloneMarker(item: SearchCompleteResponse) {
+        aloneMarkerBinding.tvPrice.text = formatPrice(item.price)
+        aloneMarkerBinding.tvPriceType.text = item.priceType
+        aloneMarkerBinding.tvRanking.text = item.ranking.toString()
+
+        val marker = Marker().apply {
+            zIndex = 100
+            position = LatLng(item.y, item.x)
+            icon = OverlayImage.fromBitmap(createBitmapFromView(aloneMarkerBinding.root))
+            isVisible = false
+            map = naverMap
+        }
+
+        aloneMarkerMap[item.ranking] = marker
     }
 
     private fun formatPrice(price: Int): String {
@@ -184,6 +239,43 @@ class TestFragment : Fragment(), OnMapReadyCallback {
         }.toMap()
 
         clusterer.addAll(keyTagMap)
+    }
+
+    private fun initRecyclerView() {
+        rankingAdapter = ResultRankingAdapter(requireContext())
+        binding.rvResultRanking.adapter = rankingAdapter
+        binding.rvResultRanking.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        val snapHelper = PagerSnapHelper()
+        snapHelper.attachToRecyclerView(binding.rvResultRanking)
+
+        binding.rvResultRanking.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    val position = (recyclerView.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+                    Log.d("position", position.toString())
+                    if (position != RecyclerView.NO_POSITION) {
+                        val item = rankingAdapter.getItemAtPosition(position)
+                        naverMap.moveCamera(CameraUpdate.scrollTo(LatLng(item.y, item.x)))
+                        selectItem(item)
+                    }
+                }
+            }
+        })
+
+        rankingAdapter.setOnItemClickListener(object : ResultRankingAdapter.OnItemClickListener{
+            override fun onItemClicked(data: SearchCompleteResponse) {
+                val bundle = Bundle()
+                bundle.putInt("houseId", data.houseId)
+
+                val nextFragment = SearchDetailFragment()
+                nextFragment.arguments = bundle
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.main_frm, nextFragment)
+                    .addToBackStack(null)
+                    .commit()
+            }
+        })
     }
 
     private fun initMoreButton() {
