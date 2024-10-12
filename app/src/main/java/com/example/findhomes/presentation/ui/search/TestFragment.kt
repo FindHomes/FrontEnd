@@ -1,28 +1,17 @@
 package com.example.findhomes.presentation.ui.search
 
-import android.annotation.SuppressLint
-import android.content.ClipData.Item
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.os.IResultReceiver.Default
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.PagerSnapHelper
-import androidx.recyclerview.widget.RecyclerView
-import com.example.findhomes.R
 import com.example.findhomes.data.model.SearchCompleteResponse
 import com.example.findhomes.databinding.FragmentSearchBinding
 import com.example.findhomes.databinding.ItemMarkerViewBinding
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.geometry.LatLngBounds
 import com.naver.maps.map.CameraUpdate
@@ -39,15 +28,13 @@ import com.naver.maps.map.util.MarkerIcons
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SearchFragment : Fragment(), OnMapReadyCallback {
+class TestFragment : Fragment(), OnMapReadyCallback {
     private lateinit var binding: FragmentSearchBinding
     private lateinit var naverMap: NaverMap
-    private lateinit var rankingAdapter: ResultRankingAdapter
     private var itemPositionMap = mutableMapOf<Int, LatLng>()
     private lateinit var clusterer: Clusterer<ItemKey>
     private var selectedMarker: Marker? = null
     private lateinit var markerBinding: ItemMarkerViewBinding
-    private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
     private val viewModel: SearchViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -61,13 +48,7 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
         binding.mvRanking.onCreate(savedInstanceState)
         binding.mvRanking.getMapAsync(this)
 
-        // BottomSheet 설정
-        val bottomSheet = binding.rvResultRanking
-        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-
         observeViewModel()
-        initRecyclerView()
         initMoreButton()
 
         return binding.root
@@ -100,7 +81,6 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
 
         val housesToShow = searchData.take(viewModel.currentMaxIndex)
 
-        rankingAdapter.submitList(housesToShow)
         updateClusterer(housesToShow)
         updateCameraBounds(housesToShow)
     }
@@ -148,8 +128,6 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
                             updateMarkerAppearance(selectedMarker!!, false, (selectedMarker!!.tag as ItemKey).searchCompleteResponse)
                         }
                         selectedMarker = marker
-                        val position = housesToShow.indexOfFirst { it.houseId == item.houseId }
-                        binding.rvResultRanking.scrollToPosition(position)
                         true
                     }
 
@@ -212,44 +190,6 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
         binding.btnMore.setOnClickListener {
             viewModel.loadMoreData()
         }
-    }
-
-    private fun initRecyclerView() {
-        rankingAdapter = ResultRankingAdapter(requireContext())
-        binding.rvResultRanking.adapter = rankingAdapter
-        binding.rvResultRanking.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        val snapHelper = PagerSnapHelper()
-        snapHelper.attachToRecyclerView(binding.rvResultRanking)
-
-        binding.rvResultRanking.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    val position = (recyclerView.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
-                    Log.d("position", position.toString())
-                    if (position != RecyclerView.NO_POSITION) {
-                        val item = rankingAdapter.getItemAtPosition(position)
-                        itemPositionMap[item.houseId]?.let {
-                            naverMap.moveCamera(CameraUpdate.scrollTo(it))
-                        }
-                    }
-                }
-            }
-        })
-
-        rankingAdapter.setOnItemClickListener(object : ResultRankingAdapter.OnItemClickListener{
-            override fun onItemClicked(data: SearchCompleteResponse) {
-                val bundle = Bundle()
-                bundle.putInt("houseId", data.houseId)
-
-                val nextFragment = SearchDetailFragment()
-                nextFragment.arguments = bundle
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.main_frm, nextFragment)
-                    .addToBackStack(null)
-                    .commit()
-            }
-        })
     }
 
     override fun onMapReady(naverMap: NaverMap) {
