@@ -18,10 +18,11 @@ class LogInViewModel @Inject constructor(
     private val _logInData = MutableLiveData<LogInResponse?>()
     val logInData: LiveData<LogInResponse?> = _logInData
 
-    fun loadLogInData(code : String){
+    fun loadLogInData(accessToken : String){
         viewModelScope.launch {
             try {
-                _logInData.value = getLogInDataUseCase(code)
+                val tokenData = getLogInDataUseCase(accessToken)
+                _logInData.value = tokenData
 
             } catch (e : Exception){
                 Log.e("LogInViewModel", "loadLogInData 오류", e)

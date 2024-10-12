@@ -99,6 +99,9 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
         searchData ?: return  // searchData가 null인 경우 함수를 종료
 
         val housesToShow = searchData.take(viewModel.currentMaxIndex)
+        housesToShow.forEach {
+            itemPositionMap[it.houseId] = LatLng(it.y, it.x)
+        }
 
         rankingAdapter.submitList(housesToShow)
         updateClusterer(housesToShow)
@@ -141,18 +144,23 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
                     val bitmap = createBitmapFromView(markerBinding.root)
                     marker.icon = OverlayImage.fromBitmap(bitmap)
 
-                    marker.setOnClickListener {
-                        // 클릭된 마커의 정보와 선택 상태를 업데이트
+                    if (item.ranking == 1 && selectedMarker == null) {
+                        // 특정 조건에 따라 초기 선택된 마커 설정
                         updateMarkerAppearance(marker, true, item)
-                        if (selectedMarker != null && selectedMarker != marker) {
-                            updateMarkerAppearance(selectedMarker!!, false, (selectedMarker!!.tag as ItemKey).searchCompleteResponse)
-                        }
                         selectedMarker = marker
-                        val position = housesToShow.indexOfFirst { it.houseId == item.houseId }
-                        binding.rvResultRanking.scrollToPosition(position)
-                        true
+                    } else {
+                        marker.setOnClickListener {
+                            // 클릭된 마커의 정보와 선택 상태를 업데이트
+                            updateMarkerAppearance(marker, true, item)
+                            if (selectedMarker != null && selectedMarker != marker) {
+                                updateMarkerAppearance(selectedMarker!!, false, (selectedMarker!!.tag as ItemKey).searchCompleteResponse)
+                            }
+                            selectedMarker = marker
+                            val position = housesToShow.indexOfFirst { it.houseId == item.houseId }
+                            binding.rvResultRanking.scrollToPosition(position)
+                            true
+                        }
                     }
-
                 }
             })
         }
@@ -231,6 +239,7 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
                         val item = rankingAdapter.getItemAtPosition(position)
                         itemPositionMap[item.houseId]?.let {
                             naverMap.moveCamera(CameraUpdate.scrollTo(it))
+                            Log.d("positionLatLng", it.toString())
                         }
                     }
                 }

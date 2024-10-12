@@ -8,6 +8,6 @@ import retrofit2.http.Query
 interface LogInApi {
     @GET("api/oauth/kakao")
     suspend fun logIn(
-        @Query("code") code : String
+        @Query("accessToken") accessToken : String
     ) : BaseResponse<LogInResponse?>
 }

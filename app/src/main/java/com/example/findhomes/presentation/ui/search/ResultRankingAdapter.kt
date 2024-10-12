@@ -36,8 +36,12 @@ class ResultRankingAdapter(private val context: Context) : ListAdapter<SearchCom
                 .load(item.imgUrl[0])
                 .into(binding.ivRanking)
             binding.tvRanking.text = (absoluteAdapterPosition + 1).toString()
-            binding.tvRankingPrice.text = "${item.price}만원"
             binding.tvRankingPriceType.text = item.priceType
+            binding.tvRankingPrice.text =
+                when(item.priceType){
+                    "월세" -> "${item.priceForWs}만원"
+                    else -> formatPrice(item.price)
+                }
             binding.tvRankingDetail1.text = "방 " + item.roomNum + "개"
             binding.tvRankingDetail2.text = "욕실 " + item.washroomNum + "개"
             binding.tvRankingDetail3.text = item.size.toString() + "m"
@@ -46,6 +50,18 @@ class ResultRankingAdapter(private val context: Context) : ListAdapter<SearchCom
             binding.clRankingItem.setOnClickListener {
                 itemClickListener.onItemClicked(item)
             }
+        }
+    }
+
+    private fun formatPrice(price: Int): String {
+        return when {
+            price >= 10000 -> {
+                val billions = price / 10000
+                val remainder = price % 10000
+                if (remainder == 0) "${billions}억"
+                else "${billions}억 ${remainder}만원"
+            }
+            else -> "${price}만원"
         }
     }
 

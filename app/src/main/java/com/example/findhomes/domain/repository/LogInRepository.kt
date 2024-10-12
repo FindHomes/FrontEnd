@@ -6,6 +6,6 @@ import com.example.findhomes.data.model.SearchCompleteResponse
 
 interface LogInRepository {
     suspend fun getLogInData(
-        code : String
+        accessToken : String
     ): LogInResponse?
 }
