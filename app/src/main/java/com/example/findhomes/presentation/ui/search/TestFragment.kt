@@ -72,6 +72,9 @@ class TestFragment : Fragment(), OnMapReadyCallback {
         initMoreButton()
         initDetailButton()
 
+        showLoadingAnimation(true) // 애니메이션 시작
+
+
         return binding.root
     }
 
@@ -92,6 +95,7 @@ class TestFragment : Fragment(), OnMapReadyCallback {
 
     private fun observeViewModel() {
         viewModel.searchData.observe(viewLifecycleOwner) { searchData ->
+            showLoadingAnimation(false)
             if (!::naverMap.isInitialized) {
                 binding.mvRanking.getMapAsync {
                     naverMap = it
@@ -105,6 +109,11 @@ class TestFragment : Fragment(), OnMapReadyCallback {
         viewModel.canLoadMore.observe(viewLifecycleOwner) { canLoad ->
             binding.btnMore.isEnabled = canLoad
         }
+    }
+
+    private fun showLoadingAnimation(show: Boolean) {
+        binding.searchLa.visibility = if (show) View.VISIBLE else View.GONE
+        binding.searchClMain.visibility = if (show) View.GONE else View.VISIBLE
     }
 
     private fun updateMapData(searchData: List<SearchCompleteResponse>?) {

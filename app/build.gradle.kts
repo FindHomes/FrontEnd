@@ -108,7 +108,7 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.5.0")
 
     // Lottie animation
-    implementation("com.airbnb.android:lottie:3.7.0")
+    implementation("com.airbnb.android:lottie:6.5.2")
 
     implementation(libs.v2.user) // 카카오 로그인
 }
