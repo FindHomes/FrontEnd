@@ -24,16 +24,30 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_contract_top_bar"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="@id/gl_start"
         app:layout_constraintEnd_toEndOf="@id/gl_end"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHeight_percent="0.07">
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_top_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.04"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_top_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.96"/>
+
         <ImageView
             android:id="@+id/iv_btn_back"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/gl_top_start"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:src="@drawable/ic_btn_back"
@@ -52,6 +66,24 @@
             android:fontFamily="@font/pretendard_semibold"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    
+    <View
+        android:id="@+id/contract_view_title"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        app:layout_constraintTop_toBottomOf="@id/cl_contract_top_bar"
+        android:background="@color/body_4"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/gl_start"
+        app:layout_constraintEnd_toEndOf="@id/gl_end"
+        app:layout_constraintTop_toBottomOf="@id/contract_view_title">
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <TextView
         android:id="@+id/tv_contract_room"
@@ -76,85 +108,6 @@
         app:layout_constraintStart_toEndOf="@id/tv_contract_room"/>
 
     <LinearLayout
-        android:id="@+id/ll_contract_form_category"
-        android:layout_width="0dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="@id/gl_start"
-        app:layout_constraintEnd_toEndOf="@id/gl_end"
-        app:layout_constraintTop_toBottomOf="@id/tv_contract_form"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_contract_monthly"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:stateListAnimator="@null"
-            android:background="@drawable/button_selector_100"
-            android:text="@string/contract_form_monthly"
-            android:textSize="14sp"
-            android:textColor="@color/button_color"
-            android:fontFamily="@font/pretendard_regular"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_contract_charter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/button_selector_100"
-            android:text="@string/contract_form_charter"
-            android:textSize="14sp"
-            android:textColor="@color/button_color"
-            android:fontFamily="@font/pretendard_regular"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_contract_trading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/button_selector_100"
-            android:text="@string/contract_form_trading"
-            android:textSize="14sp"
-            android:textColor="@color/button_color"
-            android:fontFamily="@font/pretendard_regular"/>
-
-    </LinearLayout>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_essential_category_apart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/ll_contract_room_category"
-        app:layout_constraintStart_toStartOf="@id/gl_start"
-        android:background="@drawable/button_selector_100"
-        android:text="@string/contract_room_apart"
-        android:textSize="14sp"
-        android:textColor="@color/button_color"/>
-
-    <TextView
-        android:id="@+id/tv_contract_form"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/contract_form"
-        android:layout_marginTop="24dp"
-        android:textSize="16sp"
-        android:fontFamily="@font/pretendard_semibold"
-        app:layout_constraintTop_toBottomOf="@id/btn_essential_category_apart"
-        app:layout_constraintStart_toStartOf="@id/gl_start"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/contract_overlap"
-        android:textSize="12sp"
-        android:textColor="@color/sub_1"
-        android:layout_marginStart="4dp"
-        app:layout_constraintTop_toTopOf="@id/tv_contract_form"
-        app:layout_constraintBottom_toBottomOf="@id/tv_contract_form"
-        app:layout_constraintStart_toEndOf="@id/tv_contract_form"/>
-
-    <LinearLayout
         android:id="@+id/ll_contract_room_category"
         android:layout_width="0dp"
         android:layout_marginTop="16dp"
@@ -171,6 +124,10 @@
             android:layout_weight="1"
             android:stateListAnimator="@null"
             android:elevation="0dp"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="16dp"
             android:background="@drawable/button_selector_100"
             android:text="@string/contract_room_one"
             android:textSize="14sp"
@@ -186,6 +143,10 @@
             android:background="@drawable/button_selector_100"
             android:text="@string/contract_room_two"
             android:textSize="14sp"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="16dp"
             android:textColor="@color/button_color"
             android:fontFamily="@font/pretendard_regular"/>
 
@@ -198,6 +159,10 @@
             android:background="@drawable/button_selector_100"
             android:text="@string/contract_room_three"
             android:textSize="14sp"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="16dp"
             android:textColor="@color/button_color"
             android:fontFamily="@font/pretendard_regular"/>
 
@@ -207,6 +172,10 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="16dp"
             android:background="@drawable/button_selector_100"
             android:text="@string/contract_room_office"
             android:textSize="14sp"
@@ -215,15 +184,135 @@
 
     </LinearLayout>
 
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_essential_category_apart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
+        android:paddingVertical="8dp"
+        android:paddingHorizontal="16dp"
+        app:layout_constraintTop_toBottomOf="@id/ll_contract_room_category"
+        app:layout_constraintStart_toStartOf="@id/gl_start"
+        android:background="@drawable/button_selector_100"
+        android:text="@string/contract_room_apart"
+        android:textSize="14sp"
+        android:textColor="@color/button_color"/>
+
+    <View
+        android:id="@+id/contract_view_room"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/btn_essential_category_apart"
+        android:background="@color/body_4"/>
+
+    <TextView
+        android:id="@+id/tv_contract_form"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/contract_form"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/pretendard_semibold"
+        app:layout_constraintTop_toBottomOf="@id/contract_view_room"
+        app:layout_constraintStart_toStartOf="@id/gl_start"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/contract_overlap"
+        android:textSize="12sp"
+        android:textColor="@color/sub_1"
+        android:layout_marginStart="4dp"
+        app:layout_constraintTop_toTopOf="@id/tv_contract_form"
+        app:layout_constraintBottom_toBottomOf="@id/tv_contract_form"
+        app:layout_constraintStart_toEndOf="@id/tv_contract_form"/>
+
+    <LinearLayout
+        android:id="@+id/ll_contract_form_category"
+        android:layout_width="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@id/gl_start"
+        app:layout_constraintEnd_toEndOf="@id/gl_end"
+        app:layout_constraintTop_toBottomOf="@id/tv_contract_form"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_contract_monthly"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:stateListAnimator="@null"
+            android:background="@drawable/button_selector_100"
+            android:text="@string/contract_form_monthly"
+            android:textSize="14sp"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="16dp"
+            android:textColor="@color/button_color"
+            android:fontFamily="@font/pretendard_regular"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_contract_charter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/button_selector_100"
+            android:text="@string/contract_form_charter"
+            android:textSize="14sp"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="16dp"
+            android:textColor="@color/button_color"
+            android:fontFamily="@font/pretendard_regular"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_contract_trading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_selector_100"
+            android:text="@string/contract_form_trading"
+            android:textSize="14sp"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="16dp"
+            android:textColor="@color/button_color"
+            android:fontFamily="@font/pretendard_regular"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="10"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/contract_view_contract"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/ll_contract_form_category"
+        android:background="@color/body_4"/>
+
     <TextView
         android:id="@+id/tv_contract_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/contract_price"
-        android:layout_marginTop="24dp"
         android:textSize="16sp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/pretendard_semibold"
-        app:layout_constraintTop_toBottomOf="@id/ll_contract_form_category"
+        app:layout_constraintTop_toBottomOf="@id/contract_view_contract"
         app:layout_constraintStart_toStartOf="@id/gl_start"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -231,7 +320,7 @@
         android:visibility="visible"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:animateLayoutChanges="true"
         app:layout_constraintStart_toStartOf="@id/gl_start"
         app:layout_constraintEnd_toEndOf="@id/gl_end"
@@ -474,24 +563,11 @@
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         app:layout_constraintStart_toStartOf="@id/gl_start"
         app:layout_constraintEnd_toEndOf="@id/gl_end"
-        app:layout_constraintHeight_percent="0.075"
         app:layout_constraintBottom_toBottomOf="parent">
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_before"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="@string/contract_before"
-            android:textSize="18sp"
-            android:stateListAnimator="@null"
-            android:fontFamily="@font/pretendard_semibold"
-            android:background="@drawable/button_inactive_100"
-            android:layout_marginEnd="4dp"
-            android:layout_weight="1"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_next"
@@ -500,6 +576,8 @@
             android:layout_marginStart="4dp"
             android:background="@drawable/button_active_100"
             android:text="@string/contract_next"
+            android:minHeight="0dp"
+            android:paddingVertical="10dp"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:fontFamily="@font/pretendard_semibold"
