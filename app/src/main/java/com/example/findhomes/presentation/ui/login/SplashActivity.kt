@@ -24,7 +24,7 @@ class SplashActivity : AppCompatActivity() {
             val isFirstLaunch = preferences.getBoolean("is_first_launch", false)
             Log.d("isFirstLaunch", "$isFirstLaunch")
 
-            if(!isFirstLaunch){
+            if(isFirstLaunch){
                 val intent = Intent(this, LogInActivity::class.java)
                 startActivity(intent)
             } else if(getAccessToken(this) == null){

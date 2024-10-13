@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetLogInDataUseCase @Inject constructor(
     private val logInRepository: LogInRepository
 ) {
-    suspend operator fun invoke(code : String) : LogInResponse? {
-        return logInRepository.getLogInData(code)
+    suspend operator fun invoke(accessToken : String) : LogInResponse? {
+        return logInRepository.getLogInData(accessToken)
     }
 }

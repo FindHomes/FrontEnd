@@ -30,8 +30,8 @@ object NetworkModule {
     @Singleton
     fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor, @ApplicationContext context: Context): OkHttpClient {
         return OkHttpClient.Builder()
-            .readTimeout(30000, TimeUnit.MILLISECONDS)
-            .connectTimeout(30000, TimeUnit.MILLISECONDS)
+            .readTimeout(50000, TimeUnit.MILLISECONDS)
+            .connectTimeout(50000, TimeUnit.MILLISECONDS)
             .addInterceptor(loggingInterceptor)
             .addInterceptor(XAccessTokenInterceptor(context))
             .cookieJar(MyCookieJar())
