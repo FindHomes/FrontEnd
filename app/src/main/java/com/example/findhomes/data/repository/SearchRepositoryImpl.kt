@@ -6,6 +6,7 @@ import com.example.findhomes.data.model.SearchChatRequest
 import com.example.findhomes.data.model.SearchChatResponse
 import com.example.findhomes.data.model.SearchCompleteResponse
 import com.example.findhomes.data.model.SearchDetailResponse
+import com.example.findhomes.data.model.SearchStatisticsResponse
 import com.example.findhomes.data.remote.SearchApi
 import com.example.findhomes.domain.repository.SearchRepository
 import javax.inject.Inject
@@ -67,6 +68,21 @@ class SearchRepositoryImpl @Inject constructor(
             }
         } catch (e: Exception) {
             Log.e("getSearchDetailData", "detail", e)
+            null
+        }
+    }
+
+    override suspend fun getStatisticsData(): List<SearchStatisticsResponse>? {
+        return try {
+            val response = searchApi.searchStatistics()
+            if(response.success){
+                response.result
+            } else {
+                Log.e("getStatisticsData", response.message)
+                null
+            }
+        } catch (e: Exception){
+            Log.e("getStatisticsData", "statistics", e)
             null
         }
     }

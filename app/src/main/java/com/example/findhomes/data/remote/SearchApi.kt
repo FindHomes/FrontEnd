@@ -7,6 +7,7 @@ import com.example.findhomes.data.model.SearchChatRequest
 import com.example.findhomes.data.model.SearchChatResponse
 import com.example.findhomes.data.model.SearchCompleteResponse
 import com.example.findhomes.data.model.SearchDetailResponse
+import com.example.findhomes.data.model.SearchStatisticsResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -19,10 +20,6 @@ interface SearchApi {
     suspend fun searchChat(
         @Body request : SearchChatRequest
     ) : BaseResponse<SearchChatResponse?>
-
-//    @GET("test/api/search/complete")
-//    suspend fun searchComplete(
-//    ): BaseResponse<List<SearchCompleteResponse>?>
 
     @GET("api/search/complete")
     suspend fun searchComplete(
@@ -38,4 +35,8 @@ interface SearchApi {
     suspend fun searchDetail(
         @Path("houseId") houseId : Int
     ) : BaseResponse<SearchDetailResponse?>
+
+    @GET("api/search/statistics")
+    suspend fun searchStatistics(
+    ) : BaseResponse<List<SearchStatisticsResponse>?>
 }

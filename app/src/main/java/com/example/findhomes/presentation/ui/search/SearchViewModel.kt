@@ -10,8 +10,10 @@ import com.example.findhomes.data.model.SearchChatRequest
 import com.example.findhomes.data.model.SearchChatResponse
 import com.example.findhomes.data.model.SearchCompleteResponse
 import com.example.findhomes.data.model.SearchDetailResponse
+import com.example.findhomes.data.model.SearchStatisticsResponse
 import com.example.findhomes.domain.usecase.search.GetSearchDataUseCase
 import com.example.findhomes.domain.usecase.search.GetSearchDetailDataUseCase
+import com.example.findhomes.domain.usecase.search.GetSearchStatisticsUseCase
 import com.example.findhomes.domain.usecase.search.PostChatDataUseCase
 import com.example.findhomes.domain.usecase.search.PostManConUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +25,8 @@ class SearchViewModel @Inject constructor(
     private val getSearchDataUseCase: GetSearchDataUseCase,
     private val postChatDataUseCase: PostChatDataUseCase,
     private val postManConUseCase: PostManConUseCase,
-    private val getSearchDetailDataUseCase: GetSearchDetailDataUseCase
+    private val getSearchDetailDataUseCase: GetSearchDetailDataUseCase,
+    private val getSearchStatisticsUseCase: GetSearchStatisticsUseCase
 ): ViewModel() {
     private val _searchData = MutableLiveData<List<SearchCompleteResponse>?>()
     val searchData: LiveData<List<SearchCompleteResponse>?> = _searchData
@@ -38,6 +41,9 @@ class SearchViewModel @Inject constructor(
 
     private val _detailData = MutableLiveData<SearchDetailResponse?>()
     val detailData: LiveData<SearchDetailResponse?> = _detailData
+
+    private val _statisticsData = MutableLiveData<List<SearchStatisticsResponse>?>()
+    val statisticsData: LiveData<List<SearchStatisticsResponse>?> = _statisticsData
 
     var currentMaxIndex = 20  // 초기에 로드할 아이템 수
 
@@ -93,6 +99,17 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             val response = postManConUseCase(manConRequest)
             _recommendData.postValue(response)
+        }
+    }
+
+    fun loadSearchStatisticsData(){
+        viewModelScope.launch {
+            try {
+                _statisticsData.value = getSearchStatisticsUseCase()
+                Log.d("SearchViewModel", "로드된 데이터: ${_statisticsData.value}")
+            } catch (e: Exception){
+                Log.e("SearchViewModel", "loadSearchStatisticsData 오류", e)
+            }
         }
     }
 }
