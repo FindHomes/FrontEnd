@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.findhomes.databinding.FragmentShowStatisticBinding
 
-class SearchStatisticFragment : Fragment() {
+class StatisticsFragment : Fragment() {
     lateinit var binding : FragmentShowStatisticBinding
     private val viewModel: SearchViewModel by activityViewModels()
+    private lateinit var statisticsDataAdapter : StatisticsDataAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,13 +25,21 @@ class SearchStatisticFragment : Fragment() {
         viewModel.loadSearchStatisticsData()
 
         initBack()
+        initRecyclerView()
 
         return binding.root
     }
 
+    private fun initRecyclerView() {
+        statisticsDataAdapter = StatisticsDataAdapter()
+        binding.statisticRvInfo.adapter = statisticsDataAdapter
+        binding.statisticRvInfo.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+    }
+
     private fun observeViewModel() {
-        viewModel.statisticsData.observe(viewLifecycleOwner) {
+        viewModel.facilityData.observe(viewLifecycleOwner) { facilityData ->
             // 키워드 recyclerview 예정
+            statisticsDataAdapter.submitList(facilityData)
         }
     }
 

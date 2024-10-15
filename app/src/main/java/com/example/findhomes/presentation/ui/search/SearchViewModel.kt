@@ -4,7 +4,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
+import com.example.findhomes.data.model.GraphDataResponse
 import com.example.findhomes.data.model.ManConRequest
 import com.example.findhomes.data.model.SearchChatRequest
 import com.example.findhomes.data.model.SearchChatResponse
@@ -44,6 +46,9 @@ class SearchViewModel @Inject constructor(
 
     private val _statisticsData = MutableLiveData<List<SearchStatisticsResponse>?>()
     val statisticsData: LiveData<List<SearchStatisticsResponse>?> = _statisticsData
+
+    private val _facilityData = MutableLiveData<List<GraphDataResponse>?>()
+    val facilityData: LiveData<List<GraphDataResponse>?> = _facilityData
 
     var currentMaxIndex = 20  // 초기에 로드할 아이템 수
 
@@ -106,6 +111,7 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _statisticsData.value = getSearchStatisticsUseCase()
+                _facilityData.value = _statisticsData.value?.flatMap { it.facilityAndInfos }
                 Log.d("SearchViewModel", "로드된 데이터: ${_statisticsData.value}")
             } catch (e: Exception){
                 Log.e("SearchViewModel", "loadSearchStatisticsData 오류", e)

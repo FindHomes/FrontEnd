@@ -76,9 +76,9 @@ class TestFragment : Fragment(), OnMapReadyCallback {
 
     private fun initStatistics() {
         binding.btnStatisticShow.setOnClickListener{
-            SearchStatisticFragment().arguments = Bundle()
+            StatisticsFragment().arguments = Bundle()
             parentFragmentManager.beginTransaction()
-                .replace(R.id.main_frm, SearchStatisticFragment())
+                .replace(R.id.main_frm, StatisticsFragment())
                 .addToBackStack(null)
                 .commit()
         }

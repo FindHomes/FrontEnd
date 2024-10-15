@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.findhomes.MainActivity
 import com.example.findhomes.data.getAccessToken
 import com.example.findhomes.data.saveAccessToken
+import com.example.findhomes.data.saveKakaoToken
 import com.kakao.sdk.common.util.Utility
 import com.example.findhomes.databinding.ActivityLogInBinding
 import com.kakao.sdk.user.UserApiClient
@@ -34,6 +35,7 @@ class LogInActivity : AppCompatActivity() {
                     }
                 } else if(token!= null){
                     val kakaoAccessToken = token.accessToken
+                    saveKakaoToken(this, kakaoAccessToken)
                     requestKakaoUserInfo()
                     Log.d("카카오 로그인", "카카오 로그인 성공")
                     Log.d("카카오 토큰", kakaoAccessToken)
@@ -55,6 +57,7 @@ class LogInActivity : AppCompatActivity() {
             } else if (token != null) {
                 // 웹 브라우저를 통한 로그인 성공
                 val kakaoAccessToken = token.accessToken
+                saveKakaoToken(this, kakaoAccessToken)
                 Log.d("카카오 로그인", "웹을 통한 로그인 성공")
                 Log.d("카카오 토큰", kakaoAccessToken)
                 requestKakaoUserInfo()
