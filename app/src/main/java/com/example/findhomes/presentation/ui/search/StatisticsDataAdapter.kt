@@ -66,11 +66,11 @@ class StatisticsDataAdapter() : ListAdapter<GraphDataResponse, StatisticsDataAda
             // 좌측 텍스트 컬러 설정
             leftAxis.textColor = Color.BLUE
 
-            val rightAxis: YAxis = barChart.axisRight
-            // 우측 선 설정 (default = true)
-            rightAxis.setDrawAxisLine(false)
-            // 우측 텍스트 컬러 설정
-            rightAxis.textColor = Color.GREEN
+//            val rightAxis: YAxis = barChart.axisRight
+//            // 우측 선 설정 (default = true)
+//            rightAxis.setDrawAxisLine(false)
+//            // 우측 텍스트 컬러 설정
+//            rightAxis.textColor = Color.GREEN
 
             // 바차트의 타이틀
             val legend: Legend = barChart.legend
@@ -92,14 +92,13 @@ class StatisticsDataAdapter() : ListAdapter<GraphDataResponse, StatisticsDataAda
             barChart.setScaleEnabled(false)
 
             val valueList = ArrayList<BarEntry>()
-            val title = "걸음 수"
 
             // 임의 데이터
-            for (i in 0 until 5) {
-                valueList.add(BarEntry(i.toFloat(), i * 100f))
+            for (i in 0 until 100) {
+                valueList.add(BarEntry(i.toFloat(), response.houseAndValues[i].value.split(" ")[1].split("개")[0].toFloat()))
             }
 
-            val barDataSet = BarDataSet(valueList, title)
+            val barDataSet = BarDataSet(valueList, "")
             // 바 색상 설정 (ColorTemplate.LIBERTY_COLORS)
             barDataSet.setColors(
                 Color.rgb(207, 248, 246), Color.rgb(148, 212, 212), Color.rgb(136, 180, 187),
