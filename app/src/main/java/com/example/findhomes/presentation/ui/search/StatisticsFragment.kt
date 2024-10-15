@@ -26,6 +26,7 @@ class StatisticsFragment : Fragment() {
 
         initBack()
         initRecyclerView()
+        observeViewModel()
 
         return binding.root
     }
