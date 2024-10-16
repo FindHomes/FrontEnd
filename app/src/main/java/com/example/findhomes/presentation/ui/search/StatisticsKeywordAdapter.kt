@@ -34,7 +34,7 @@ class StatisticsKeywordAdapter(var onKeywordSelected: (String) -> Unit) :
 
         @SuppressLint("SetTextI18n")
         fun bind(item: String) {
-            binding.statisticTvKeyword.text = item
+            binding.statisticsBtnKeyword.text = item
         }
 
     }

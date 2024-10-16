@@ -72,7 +72,7 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         app:layout_constraintTop_toBottomOf="@id/cl_contract_top_bar"
-        android:background="@color/body_4"/>
+        android:background="@color/body_5"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
@@ -208,7 +208,7 @@
         android:layout_height="8dp"
         android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/btn_essential_category_apart"
-        android:background="@color/body_4"/>
+        android:background="@color/body_5"/>
 
     <TextView
         android:id="@+id/tv_contract_form"
@@ -304,7 +304,7 @@
         android:layout_height="8dp"
         android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/ll_contract_form_category"
-        android:background="@color/body_4"/>
+        android:background="@color/body_5"/>
 
     <TextView
         android:id="@+id/tv_contract_price"
