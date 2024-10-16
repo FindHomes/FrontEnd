@@ -13,6 +13,7 @@ class StatisticsFragment : Fragment() {
     lateinit var binding : FragmentShowStatisticBinding
     private val viewModel: SearchViewModel by activityViewModels()
     private lateinit var statisticsDataAdapter : StatisticsDataAdapter
+    private lateinit var statisticsKeywordAdapter: StatisticsKeywordAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +36,10 @@ class StatisticsFragment : Fragment() {
         statisticsDataAdapter = StatisticsDataAdapter()
         binding.statisticRvInfo.adapter = statisticsDataAdapter
         binding.statisticRvInfo.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
+        statisticsKeywordAdapter = StatisticsKeywordAdapter()
+        binding.statisticRvKeyword.adapter = statisticsDataAdapter
+        binding.statisticRvKeyword.layoutManager = FlexboxLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
     }
 
     private fun observeViewModel() {
