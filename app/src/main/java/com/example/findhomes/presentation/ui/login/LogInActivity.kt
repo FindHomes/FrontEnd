@@ -70,9 +70,9 @@ class LogInActivity : AppCompatActivity() {
         viewModel.loadLogInData(kakaoToken)
         viewModel.logInData.observe(this){ token ->
             saveAccessToken(this, token!!.token)
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
     }
 
     private fun requestKakaoUserInfo() {
