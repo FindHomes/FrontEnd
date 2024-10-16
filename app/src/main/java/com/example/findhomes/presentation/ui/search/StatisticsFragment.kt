@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.findhomes.databinding.FragmentShowStatisticBinding
+import com.google.android.flexbox.FlexboxLayoutManager
 
 class StatisticsFragment : Fragment() {
     lateinit var binding : FragmentShowStatisticBinding
@@ -19,7 +20,7 @@ class StatisticsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentShowStatisticBinding.inflate(layoutInflater)
+        binding = FragmentShowStatisticBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
@@ -35,20 +36,23 @@ class StatisticsFragment : Fragment() {
     private fun initRecyclerView() {
         statisticsDataAdapter = StatisticsDataAdapter()
         binding.statisticRvInfo.adapter = statisticsDataAdapter
-        binding.statisticRvInfo.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.statisticRvInfo.layoutManager = LinearLayoutManager(requireContext())
 
-        statisticsKeywordAdapter = StatisticsKeywordAdapter()
-        binding.statisticRvKeyword.adapter = statisticsDataAdapter
-        binding.statisticRvKeyword.layoutManager = FlexboxLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        // 키워드 어댑터 초기화, 선택 이벤트 처리를 위해 콜백 전달
+        statisticsKeywordAdapter = StatisticsKeywordAdapter { keyword ->
+            viewModel.statisticsData.value?.find { it.keyword == keyword }?.let { selectedData ->
+                statisticsDataAdapter.submitList(selectedData.facilityAndInfos)
+            }
+        }
+        binding.statisticRvKeyword.adapter = statisticsKeywordAdapter
+        binding.statisticRvKeyword.layoutManager = FlexboxLayoutManager(requireContext())
     }
 
     private fun observeViewModel() {
-        viewModel.facilityData.observe(viewLifecycleOwner) { facilityData ->
-            // 키워드 recyclerview 예정
-            statisticsDataAdapter.submitList(facilityData)
+        viewModel.keywords.observe(viewLifecycleOwner) { keywords ->
+            statisticsKeywordAdapter.submitList(keywords)
         }
     }
-
 
     private fun initBack() {
         binding.ivBtnBack.setOnClickListener {

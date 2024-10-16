@@ -22,15 +22,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/statistics_tv_data_1" />
 
-    <TextView
-        android:id="@+id/statistics_tv_data_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="임의 데이터"
-        android:layout_marginTop="15dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/statistics_bc_facility_1"/>
-
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/statistics_bc_facility_2"
         android:layout_width="match_parent"
@@ -39,6 +30,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/statistics_tv_data_2" />
+        app:layout_constraintTop_toBottomOf="@id/statistics_bc_facility_1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
