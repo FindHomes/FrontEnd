@@ -2,6 +2,7 @@ package com.example.findhomes.presentation.ui.search
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -25,12 +26,13 @@ class StatisticsDataAdapter() : ListAdapter<GraphDataResponse, StatisticsDataAda
     inner class ViewHolder(private val binding: ItemStatisticsInfoBinding) : RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
         fun bind(item: GraphDataResponse) {
-            binding.statisticsTvData.text = item.dataName
+            binding.statisticsTvData1.text = item.dataName
+            binding.statisticsTvData2.text = item.dataName
             initGraph(item)
         }
 
         private fun initGraph(response: GraphDataResponse) {
-            val barChart = binding.statisticsBcFacility
+            val barChart = binding.statisticsBcFacility1
             // 차트 회색 배경 설정 (default = false)
             barChart.setDrawGridBackground(false)
             // 막대 그림자 설정 (default = false)
@@ -66,12 +68,6 @@ class StatisticsDataAdapter() : ListAdapter<GraphDataResponse, StatisticsDataAda
             // 좌측 텍스트 컬러 설정
             leftAxis.textColor = Color.BLUE
 
-//            val rightAxis: YAxis = barChart.axisRight
-//            // 우측 선 설정 (default = true)
-//            rightAxis.setDrawAxisLine(false)
-//            // 우측 텍스트 컬러 설정
-//            rightAxis.textColor = Color.GREEN
-
             // 바차트의 타이틀
             val legend: Legend = barChart.legend
             // 범례 모양 설정 (default = 정사각형)
@@ -95,7 +91,7 @@ class StatisticsDataAdapter() : ListAdapter<GraphDataResponse, StatisticsDataAda
 
             // 임의 데이터
             for (i in 0 until 100) {
-                valueList.add(BarEntry(i.toFloat(), response.houseAndValues[i].value.split(" ")[1].split("개")[0].toFloat()))
+                valueList.add(BarEntry(i.toFloat(), response.houseAndValues[i].value[1].value.toFloat()))
             }
 
             val barDataSet = BarDataSet(valueList, "")

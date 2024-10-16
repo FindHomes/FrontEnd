@@ -25,7 +25,7 @@ class StatisticsKeywordAdapter() : ListAdapter<GraphDataResponse, StatisticsKeyw
     inner class ViewHolder(private val binding: ItemStatisticsInfoBinding) : RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
         fun bind(item: GraphDataResponse) {
-            binding.statisticsTvData.text = item.dataName
+            binding.statisticsTvData1.text = item.dataName
         }
 
     }

@@ -16,5 +16,10 @@ data class GraphDataResponse(
 data class HouseValueResponse(
     val houseId: Int,
     val ranking: Int,
-    val value: String
+    val value: List<StatisticsValue>
+)
+
+data class StatisticsValue(
+    val name : String,
+    val value : Double
 )
