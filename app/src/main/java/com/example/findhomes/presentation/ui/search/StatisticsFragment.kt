@@ -34,7 +34,7 @@ class StatisticsFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        statisticsDataAdapter = StatisticsDataAdapter()
+        statisticsDataAdapter = StatisticsDataAdapter(requireContext())
         binding.statisticRvInfo.adapter = statisticsDataAdapter
         binding.statisticRvInfo.layoutManager = LinearLayoutManager(requireContext())
 

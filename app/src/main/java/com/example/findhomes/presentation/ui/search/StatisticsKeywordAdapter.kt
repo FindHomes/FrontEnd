@@ -26,7 +26,7 @@ class StatisticsKeywordAdapter(var onKeywordSelected: (String) -> Unit) :
 {
     inner class ViewHolder(private val binding: ItemStatisticsKeywordBinding) : RecyclerView.ViewHolder(binding.root) {
         init {
-            binding.root.setOnClickListener {
+            binding.statisticsBtnKeyword.setOnClickListener {
                 // 현재 ViewHolder 위치의 아이템을 가져와 콜백 실행
                 onKeywordSelected(getItem(absoluteAdapterPosition))
             }
