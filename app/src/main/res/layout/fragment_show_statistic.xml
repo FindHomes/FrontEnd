@@ -62,9 +62,11 @@
         <ScrollView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:scrollbars="none"
             app:layout_constraintStart_toStartOf="@id/gl_start"
             app:layout_constraintEnd_toEndOf="@id/gl_end"
-            app:layout_constraintTop_toBottomOf="@id/statistic_cl_top_bar">
+            app:layout_constraintTop_toBottomOf="@id/statistic_cl_top_bar"
+            android:layout_marginBottom="16dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -100,12 +102,21 @@
                     app:layout_constraintTop_toBottomOf="@id/statistic_tv_keyword"/>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/statistic_rv_info"
+                    android:id="@+id/statistic_rv_facility"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:nestedScrollingEnabled="false"
                     app:layout_constraintTop_toBottomOf="@id/statistic_rv_keyword"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/statistic_rv_public"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:nestedScrollingEnabled="false"
+                    app:layout_constraintTop_toBottomOf="@id/statistic_rv_facility"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

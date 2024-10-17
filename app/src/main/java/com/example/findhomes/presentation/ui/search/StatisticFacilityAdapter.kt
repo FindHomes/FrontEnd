@@ -10,24 +10,23 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.findhomes.data.model.GraphDataResponse
-import com.example.findhomes.databinding.ItemStatisticsInfoBinding
 import com.github.mikephil.charting.components.Description
-import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.example.findhomes.R
+import com.example.findhomes.databinding.ItemStatisticsFacilityBinding
 import com.github.mikephil.charting.charts.BarChart
 
-class StatisticsDataAdapter(val context: Context) : ListAdapter<GraphDataResponse, StatisticsDataAdapter.ViewHolder>(
+class StatisticFacilityAdapter(val context: Context) : ListAdapter<GraphDataResponse, StatisticFacilityAdapter.ViewHolder>(
     DiffCallback()
 ) {
-    inner class ViewHolder(private val binding: ItemStatisticsInfoBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ItemStatisticsFacilityBinding) : RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
         fun bind(item: GraphDataResponse) {
-//            binding.statisticsTvData1.text = item.dataName
+            binding.statisticsTvData1.text = item.dataName
             initGraph(item)
         }
 
@@ -106,7 +105,7 @@ class StatisticsDataAdapter(val context: Context) : ListAdapter<GraphDataRespons
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemStatisticsInfoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemStatisticsFacilityBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 

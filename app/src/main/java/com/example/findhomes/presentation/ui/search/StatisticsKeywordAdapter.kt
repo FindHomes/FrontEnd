@@ -1,25 +1,12 @@
 package com.example.findhomes.presentation.ui.search
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.findhomes.data.model.GraphDataResponse
-import com.example.findhomes.data.model.SearchCompleteResponse
-import com.example.findhomes.data.model.SearchStatisticsResponse
-import com.example.findhomes.databinding.ItemStatisticsInfoBinding
 import com.example.findhomes.databinding.ItemStatisticsKeywordBinding
-import com.github.mikephil.charting.components.Description
-import com.github.mikephil.charting.components.Legend
-import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.components.YAxis
-import com.github.mikephil.charting.data.BarData
-import com.github.mikephil.charting.data.BarDataSet
-import com.github.mikephil.charting.data.BarEntry
-
 
 class StatisticsKeywordAdapter(var onKeywordSelected: (String) -> Unit) :
     ListAdapter<String, StatisticsKeywordAdapter.ViewHolder>(DiffCallback())

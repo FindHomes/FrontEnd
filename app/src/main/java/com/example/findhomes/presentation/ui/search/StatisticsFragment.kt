@@ -13,7 +13,8 @@ import com.google.android.flexbox.FlexboxLayoutManager
 class StatisticsFragment : Fragment() {
     lateinit var binding : FragmentShowStatisticBinding
     private val viewModel: SearchViewModel by activityViewModels()
-    private lateinit var statisticsDataAdapter : StatisticsDataAdapter
+    private lateinit var statisticFacilityAdapter : StatisticFacilityAdapter
+    private lateinit var statisticPublicAdapter: StatisticPublicAdapter
     private lateinit var statisticsKeywordAdapter: StatisticsKeywordAdapter
 
     override fun onCreateView(
@@ -34,14 +35,19 @@ class StatisticsFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        statisticsDataAdapter = StatisticsDataAdapter(requireContext())
-        binding.statisticRvInfo.adapter = statisticsDataAdapter
-        binding.statisticRvInfo.layoutManager = LinearLayoutManager(requireContext())
+        statisticFacilityAdapter = StatisticFacilityAdapter(requireContext())
+        binding.statisticRvFacility.adapter = statisticFacilityAdapter
+        binding.statisticRvFacility.layoutManager = LinearLayoutManager(requireContext())
+
+        statisticPublicAdapter = StatisticPublicAdapter(requireContext())
+        binding.statisticRvPublic.adapter = statisticPublicAdapter
+        binding.statisticRvPublic.layoutManager = LinearLayoutManager(requireContext())
 
         // 키워드 어댑터 초기화, 선택 이벤트 처리를 위해 콜백 전달
         statisticsKeywordAdapter = StatisticsKeywordAdapter { keyword ->
             viewModel.statisticsData.value?.find { it.keyword == keyword }?.let { selectedData ->
-                statisticsDataAdapter.submitList(selectedData.facilityAndInfos)
+                statisticFacilityAdapter.submitList(selectedData.facilityAndInfos)
+                statisticPublicAdapter.submitList(selectedData.publicDataAndInfos)
             }
         }
         binding.statisticRvKeyword.adapter = statisticsKeywordAdapter
