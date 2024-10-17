@@ -50,6 +50,8 @@ class ResultRankingAdapter(private val context: Context) : ListAdapter<SearchCom
             binding.clRankingItem.setOnClickListener {
                 itemClickListener.onItemClicked(item)
             }
+
+
         }
     }
 
