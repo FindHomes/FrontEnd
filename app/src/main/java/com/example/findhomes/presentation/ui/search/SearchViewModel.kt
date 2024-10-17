@@ -4,14 +4,18 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
+import com.example.findhomes.data.model.GraphDataResponse
 import com.example.findhomes.data.model.ManConRequest
 import com.example.findhomes.data.model.SearchChatRequest
 import com.example.findhomes.data.model.SearchChatResponse
 import com.example.findhomes.data.model.SearchCompleteResponse
 import com.example.findhomes.data.model.SearchDetailResponse
+import com.example.findhomes.data.model.SearchStatisticsResponse
 import com.example.findhomes.domain.usecase.search.GetSearchDataUseCase
 import com.example.findhomes.domain.usecase.search.GetSearchDetailDataUseCase
+import com.example.findhomes.domain.usecase.search.GetSearchStatisticsUseCase
 import com.example.findhomes.domain.usecase.search.PostChatDataUseCase
 import com.example.findhomes.domain.usecase.search.PostManConUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +27,8 @@ class SearchViewModel @Inject constructor(
     private val getSearchDataUseCase: GetSearchDataUseCase,
     private val postChatDataUseCase: PostChatDataUseCase,
     private val postManConUseCase: PostManConUseCase,
-    private val getSearchDetailDataUseCase: GetSearchDetailDataUseCase
+    private val getSearchDetailDataUseCase: GetSearchDetailDataUseCase,
+    private val getSearchStatisticsUseCase: GetSearchStatisticsUseCase
 ): ViewModel() {
     private val _searchData = MutableLiveData<List<SearchCompleteResponse>?>()
     val searchData: LiveData<List<SearchCompleteResponse>?> = _searchData
@@ -38,6 +43,12 @@ class SearchViewModel @Inject constructor(
 
     private val _detailData = MutableLiveData<SearchDetailResponse?>()
     val detailData: LiveData<SearchDetailResponse?> = _detailData
+
+    private val _statisticsData = MutableLiveData<List<SearchStatisticsResponse>?>()
+    val statisticsData: LiveData<List<SearchStatisticsResponse>?> = _statisticsData
+
+    private val _keywords = MutableLiveData<List<String>>()
+    val keywords: LiveData<List<String>> = _keywords
 
     var currentMaxIndex = 20  // 초기에 로드할 아이템 수
 
@@ -93,6 +104,20 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             val response = postManConUseCase(manConRequest)
             _recommendData.postValue(response)
+        }
+    }
+
+    fun loadSearchStatisticsData() {
+        viewModelScope.launch {
+            try {
+                val data = getSearchStatisticsUseCase()
+                _statisticsData.value = data
+                _keywords.value = data?.map { it.keyword } // 모든 키워드를 추출하여 저장
+                Log.d("keywords", _keywords.value.toString())
+                Log.d("SearchViewModel", "로드된 데이터: $data")
+            } catch (e: Exception) {
+                Log.e("SearchViewModel", "loadSearchStatisticsData 오류", e)
+            }
         }
     }
 }

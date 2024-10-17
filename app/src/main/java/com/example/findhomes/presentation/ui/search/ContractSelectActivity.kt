@@ -45,7 +45,7 @@ class ContractSelectActivity : AppCompatActivity() {
     }
 
     private fun initBefore() {
-        binding.btnBefore.setOnClickListener {
+        binding.ivBtnBack.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
     }

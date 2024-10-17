@@ -34,6 +34,9 @@ object NetworkModule {
             .connectTimeout(50000, TimeUnit.MILLISECONDS)
             .addInterceptor(loggingInterceptor)
             .addInterceptor(XAccessTokenInterceptor(context))
+            .authenticator(TokenAuthenticator(context))  // Authenticator 추가
+            // EOFException 임의 처리
+            .retryOnConnectionFailure(true)
             .cookieJar(MyCookieJar())
             .build()
     }

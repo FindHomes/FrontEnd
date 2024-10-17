@@ -52,6 +52,7 @@ androidx-databinding-compiler = { group = "androidx.databinding", name = "databi
 google-material = { group = "com.google.android.material", name = "material", version.ref = "materialVersion" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 v2-user = { group = "com.kakao.sdk", name = "v2-user", version.ref = "v2User" }
+flexbox = { module = "com.google.android.flexbox:flexbox", version.ref = "flexbox" }
 
 
 [plugins]

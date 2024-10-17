@@ -1,6 +1,5 @@
 package com.example.findhomes.presentation.ui.search
 
-import android.content.ClipData
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
@@ -25,16 +24,12 @@ import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
-import com.naver.maps.map.clustering.ClusterMarkerInfo
 import com.naver.maps.map.clustering.Clusterer
-import com.naver.maps.map.clustering.DefaultClusterMarkerUpdater
 import com.naver.maps.map.clustering.DefaultLeafMarkerUpdater
 import com.naver.maps.map.clustering.LeafMarkerInfo
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
-import com.naver.maps.map.util.MarkerIcons
 import dagger.hilt.android.AndroidEntryPoint
-import retrofit2.http.Tag
 
 @AndroidEntryPoint
 class TestFragment : Fragment(), OnMapReadyCallback {
@@ -71,11 +66,22 @@ class TestFragment : Fragment(), OnMapReadyCallback {
         initRecyclerView()
         initMoreButton()
         initDetailButton()
+        initStatistics()
 
         showLoadingAnimation(true) // 애니메이션 시작
 
 
         return binding.root
+    }
+
+    private fun initStatistics() {
+        binding.btnStatisticShow.setOnClickListener{
+            StatisticsFragment().arguments = Bundle()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.main_frm, StatisticsFragment())
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     private fun initDetailButton() {

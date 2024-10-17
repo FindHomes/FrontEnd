@@ -23,6 +23,7 @@ class LogInViewModel @Inject constructor(
             try {
                 val tokenData = getLogInDataUseCase(accessToken)
                 _logInData.value = tokenData
+                Log.d("SearchViewModel", "로드된 데이터: ${_logInData.value}")
 
             } catch (e : Exception){
                 Log.e("LogInViewModel", "loadLogInData 오류", e)
