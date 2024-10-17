@@ -18,6 +18,7 @@ import com.example.findhomes.domain.usecase.search.GetSearchDetailDataUseCase
 import com.example.findhomes.domain.usecase.search.GetSearchStatisticsUseCase
 import com.example.findhomes.domain.usecase.search.PostChatDataUseCase
 import com.example.findhomes.domain.usecase.search.PostManConUseCase
+import com.example.findhomes.domain.usecase.search.PostSearchFavoriteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,7 +29,8 @@ class SearchViewModel @Inject constructor(
     private val postChatDataUseCase: PostChatDataUseCase,
     private val postManConUseCase: PostManConUseCase,
     private val getSearchDetailDataUseCase: GetSearchDetailDataUseCase,
-    private val getSearchStatisticsUseCase: GetSearchStatisticsUseCase
+    private val getSearchStatisticsUseCase: GetSearchStatisticsUseCase,
+    private val postSearchFavoriteUseCase: PostSearchFavoriteUseCase
 ): ViewModel() {
     private val _searchData = MutableLiveData<List<SearchCompleteResponse>?>()
     val searchData: LiveData<List<SearchCompleteResponse>?> = _searchData
@@ -104,6 +106,12 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             val response = postManConUseCase(manConRequest)
             _recommendData.postValue(response)
+        }
+    }
+
+    fun postFavoriteData(houseId: Int, action: String){
+        viewModelScope.launch {
+            postSearchFavoriteUseCase(houseId, action)
         }
     }
 

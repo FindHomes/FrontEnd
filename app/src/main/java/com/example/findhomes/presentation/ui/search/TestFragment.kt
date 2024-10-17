@@ -291,6 +291,12 @@ class TestFragment : Fragment(), OnMapReadyCallback {
                     .commit()
             }
         })
+
+        rankingAdapter.setOnHeartClickListener(object: ResultRankingAdapter.OnHeartClickListener{
+            override fun onHeartClicked(data: SearchCompleteResponse) {
+                viewModel.postFavoriteData(data.houseId, if(data.favorite) "remove" else "add")
+            }
+        })
     }
 
     private fun initMoreButton() {

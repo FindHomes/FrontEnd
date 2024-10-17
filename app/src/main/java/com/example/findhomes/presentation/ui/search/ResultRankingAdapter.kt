@@ -2,12 +2,14 @@ package com.example.findhomes.presentation.ui.search
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.findhomes.R
 import com.example.findhomes.data.model.SearchCompleteResponse
 import com.example.findhomes.databinding.ItemResultRankingBinding
 
@@ -15,14 +17,25 @@ import com.example.findhomes.databinding.ItemResultRankingBinding
 class ResultRankingAdapter(private val context: Context) : ListAdapter<SearchCompleteResponse, ResultRankingAdapter.ViewHolder>(
     DiffCallback()
 ) {
+    lateinit var heartClickListener : OnHeartClickListener
     lateinit var itemClickListener: OnItemClickListener
 
     interface OnItemClickListener {
         fun onItemClicked(data: SearchCompleteResponse)
     }
 
+    interface OnHeartClickListener {
+        fun onHeartClicked(data: SearchCompleteResponse)
+    }
+
     fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
+        Log.d("itemClickListener", onItemClickListener.toString())
         itemClickListener = onItemClickListener
+    }
+
+    fun setOnHeartClickListener(onHeartClickListener: OnHeartClickListener){
+        Log.d("heartClickListener", onHeartClickListener.toString())
+        heartClickListener = onHeartClickListener
     }
 
     fun getItemAtPosition(position: Int): SearchCompleteResponse {
@@ -45,12 +58,19 @@ class ResultRankingAdapter(private val context: Context) : ListAdapter<SearchCom
             binding.tvRankingDetail1.text = "방 " + item.roomNum + "개"
             binding.tvRankingDetail2.text = "욕실 " + item.washroomNum + "개"
             binding.tvRankingDetail3.text = item.size.toString() + "m"
+            binding.ivRankingHeart.setImageResource(if(item.favorite) R.drawable.ic_filled_heart else R.drawable.ic_empty_heart)
 
-
-            binding.clRankingItem.setOnClickListener {
+            binding.cvRanking.setOnClickListener {
                 itemClickListener.onItemClicked(item)
             }
 
+            binding.ivRankingHeart.setOnClickListener {
+                heartClickListener.onHeartClicked(item)
+                item.favorite = !item.favorite
+                binding.ivRankingHeart.setImageResource(
+                    if (item.favorite) R.drawable.ic_filled_heart else R.drawable.ic_empty_heart
+                )
+            }
 
         }
     }
