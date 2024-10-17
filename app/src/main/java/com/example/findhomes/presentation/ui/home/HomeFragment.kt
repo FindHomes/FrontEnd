@@ -33,7 +33,7 @@ class HomeFragment : Fragment() {
             transaction.commit()
         }
 
-        binding.btnMyPage.setOnClickListener {
+        binding.btnMy.setOnClickListener {
             transaction.replace(R.id.main_frm, MyPageFragment())
             transaction.addToBackStack(null)
             transaction.commit()
