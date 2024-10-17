@@ -88,6 +88,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_ranking_price_type"
             app:layout_constraintStart_toStartOf="parent"
             android:text="+ 디테일2"
+            android:maxLines="1"
             android:textColor="@color/body_3"
             android:textSize="14sp"
             android:fontFamily="@font/pretendard_regular"
@@ -100,6 +101,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_ranking_detail_1"
             app:layout_constraintStart_toStartOf="parent"
             android:text="+ 디테일1"
+            android:maxLines="1"
             android:textSize="14sp"
             android:textColor="@color/body_1"
             android:fontFamily="@font/pretendard_regular"
@@ -113,11 +115,19 @@
             app:layout_constraintStart_toStartOf="parent"
             android:text="+ 디테일1"
             android:textSize="14sp"
+            android:maxLines="1"
             android:textColor="@color/body_1"
             android:fontFamily="@font/pretendard_regular"
             android:layout_marginTop="2dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/ic_heart"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
