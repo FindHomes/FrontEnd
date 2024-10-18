@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.findhomes.databinding.FragmentWishBinding
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class WishFragment : Fragment() {
     private lateinit var binding : FragmentWishBinding
     val tabList = arrayListOf("최근 본 방","찜한 방", "검색 기록")
