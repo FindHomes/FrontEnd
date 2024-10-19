@@ -18,9 +18,12 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         val transaction = parentFragmentManager.beginTransaction()
+
+        val imgList = listOf(R.drawable.ic_house_example, R.drawable.ic_house_example_2, R.drawable.ic_house_example_3)
+        binding.homeIvTitle.setImageResource(imgList.random())
 
         binding.btnSearch.setOnClickListener {
             val intent = Intent(requireActivity(), ContractSelectActivity::class.java)

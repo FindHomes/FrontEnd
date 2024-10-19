@@ -104,4 +104,19 @@ class SearchRepositoryImpl @Inject constructor(
             null
         }
     }
+
+    override suspend fun postSearchLogsData(): String?{
+        return try {
+            val response = searchApi.searchLogs()
+            if(response.success){
+                response.result
+            } else {
+                Log.e("postSearchLogs", response.message)
+                null
+            }
+        } catch (e: Exception){
+            Log.e("postSearchLogs", "statistics", e)
+            null
+        }
+    }
 }

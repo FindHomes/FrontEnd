@@ -20,4 +20,5 @@
 
     <!-- 메인 컬러 -->
     <color name="main_1">#1AA69D</color>
+    <color name="main_2">#AEDDDA</color>
 </resources>

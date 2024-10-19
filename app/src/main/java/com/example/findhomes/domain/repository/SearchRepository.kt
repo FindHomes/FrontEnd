@@ -31,4 +31,7 @@ interface SearchRepository {
 
     suspend fun getStatisticsData(
     ) : List<SearchStatisticsResponse>?
+
+    suspend fun postSearchLogsData(
+    ) : String?
 }

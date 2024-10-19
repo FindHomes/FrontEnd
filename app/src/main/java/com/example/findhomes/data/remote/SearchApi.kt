@@ -45,4 +45,8 @@ interface SearchApi {
     @GET("api/search/statistics")
     suspend fun searchStatistics(
     ) : BaseResponse<List<SearchStatisticsResponse>?>
+
+    @POST("api/search-logs")
+    suspend fun searchLogs(
+    ) : BaseResponse<String?>
 }
