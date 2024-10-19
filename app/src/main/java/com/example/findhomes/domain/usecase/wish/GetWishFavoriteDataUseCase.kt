@@ -4,7 +4,7 @@ import com.example.findhomes.data.model.SearchCompleteResponse
 import com.example.findhomes.domain.repository.WishRepository
 import javax.inject.Inject
 
-class GetFavoriteDataUseCase @Inject constructor(
+class GetWishFavoriteDataUseCase @Inject constructor(
     private val wishRepository: WishRepository
 ) {
     suspend operator fun invoke() : List<SearchCompleteResponse>? {
