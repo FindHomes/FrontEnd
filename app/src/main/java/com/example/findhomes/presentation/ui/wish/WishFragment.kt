@@ -25,6 +25,7 @@ class WishFragment : Fragment() {
     }
 
     private fun initView(){
+        binding.vpMain.setUserInputEnabled(false);
         binding.vpMain.adapter = TabLayoutVPAdapter(requireActivity())
         TabLayoutMediator(binding.tbWish, binding.vpMain){ tab, position ->
             tab.text = tabList[position]
