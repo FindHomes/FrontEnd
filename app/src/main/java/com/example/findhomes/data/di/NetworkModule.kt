@@ -3,6 +3,7 @@ package com.example.findhomes.data.di
 import android.content.Context
 import com.example.findhomes.data.remote.LogInApi
 import com.example.findhomes.data.remote.SearchApi
+import com.example.findhomes.data.remote.WishApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -61,6 +62,12 @@ object NetworkModule {
     @Singleton
     fun provideLogInApi(retrofit: Retrofit) : LogInApi{
         return retrofit.create(LogInApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideWishApi(retrofit: Retrofit) : WishApi{
+        return retrofit.create(WishApi::class.java)
     }
 
 }

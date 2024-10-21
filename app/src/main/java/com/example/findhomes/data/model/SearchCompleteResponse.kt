@@ -22,5 +22,6 @@ data class SearchCompleteResponse(
     val x: Double,
     val y: Double,
     val imgUrl: List<String>,
+    var favorite: Boolean,
     val score: Double
 )

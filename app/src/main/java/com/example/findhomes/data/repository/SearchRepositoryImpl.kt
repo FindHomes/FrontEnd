@@ -72,6 +72,24 @@ class SearchRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun postSearchFavoriteData(
+        houseId: Int,
+        action: String
+    ): SearchDetailResponse? {
+        return try {
+            val response = searchApi.searchFavorite(houseId, action)
+            if(response.success){
+                response.result
+            } else {
+                Log.e("postSearchFavoriteData", response.message)
+                null
+            }
+        } catch (e: Exception){
+            Log.e("postSearchFavoriteData", "favorite", e)
+            null
+        }
+    }
+
     override suspend fun getStatisticsData(): List<SearchStatisticsResponse>? {
         return try {
             val response = searchApi.searchStatistics()
@@ -83,6 +101,21 @@ class SearchRepositoryImpl @Inject constructor(
             }
         } catch (e: Exception){
             Log.e("getStatisticsData", "statistics", e)
+            null
+        }
+    }
+
+    override suspend fun postSearchLogsData(): String?{
+        return try {
+            val response = searchApi.searchLogs()
+            if(response.success){
+                response.result
+            } else {
+                Log.e("postSearchLogs", response.message)
+                null
+            }
+        } catch (e: Exception){
+            Log.e("postSearchLogs", "statistics", e)
             null
         }
     }

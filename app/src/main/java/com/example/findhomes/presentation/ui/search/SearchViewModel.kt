@@ -18,6 +18,8 @@ import com.example.findhomes.domain.usecase.search.GetSearchDetailDataUseCase
 import com.example.findhomes.domain.usecase.search.GetSearchStatisticsUseCase
 import com.example.findhomes.domain.usecase.search.PostChatDataUseCase
 import com.example.findhomes.domain.usecase.search.PostManConUseCase
+import com.example.findhomes.domain.usecase.search.PostSearchFavoriteUseCase
+import com.example.findhomes.domain.usecase.search.PostSearchLogsDataUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,7 +30,9 @@ class SearchViewModel @Inject constructor(
     private val postChatDataUseCase: PostChatDataUseCase,
     private val postManConUseCase: PostManConUseCase,
     private val getSearchDetailDataUseCase: GetSearchDetailDataUseCase,
-    private val getSearchStatisticsUseCase: GetSearchStatisticsUseCase
+    private val getSearchStatisticsUseCase: GetSearchStatisticsUseCase,
+    private val postSearchFavoriteUseCase: PostSearchFavoriteUseCase,
+    private val postSearchLogsDataUseCase: PostSearchLogsDataUseCase
 ): ViewModel() {
     private val _searchData = MutableLiveData<List<SearchCompleteResponse>?>()
     val searchData: LiveData<List<SearchCompleteResponse>?> = _searchData
@@ -107,6 +111,12 @@ class SearchViewModel @Inject constructor(
         }
     }
 
+    fun postFavoriteData(houseId: Int, action: String){
+        viewModelScope.launch {
+            postSearchFavoriteUseCase(houseId, action)
+        }
+    }
+
     fun loadSearchStatisticsData() {
         viewModelScope.launch {
             try {
@@ -117,6 +127,17 @@ class SearchViewModel @Inject constructor(
                 Log.d("SearchViewModel", "로드된 데이터: $data")
             } catch (e: Exception) {
                 Log.e("SearchViewModel", "loadSearchStatisticsData 오류", e)
+            }
+        }
+    }
+
+    fun postSearchLogsData(){
+        viewModelScope.launch {
+            try{
+                postSearchLogsDataUseCase()
+                Log.d("SearchViewModel", "로그 잘 보내짐")
+            } catch (e: Exception) {
+                Log.e("SearchViewModel", "postSearchLogsData 오류", e)
             }
         }
     }

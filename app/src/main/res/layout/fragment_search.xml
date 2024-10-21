@@ -29,22 +29,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/gl_status_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.06"/>
 
             <TextView
                 android:id="@+id/btn_statistic_show"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/gl_status_bar"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:elevation="1dp"
                 android:fontFamily="@font/pretendard_regular"
                 android:padding="10dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/rectangle_gray_8"
                 android:text="통계 결과"/>
@@ -53,11 +48,12 @@
                 android:id="@+id/btn_detail_show"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/gl_status_bar"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:elevation="1dp"
                 android:fontFamily="@font/pretendard_regular"
+                android:layout_marginTop="10dp"
                 android:padding="10dp"
                 android:background="@drawable/rectangle_gray_8"
                 android:text="자세히 보기"/>
@@ -66,14 +62,29 @@
                 android:id="@+id/btn_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/gl_status_bar"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:elevation="1dp"
                 android:layout_marginStart="10dp"
                 android:fontFamily="@font/pretendard_regular"
+                android:layout_marginTop="10dp"
                 android:padding="10dp"
                 android:background="@drawable/rectangle_gray_8"
                 android:text="20개 더보기"/>
+
+            <TextView
+                android:id="@+id/btn_register_log"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/btn_more"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:elevation="1dp"
+                android:fontFamily="@font/pretendard_regular"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/rectangle_gray_8"
+                android:text="검색 내역 저장"/>
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_width="match_parent"

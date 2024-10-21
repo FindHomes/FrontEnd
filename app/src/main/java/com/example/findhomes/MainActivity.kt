@@ -1,11 +1,8 @@
 package com.example.findhomes
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.AttributeSet
 import android.util.Log
-import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -16,7 +13,6 @@ import com.example.findhomes.presentation.ui.home.HomeFragment
 import com.example.findhomes.presentation.ui.mypage.MyPageFragment
 import com.example.findhomes.presentation.ui.search.SearchFragment
 import com.example.findhomes.presentation.ui.search.SearchViewModel
-import com.example.findhomes.presentation.ui.search.TestFragment
 import com.example.findhomes.presentation.ui.wish.WishFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,6 +22,7 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: SearchViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
@@ -43,10 +40,7 @@ class MainActivity : AppCompatActivity() {
         Log.d("manConRequest", manConRequest.toString())
         val fragmentToOpen = getFragmentFromIntent(intent)
 
-//        if (manConRequest != null && fragmentToOpen is SearchFragment) {
-//            viewModel.loadSearchData(manConRequest)
-//        }
-        if (manConRequest != null && fragmentToOpen is TestFragment) {
+        if (manConRequest != null && fragmentToOpen is SearchFragment) {
             viewModel.loadSearchData(manConRequest)
         }
 
@@ -57,8 +51,7 @@ class MainActivity : AppCompatActivity() {
     private fun updateBottomNavigationSelection(fragment: Fragment) {
         binding.mainBnv.selectedItemId = when (fragment) {
             is HomeFragment -> R.id.homeFragment
-//            is SearchFragment -> R.id.searchFragment
-            is TestFragment -> R.id.searchFragment
+            is SearchFragment -> R.id.searchFragment
             is WishFragment -> R.id.interestFragment
             is MyPageFragment -> R.id.myPageFragment
             else -> throw IllegalStateException("Unknown fragment type")
@@ -68,8 +61,7 @@ class MainActivity : AppCompatActivity() {
     private fun getFragmentFromIntent(intent: Intent): Fragment {
         return if (intent.hasExtra("openFragment")) {
             when (intent.getStringExtra("openFragment")) {
-//                "searchFragment" -> SearchFragment()
-                "searchFragment" -> TestFragment()
+                "searchFragment" -> SearchFragment()
                 "interestFragment" -> WishFragment()
                 "myPageFragment" -> MyPageFragment()
                 else -> HomeFragment()
@@ -82,7 +74,6 @@ class MainActivity : AppCompatActivity() {
     private fun initBottomNavigation(defaultFragment: Fragment) {
         openFragment(defaultFragment)
         binding.mainBnv.selectedItemId = when (defaultFragment) {
-//            is SearchFragment -> R.id.searchFragment
             is SearchFragment -> R.id.searchFragment
             is WishFragment -> R.id.interestFragment
             is MyPageFragment -> R.id.myPageFragment
@@ -96,8 +87,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.searchFragment -> {
-//                    openFragment(SearchFragment())
-                    openFragment(TestFragment())
+                    openFragment(SearchFragment())
                     true
                 }
                 R.id.interestFragment -> {

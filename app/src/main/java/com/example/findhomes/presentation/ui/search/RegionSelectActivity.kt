@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.findhomes.R
 import com.example.findhomes.data.model.County
 import com.example.findhomes.databinding.ActivityContractRegionBinding
 import com.example.findhomes.data.dataprovider.DataProvider
@@ -33,14 +34,15 @@ class RegionSelectActivity : AppCompatActivity() {
 
         val manConRequest = intent.getSerializableExtra("manConRequest") as ManConRequest
         Log.d("manConRequest", manConRequest.toString())
-        initBefore()
+        initBack()
         initRecyclerView()
         initNext(manConRequest)
     }
 
-    private fun initBefore() {
-        binding.btnBefore.setOnClickListener {
-            onBackPressed()
+    private fun initBack() {
+        binding.ivBtnBack.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+            overridePendingTransition(R.anim.stay_in_place, R.anim.slide_out_right)
         }
     }
 

@@ -1,5 +1,6 @@
 package com.example.findhomes.presentation.ui.search
 
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.findhomes.R
 import com.example.findhomes.databinding.ActivityContractSelectBinding
 import com.example.findhomes.data.dataprovider.DataProvider
@@ -32,21 +34,23 @@ class ContractSelectActivity : AppCompatActivity() {
         binding = ActivityContractSelectBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initBefore()
+        initBack()
         initHousingTypes()
         initContractTypes()
         initSeekBar()
 
         binding.btnNext.setOnClickListener {
             val intent = Intent(this, RegionSelectActivity::class.java)
+            val options = ActivityOptions.makeCustomAnimation(this, R.anim.slide_in_right, R.anim.stay_in_place)
             intent.putExtra("manConRequest", manConRequest)
-            startActivity(intent)
+            startActivity(intent, options.toBundle())
         }
     }
 
-    private fun initBefore() {
+    private fun initBack() {
         binding.ivBtnBack.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
+            overridePendingTransition(R.anim.stay_in_place, R.anim.slide_out_right)
         }
     }
 

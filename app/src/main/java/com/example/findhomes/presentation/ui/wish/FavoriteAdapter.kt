@@ -1,4 +1,4 @@
-package com.example.findhomes.presentation.ui.search
+package com.example.findhomes.presentation.ui.wish
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -11,21 +11,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.findhomes.R
 import com.example.findhomes.data.model.SearchCompleteResponse
-import com.example.findhomes.databinding.ItemResultRankingBinding
+import com.example.findhomes.databinding.ItemStatisticsKeywordBinding
+import com.example.findhomes.databinding.ItemWishFavoriteBinding
+import com.example.findhomes.presentation.ui.search.ResultRankingAdapter
+import com.example.findhomes.presentation.ui.search.ResultRankingAdapter.OnHeartClickListener
 
-
-class ResultRankingAdapter(private val context: Context) : ListAdapter<SearchCompleteResponse, ResultRankingAdapter.ViewHolder>(
-    DiffCallback()
-) {
-    lateinit var heartClickListener : OnHeartClickListener
+class FavoriteAdapter(val context: Context): ListAdapter<SearchCompleteResponse, FavoriteAdapter.ViewHolder>(DiffCallback()) {
     lateinit var itemClickListener: OnItemClickListener
 
     interface OnItemClickListener {
         fun onItemClicked(data: SearchCompleteResponse)
-    }
-
-    interface OnHeartClickListener {
-        fun onHeartClicked(data: SearchCompleteResponse)
     }
 
     fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
@@ -33,46 +28,27 @@ class ResultRankingAdapter(private val context: Context) : ListAdapter<SearchCom
         itemClickListener = onItemClickListener
     }
 
-    fun setOnHeartClickListener(onHeartClickListener: OnHeartClickListener){
-        Log.d("heartClickListener", onHeartClickListener.toString())
-        heartClickListener = onHeartClickListener
-    }
-
-    fun getItemAtPosition(position: Int): SearchCompleteResponse {
-        return getItem(position)
-    }
-
-    inner class ViewHolder(private val binding: ItemResultRankingBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ItemWishFavoriteBinding) : RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
         fun bind(item: SearchCompleteResponse) {
             Glide.with(context)
                 .load(item.imgUrl[0])
                 .into(binding.ivRanking)
-            binding.tvRanking.text = (absoluteAdapterPosition + 1).toString()
-            binding.tvRankingPriceType.text = item.priceType
-            binding.tvRankingPrice.text =
+            binding.tvPriceType.text = item.priceType
+            binding.tvPrice.text =
                 when(item.priceType){
                     "월세" -> "${item.priceForWs}만원"
                     else -> formatPrice(item.price)
                 }
-            binding.tvRankingDetail1.text = "방 " + item.roomNum + "개"
-            binding.tvRankingDetail2.text = "욕실 " + item.washroomNum + "개"
+            binding.tvDetail1.text = "방 " + item.roomNum + "개"
+            binding.tvDetail2.text = "욕실 " + item.washroomNum + "개"
             binding.tvRankingDetail3.text = item.size.toString() + "m"
-            binding.ivRankingHeart.setImageResource(if(item.favorite) R.drawable.ic_filled_heart else R.drawable.ic_empty_heart)
 
-            binding.cvRanking.setOnClickListener {
+            binding.clRankingItem.setOnClickListener {
                 itemClickListener.onItemClicked(item)
             }
-
-            binding.ivRankingHeart.setOnClickListener {
-                heartClickListener.onHeartClicked(item)
-                item.favorite = !item.favorite
-                binding.ivRankingHeart.setImageResource(
-                    if (item.favorite) R.drawable.ic_filled_heart else R.drawable.ic_empty_heart
-                )
-            }
-
         }
+
     }
 
     private fun formatPrice(price: Int): String {
@@ -88,7 +64,7 @@ class ResultRankingAdapter(private val context: Context) : ListAdapter<SearchCom
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemResultRankingBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemWishFavoriteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
