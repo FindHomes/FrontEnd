@@ -1,5 +1,6 @@
 package com.example.findhomes.presentation.ui.home
 
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -27,7 +28,8 @@ class HomeFragment : Fragment() {
 
         binding.btnSearch.setOnClickListener {
             val intent = Intent(requireActivity(), ContractSelectActivity::class.java)
-            startActivity(intent)
+            val options = ActivityOptions.makeCustomAnimation(requireContext(), R.anim.slide_in_right, R.anim.stay_in_place)
+            startActivity(intent, options.toBundle())
         }
 
         binding.btnWish.setOnClickListener {

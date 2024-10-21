@@ -1,13 +1,16 @@
 package com.example.findhomes.presentation.ui.search
 
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.findhomes.MainActivity
+import com.example.findhomes.R
 import com.example.findhomes.data.model.ManConRequest
 import com.example.findhomes.databinding.ActivityChatDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,7 +41,7 @@ class ChatDetailActivity : AppCompatActivity(){
         initRecommend()
 
 
-        initBefore()
+        initBack()
         showLoadingAnimation(true) // 애니메이션 시작
 
         binding.ivConditionConfirm.setOnClickListener {
@@ -78,9 +81,10 @@ class ChatDetailActivity : AppCompatActivity(){
 
     }
 
-    private fun initBefore() {
+    private fun initBack() {
         binding.ivBtnBack.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
+            overridePendingTransition(R.anim.stay_in_place, R.anim.slide_out_right)
         }
     }
 
@@ -108,8 +112,8 @@ class ChatDetailActivity : AppCompatActivity(){
                 putExtra("manConRequest", manConRequest)
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
             }
-            startActivity(intent)
-        }
+            val options = ActivityOptions.makeCustomAnimation(this@ChatDetailActivity, R.anim.slide_in_right, R.anim.stay_in_place)
+            startActivity(intent, options.toBundle())        }
 
         // 대화 완료 넘어가기 버튼
         chatAdapter.setYesClickListener(object : ChatDetailAdapter.OnYesClickListener {
