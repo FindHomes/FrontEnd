@@ -7,12 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.findhomes.R
-import com.example.findhomes.data.model.SearchCompleteResponse
 import com.example.findhomes.data.model.WishHistoryResponse
-import com.example.findhomes.databinding.FragmentRecentViewBinding
 import com.example.findhomes.databinding.FragmentSearchHistoryBinding
-import com.example.findhomes.presentation.ui.search.SearchDetailFragment
 
 class SearchHistoryFragment : Fragment() {
     lateinit var binding : FragmentSearchHistoryBinding
