@@ -31,7 +31,7 @@ interface SearchApi {
         @Body request : ManConRequest
     ) : BaseResponse<List<String>>
 
-    @GET("api/house/{houseId}")
+    @GET("api/houses/{houseId}")
     suspend fun searchDetail(
         @Path("houseId") houseId : Int
     ) : BaseResponse<SearchDetailResponse?>

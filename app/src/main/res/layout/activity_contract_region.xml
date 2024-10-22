@@ -163,24 +163,11 @@
     <LinearLayout
         android:id="@+id/ll_bottom_bar"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         app:layout_constraintStart_toStartOf="@id/gl_start"
         app:layout_constraintEnd_toEndOf="@id/gl_end"
-        app:layout_constraintHeight_percent="0.075"
         app:layout_constraintBottom_toBottomOf="parent">
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_before"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="@string/text_before"
-            android:textSize="18sp"
-            android:stateListAnimator="@null"
-            android:fontFamily="@font/pretendard_semibold"
-            android:background="@drawable/button_inactive_100"
-            android:layout_marginEnd="4dp"
-            android:layout_weight="1"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_next"
@@ -188,9 +175,13 @@
             android:layout_height="match_parent"
             android:layout_marginStart="4dp"
             android:background="@drawable/button_active_100"
-            android:text="@string/text_after"
+            android:text="@string/contract_next"
+            android:minHeight="0dp"
+            android:paddingVertical="10dp"
             android:textColor="@color/white"
+            android:stateListAnimator="@null"
             android:textSize="18sp"
+            android:elevation="0dp"
             android:fontFamily="@font/pretendard_semibold"
             android:layout_weight="1"/>
 
