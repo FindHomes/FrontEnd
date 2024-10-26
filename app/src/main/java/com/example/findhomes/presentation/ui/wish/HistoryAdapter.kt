@@ -1,22 +1,14 @@
 package com.example.findhomes.presentation.ui.wish
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.example.findhomes.R
-import com.example.findhomes.data.model.SearchCompleteResponse
 import com.example.findhomes.data.model.WishHistoryResponse
-import com.example.findhomes.databinding.ItemStatisticsKeywordBinding
-import com.example.findhomes.databinding.ItemWishFavoriteBinding
 import com.example.findhomes.databinding.ItemWishHistoryBinding
-import com.example.findhomes.presentation.ui.search.ResultRankingAdapter
-import com.example.findhomes.presentation.ui.search.ResultRankingAdapter.OnHeartClickListener
 
 class HistoryAdapter(): ListAdapter<WishHistoryResponse, HistoryAdapter.ViewHolder>(DiffCallback()) {
     lateinit var itemClickListener: OnItemClickListener
@@ -33,7 +25,10 @@ class HistoryAdapter(): ListAdapter<WishHistoryResponse, HistoryAdapter.ViewHold
     inner class ViewHolder(private val binding: ItemWishHistoryBinding) : RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
         fun bind(item: WishHistoryResponse) {
-            binding.tvHistoryTitle.text = item.condition
+            binding.tvHistoryTypeInfo.text = item.typeInfo
+            binding.tvHistoryPriceInfo.text = item.priceInfo
+            binding.tvHistoryRegionInfo.text = item.regionInfo
+            binding.tvHistoryKeyword.text = item.keyword
         }
     }
 
