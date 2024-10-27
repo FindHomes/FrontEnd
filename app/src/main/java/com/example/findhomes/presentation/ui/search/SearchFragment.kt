@@ -143,6 +143,18 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
         rankingAdapter.submitList(housesToShow)
         updateClusterer(housesToShow)
         updateCameraBounds(housesToShow)
+
+        if(housesToShow.isNotEmpty()){
+            selectFirstItem(housesToShow.first())
+        }
+    }
+
+    private fun selectFirstItem(item: SearchCompleteResponse) {
+        val firstMarker = aloneMarkerMap[item.ranking]
+        firstMarker?.let { marker ->
+            marker.isVisible = true
+            selectedAloneMarker = marker
+        }
     }
 
 
