@@ -302,7 +302,7 @@
                 android:orientation="vertical"
                 app:layout_constraintStart_toEndOf="@id/cl_detail_info"
                 app:layout_constraintTop_toTopOf="@id/cl_detail_info"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintEnd_toEndOf="@id/gl_end">
 
                 <LinearLayout
                     android:id="@+id/ll_detail_room_answer"
