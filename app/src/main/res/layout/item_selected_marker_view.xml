@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:textColor="@color/marker_selector_text"
+            android:textColor="@color/button_clicked_color"
             app:layout_constraintStart_toEndOf="@id/tv_price_type"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -80,7 +80,7 @@
     <View
         android:layout_width="2dp"
         android:layout_height="20dp"
-        android:background="@color/main_1"
+        android:background="@color/button_clicked_color"
         app:layout_constraintTop_toBottomOf="@id/cl_ranking_info"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
