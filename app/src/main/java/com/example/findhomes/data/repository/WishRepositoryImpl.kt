@@ -54,4 +54,19 @@ class WishRepositoryImpl @Inject constructor(
             null
         }
     }
+
+    override suspend fun deleteWishHistory(searchLogId : Int): String? {
+        return try {
+            val response = wishApi.deleteHistory(searchLogId)
+            if (response.success) {
+                response.result
+            } else {
+                Log.e("deleteHistory", response.message)
+                null
+            }
+        } catch (e: Exception) {
+            Log.e("deleteHistory", "wish", e)
+            null
+        }
+    }
 }
