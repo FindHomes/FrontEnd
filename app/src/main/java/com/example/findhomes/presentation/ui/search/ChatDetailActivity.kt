@@ -113,21 +113,8 @@ class ChatDetailActivity : AppCompatActivity(){
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
             }
             val options = ActivityOptions.makeCustomAnimation(this@ChatDetailActivity, R.anim.slide_in_right, R.anim.stay_in_place)
-            startActivity(intent, options.toBundle())        }
-
-        // 대화 완료 넘어가기 버튼
-        chatAdapter.setYesClickListener(object : ChatDetailAdapter.OnYesClickListener {
-            override fun onYesClicked() {
-                val intent = Intent(this@ChatDetailActivity, MainActivity::class.java).apply {
-                    Log.d("intent",intent.toString())
-                    putExtra("openFragment", "searchFragment")
-                    putExtra("manConRequest", manConRequest)
-                    flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-                }
-                startActivity(intent)
-            }
-
-        })
+            startActivity(intent, options.toBundle())
+        }
     }
 
     private fun addMessage(message: ChatData) {

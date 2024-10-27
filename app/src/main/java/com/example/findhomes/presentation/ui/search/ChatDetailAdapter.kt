@@ -10,26 +10,13 @@ import com.example.findhomes.databinding.ItemChatEndBinding
 
 class ChatDetailAdapter(private var messages: MutableList<ChatData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private lateinit var yesClickListener: OnYesClickListener
 
     companion object {
         const val VIEW_TYPE_SEND = 0
         const val VIEW_TYPE_RECEIVE = 1
-        const val VIEW_TYPE_END = 2
-    }
-
-    interface OnYesClickListener{
-        fun onYesClicked()
-    }
-
-    fun setYesClickListener(onYesClickListener: OnYesClickListener){
-        yesClickListener = onYesClickListener
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (position == messages.size - 1 && messages.size >= 6) {
-            return VIEW_TYPE_END
-        }
         return if (messages[position].isReceived) VIEW_TYPE_RECEIVE else VIEW_TYPE_SEND
     }
 
@@ -55,22 +42,10 @@ class ChatDetailAdapter(private var messages: MutableList<ChatData>) : RecyclerV
         }
     }
 
-    inner class EndViewHolder(val binding: ItemChatEndBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ChatData) {
-            binding.tvChatEndYes.setOnClickListener {
-                yesClickListener.onYesClicked()
-            }
-            binding.tvChatEndNo.setOnClickListener {
-                // no 버튼 로직 구현
-            }
-        }
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             VIEW_TYPE_SEND -> SendViewHolder(ItemChatSendBinding.inflate(LayoutInflater.from(parent.context), parent, false))
             VIEW_TYPE_RECEIVE -> ReceiveViewHolder(ItemChatReceiveBinding.inflate(LayoutInflater.from(parent.context), parent, false))
-            VIEW_TYPE_END -> EndViewHolder(ItemChatEndBinding.inflate(LayoutInflater.from(parent.context), parent, false))
             else -> throw IllegalArgumentException("Invalid view type")
         }
     }
@@ -79,7 +54,6 @@ class ChatDetailAdapter(private var messages: MutableList<ChatData>) : RecyclerV
         when (holder) {
             is SendViewHolder -> holder.bind(messages[position])
             is ReceiveViewHolder -> holder.bind(messages[position])
-            is EndViewHolder -> holder.bind(messages[position])
         }
     }
 
