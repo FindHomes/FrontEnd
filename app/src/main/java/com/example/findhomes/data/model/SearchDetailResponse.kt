@@ -1,6 +1,7 @@
 package com.example.findhomes.data.model
 
 data class SearchDetailResponse(
+    val ranking : Int,
     val houseId: Int,
     val url: String,
     val priceType: String,
@@ -21,5 +22,6 @@ data class SearchDetailResponse(
     val x: Double,
     val y: Double,
     val imgUrl: List<String>,
-    val score: Double
+    val score: Double,
+    val favorite : Boolean
 )

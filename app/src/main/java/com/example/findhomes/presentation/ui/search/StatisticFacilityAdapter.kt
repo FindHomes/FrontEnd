@@ -27,6 +27,10 @@ class StatisticFacilityAdapter(val context: Context) : ListAdapter<GraphDataResp
         @SuppressLint("SetTextI18n")
         fun bind(item: GraphDataResponse) {
             binding.statisticsTvData1.text = item.dataName
+            val firstValueName = item.houseAndValues.firstOrNull()?.values?.firstOrNull()?.name
+            binding.statisticsTvData2.text = firstValueName ?: ""
+            val secondValueName = item.houseAndValues.firstOrNull()?.values?.elementAtOrNull(1)?.name
+            binding.statisticsTvData3.text = secondValueName ?: ""
             initGraph(item)
         }
 

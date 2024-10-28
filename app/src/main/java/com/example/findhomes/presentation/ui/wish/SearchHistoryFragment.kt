@@ -5,14 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.findhomes.R
-import com.example.findhomes.data.model.SearchCompleteResponse
 import com.example.findhomes.data.model.WishHistoryResponse
-import com.example.findhomes.databinding.FragmentRecentViewBinding
 import com.example.findhomes.databinding.FragmentSearchHistoryBinding
-import com.example.findhomes.presentation.ui.search.SearchDetailFragment
 
 class SearchHistoryFragment : Fragment() {
     lateinit var binding : FragmentSearchHistoryBinding
@@ -52,8 +49,15 @@ class SearchHistoryFragment : Fragment() {
 //                    .addToBackStack(null)
 //                    .commit()
             }
-
         })
+
+        historyAdapter.setOnDeleteClickListener(object : HistoryAdapter.OnDeleteClickListener {
+            override fun onDeleteClicked(data: WishHistoryResponse) {
+                viewModel.deleteHistoryData(data.searchLogId)
+                Toast.makeText(requireContext(), "검색 기록이 제거되었습니다.", Toast.LENGTH_SHORT).show()
+            }
+        })
+
     }
 
     private fun observeViewModel() {

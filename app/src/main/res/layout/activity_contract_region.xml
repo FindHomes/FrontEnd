@@ -54,32 +54,44 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <EditText
-        android:id="@+id/et_search"
+<!--    <EditText-->
+<!--        android:id="@+id/et_search"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintStart_toStartOf="@id/gl_start"-->
+<!--        app:layout_constraintEnd_toEndOf="@id/gl_end"-->
+<!--        android:hint="@string/detail_input"-->
+<!--        android:textSize="16sp"-->
+<!--        android:fontFamily="@font/pretendard_regular"-->
+<!--        android:paddingStart="16dp"-->
+<!--        android:paddingTop="16dp"-->
+<!--        android:paddingBottom="16dp"-->
+<!--        android:paddingEnd="16dp"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/cl_region_top_bar"-->
+<!--        android:background="@drawable/rectangle_gray_8"-->
+<!--        android:layout_marginBottom="22dp"/>-->
+
+    <TextView
+        android:id="@+id/tv_reference_region"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/cl_region_top_bar"
         app:layout_constraintStart_toStartOf="@id/gl_start"
         app:layout_constraintEnd_toEndOf="@id/gl_end"
-        android:hint="@string/detail_input"
-        android:textSize="16sp"
-        android:fontFamily="@font/pretendard_regular"
-        android:paddingStart="16dp"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
-        android:paddingEnd="16dp"
-        android:layout_alignParentBottom="true"
-        app:layout_constraintTop_toBottomOf="@id/cl_region_top_bar"
-        android:background="@drawable/rectangle_gray_8"
-        android:layout_marginBottom="22dp"/>
+        android:textSize="12sp"
+        android:fontFamily="@font/pretendard_medium"
+        android:textColor="@color/body_1"
+        android:text="@string/region_reference"/>
 
     <View
         android:id="@+id/line_1"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="@id/gl_start"
         app:layout_constraintEnd_toEndOf="@id/gl_end"
-        app:layout_constraintTop_toBottomOf="@id/et_search"
+        app:layout_constraintTop_toBottomOf="@id/tv_reference_region"
         android:background="@color/body_4"/>
 
     <TextView
@@ -152,8 +164,8 @@
         android:id="@+id/tv_select_region"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:fontFamily="@font/pretendard_semibold"
+        android:textSize="20sp"
+        android:fontFamily="@font/pretendard_bold"
         android:textColor="@color/body_3"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="22dp"
@@ -163,24 +175,11 @@
     <LinearLayout
         android:id="@+id/ll_bottom_bar"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         app:layout_constraintStart_toStartOf="@id/gl_start"
         app:layout_constraintEnd_toEndOf="@id/gl_end"
-        app:layout_constraintHeight_percent="0.075"
         app:layout_constraintBottom_toBottomOf="parent">
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_before"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="@string/text_before"
-            android:textSize="18sp"
-            android:stateListAnimator="@null"
-            android:fontFamily="@font/pretendard_semibold"
-            android:background="@drawable/button_inactive_100"
-            android:layout_marginEnd="4dp"
-            android:layout_weight="1"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_next"
@@ -188,9 +187,13 @@
             android:layout_height="match_parent"
             android:layout_marginStart="4dp"
             android:background="@drawable/button_active_100"
-            android:text="@string/text_after"
+            android:text="@string/contract_next"
+            android:minHeight="0dp"
+            android:paddingVertical="10dp"
             android:textColor="@color/white"
+            android:stateListAnimator="@null"
             android:textSize="18sp"
+            android:elevation="0dp"
             android:fontFamily="@font/pretendard_semibold"
             android:layout_weight="1"/>
 

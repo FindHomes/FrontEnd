@@ -1,5 +1,6 @@
 package com.example.findhomes.presentation.ui.wish
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,11 +10,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.findhomes.R
 import com.example.findhomes.data.model.SearchCompleteResponse
-import com.example.findhomes.databinding.FragmentFavoriteBinding
 import com.example.findhomes.databinding.FragmentRecentViewBinding
-import com.example.findhomes.presentation.ui.search.ResultRankingAdapter
-import com.example.findhomes.presentation.ui.search.SearchDetailFragment
-import com.example.findhomes.presentation.ui.search.SearchViewModel
+import com.example.findhomes.presentation.ui.search.SearchDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.getValue
 
@@ -46,15 +44,9 @@ class RecentViewFragment : Fragment() {
 
         recentAdapter.setOnItemClickListener(object : FavoriteAdapter.OnItemClickListener{
             override fun onItemClicked(data: SearchCompleteResponse) {
-                val bundle = Bundle()
-                bundle.putInt("houseId", data.houseId)
-
-                val nextFragment = SearchDetailFragment()
-                nextFragment.arguments = bundle
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.main_frm, nextFragment)
-                    .addToBackStack(null)
-                    .commit()
+                val intent = Intent(requireContext(), SearchDetailActivity::class.java)
+                intent.putExtra("houseId", data.houseId)
+                startActivity(intent)
             }
 
         })

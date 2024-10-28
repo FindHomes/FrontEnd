@@ -1,5 +1,6 @@
 package com.example.findhomes.presentation.ui.search
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
@@ -142,6 +143,18 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
         rankingAdapter.submitList(housesToShow)
         updateClusterer(housesToShow)
         updateCameraBounds(housesToShow)
+
+        if(housesToShow.isNotEmpty()){
+            selectFirstItem(housesToShow.first())
+        }
+    }
+
+    private fun selectFirstItem(item: SearchCompleteResponse) {
+        val firstMarker = aloneMarkerMap[item.ranking]
+        firstMarker?.let { marker ->
+            marker.isVisible = true
+            selectedAloneMarker = marker
+        }
     }
 
 
@@ -289,15 +302,9 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
 
         rankingAdapter.setOnItemClickListener(object : ResultRankingAdapter.OnItemClickListener{
             override fun onItemClicked(data: SearchCompleteResponse) {
-                val bundle = Bundle()
-                bundle.putInt("houseId", data.houseId)
-
-                val nextFragment = SearchDetailFragment()
-                nextFragment.arguments = bundle
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.main_frm, nextFragment)
-                    .addToBackStack(null)
-                    .commit()
+                val intent = Intent(requireContext(), SearchDetailActivity::class.java)
+                intent.putExtra("houseId", data.houseId)
+                startActivity(intent)
             }
         })
 
