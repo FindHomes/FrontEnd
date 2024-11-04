@@ -25,10 +25,24 @@
             app:lottie_autoPlay="true"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/search_cl_main"
+            android:id="@+id/search_cl_none"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="60sp"
+                android:fontFamily="@font/pretendard_bold"
+                android:text="데이터 없음"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/search_cl_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/btn_statistic_show"

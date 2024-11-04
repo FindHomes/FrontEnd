@@ -57,10 +57,16 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-        arguments?.getSerializable("manConRequest")?.let {
-            if (it is ManConRequest) {
-                viewModel.loadSearchData(it)
-            }
+        val manConRequest = arguments?.getSerializable("manConRequest") as? ManConRequest
+        Log.d("manConRequestSearch", manConRequest.toString())
+        if (manConRequest != null) {
+            binding.searchClNone.visibility = View.GONE
+            showLoadingAnimation(true)
+            viewModel.loadSearchData(manConRequest)
+        } else {
+            binding.searchClMain.visibility = View.GONE
+            binding.searchClNone.visibility = View.VISIBLE
+            binding.searchLa.visibility = View.GONE
         }
 
         binding.mvRanking.onCreate(savedInstanceState)
@@ -77,9 +83,6 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
         initDetailButton()
         initStatistics()
         initSearchLogs()
-
-        showLoadingAnimation(true) // 애니메이션 시작
-
 
         return binding.root
     }

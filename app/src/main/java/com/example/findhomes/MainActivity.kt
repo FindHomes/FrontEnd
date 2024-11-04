@@ -7,7 +7,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.findhomes.data.model.ManConRequest
 import com.example.findhomes.databinding.ActivityMainBinding
 import com.example.findhomes.presentation.ui.home.HomeFragment
 import com.example.findhomes.presentation.ui.mypage.MyPageFragment
@@ -15,6 +14,7 @@ import com.example.findhomes.presentation.ui.search.SearchFragment
 import com.example.findhomes.presentation.ui.search.SearchViewModel
 import com.example.findhomes.presentation.ui.wish.WishFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.math.log
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -39,18 +39,6 @@ class MainActivity : AppCompatActivity() {
         val fragmentToOpen = getFragmentFromIntent(intent) // 프래그먼트 및 데이터 설정
 
         openFragment(fragmentToOpen)
-        updateBottomNavigationSelection(fragmentToOpen)
-    }
-
-
-    private fun updateBottomNavigationSelection(fragment: Fragment) {
-        binding.mainBnv.selectedItemId = when (fragment) {
-            is HomeFragment -> R.id.homeFragment
-            is SearchFragment -> R.id.searchFragment
-            is WishFragment -> R.id.interestFragment
-            is MyPageFragment -> R.id.myPageFragment
-            else -> throw IllegalStateException("Unknown fragment type")
-        }
     }
 
     private fun getFragmentFromIntent(intent: Intent): Fragment {
@@ -64,7 +52,9 @@ class MainActivity : AppCompatActivity() {
         intent.getSerializableExtra("manConRequest")?.let {
             val bundle = Bundle()
             bundle.putSerializable("manConRequest", it)
+            Log.d("manConRequestMain", "getFragmentFromIntent: $it")
             fragment.arguments = bundle
+            Log.d("manConBundle", "getFragmentFromIntent: $bundle")
         }
 
         return fragment
