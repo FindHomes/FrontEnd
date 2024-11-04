@@ -42,6 +42,10 @@ class HistoryAdapter(): ListAdapter<WishHistoryResponse, HistoryAdapter.ViewHold
             binding.tvHistoryDelete.setOnClickListener {
                 deleteClickListener.onDeleteClicked(item)
             }
+
+            binding.clHistoryItem.setOnClickListener {
+                itemClickListener.onItemClicked(item.searchLogId)
+            }
         }
     }
 

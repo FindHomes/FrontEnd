@@ -69,6 +69,19 @@ class SearchViewModel @Inject constructor(
         }
     }
 
+    fun loadSearchLogData(searchLogId : Int){
+        viewModelScope.launch {
+            try{
+                Log.d("SearchViewModel", "데이터 로딩 시작")
+                _searchData.value = getSearchDataUseCase(searchLogId)
+                Log.d("SearchViewModel", "로드된 데이터: ${_searchData.value}")
+            } catch (e : Exception){
+                Log.e("SearchViewModel", "loadSearchData 오류", e)
+
+            }
+        }
+    }
+
     fun loadSearchDetailData(houseId : Int){
         viewModelScope.launch {
             try {

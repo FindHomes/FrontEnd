@@ -26,6 +26,11 @@ interface SearchApi {
         @Query ("manConRequest") manConRequest: ManConRequest
     ): BaseResponse<List<SearchCompleteResponse>?>
 
+    @GET("api/search-logs/{searchLogId}/complete")
+    suspend fun searchLogId(
+        @Path("searchLogId") searchLogId : Int
+    ) : BaseResponse<List<SearchCompleteResponse>?>
+
     @POST("api/search/man-con")
     suspend fun searchManCon(
         @Body request : ManConRequest
