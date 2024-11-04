@@ -36,17 +36,12 @@ class MainActivity : AppCompatActivity() {
         super.onNewIntent(intent)
         setIntent(intent) // 새 인텐트 설정
 
-        val manConRequest = intent.getSerializableExtra("manConRequest") as? ManConRequest
-        Log.d("manConRequest", manConRequest.toString())
-        val fragmentToOpen = getFragmentFromIntent(intent)
-
-        if (manConRequest != null && fragmentToOpen is SearchFragment) {
-            viewModel.loadSearchData(manConRequest)
-        }
+        val fragmentToOpen = getFragmentFromIntent(intent) // 프래그먼트 및 데이터 설정
 
         openFragment(fragmentToOpen)
         updateBottomNavigationSelection(fragmentToOpen)
     }
+
 
     private fun updateBottomNavigationSelection(fragment: Fragment) {
         binding.mainBnv.selectedItemId = when (fragment) {
@@ -59,16 +54,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getFragmentFromIntent(intent: Intent): Fragment {
-        return if (intent.hasExtra("openFragment")) {
-            when (intent.getStringExtra("openFragment")) {
-                "searchFragment" -> SearchFragment()
-                "interestFragment" -> WishFragment()
-                "myPageFragment" -> MyPageFragment()
-                else -> HomeFragment()
-            }
-        } else {
-            HomeFragment()
+        val fragment = when (intent.getStringExtra("openFragment")) {
+            "searchFragment" -> SearchFragment()
+            "interestFragment" -> WishFragment()
+            "myPageFragment" -> MyPageFragment()
+            else -> HomeFragment()
         }
+
+        intent.getSerializableExtra("manConRequest")?.let {
+            val bundle = Bundle()
+            bundle.putSerializable("manConRequest", it)
+            fragment.arguments = bundle
+        }
+
+        return fragment
     }
 
     private fun initBottomNavigation(defaultFragment: Fragment) {

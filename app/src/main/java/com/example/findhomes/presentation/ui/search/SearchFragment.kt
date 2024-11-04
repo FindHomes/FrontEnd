@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.findhomes.R
+import com.example.findhomes.data.model.ManConRequest
 import com.example.findhomes.data.model.SearchCompleteResponse
 import com.example.findhomes.databinding.FragmentSearchBinding
 import com.example.findhomes.databinding.ItemMarkerViewBinding
@@ -55,6 +56,12 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
+
+        arguments?.getSerializable("manConRequest")?.let {
+            if (it is ManConRequest) {
+                viewModel.loadSearchData(it)
+            }
+        }
 
         binding.mvRanking.onCreate(savedInstanceState)
         binding.mvRanking.getMapAsync(this)
