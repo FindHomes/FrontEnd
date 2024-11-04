@@ -12,4 +12,8 @@ interface WishRepository {
 
     suspend fun getWishHistory(
     ): List<WishHistoryResponse>?
+
+    suspend fun deleteWishHistory(
+        searchLogId : Int
+    ) : String?
 }

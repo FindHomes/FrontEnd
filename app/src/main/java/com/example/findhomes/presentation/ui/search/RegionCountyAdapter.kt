@@ -1,8 +1,10 @@
 package com.example.findhomes.presentation.ui.search
 
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.findhomes.R
 import com.example.findhomes.data.model.County
@@ -28,11 +30,19 @@ class RegionCountyAdapter(var counties: List<County>) : RecyclerView.Adapter<Reg
                 if(isSelected) ContextCompat.getColor(binding.root.context, R.color.button_color)
                 else ContextCompat.getColor(binding.root.context, R.color.body_3)
             )
+            val typeface: Typeface? = if (isSelected) {
+                // 선택된 경우 사용할 폰트
+                ResourcesCompat.getFont(binding.root.context, R.font.pretendard_semibold)
+            } else {
+                // 선택되지 않은 경우 사용할 폰트
+                ResourcesCompat.getFont(binding.root.context, R.font.pretendard_regular)
+            }
+            binding.tvCounty.typeface = typeface
             binding.tvCounty.setOnClickListener {
                 val previousPosition = selectedPosition
-                if(previousPosition != adapterPosition){
+                if(previousPosition != absoluteAdapterPosition){
                     countyClickListener.onCountyClicked(item)
-                    selectedPosition = adapterPosition
+                    selectedPosition = absoluteAdapterPosition
                     notifyItemChanged(previousPosition)
                     notifyItemChanged(selectedPosition)
                 }

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.findhomes.data.model.SearchCompleteResponse
 import com.example.findhomes.data.model.WishHistoryResponse
+import com.example.findhomes.domain.usecase.wish.DeleteWishHistoryDataUseCase
 import com.example.findhomes.domain.usecase.wish.GetWishFavoriteDataUseCase
 import com.example.findhomes.domain.usecase.wish.GetWishHistoryDataUseCase
 import com.example.findhomes.domain.usecase.wish.GetWishRecentDataUseCase
@@ -18,7 +19,8 @@ import javax.inject.Inject
 class WishViewModel @Inject constructor(
     private val getFavoriteDataUseCase: GetWishFavoriteDataUseCase,
     private val getRecentDataUseCase: GetWishRecentDataUseCase,
-    private val getWishHistoryDataUseCase: GetWishHistoryDataUseCase
+    private val getWishHistoryDataUseCase: GetWishHistoryDataUseCase,
+    private val deleteWishHistoryDataUseCase: DeleteWishHistoryDataUseCase
 ): ViewModel(){
     private val _favoriteData = MutableLiveData<List<SearchCompleteResponse>?>()
     val favoriteData: LiveData<List<SearchCompleteResponse>?> = _favoriteData
@@ -61,4 +63,17 @@ class WishViewModel @Inject constructor(
             }
         }
     }
+
+    fun deleteHistoryData(searchLogId: Int) {
+        viewModelScope.launch {
+            try {
+                deleteWishHistoryDataUseCase(searchLogId)
+                val updatedList = _historyData.value?.filterNot { it.searchLogId == searchLogId }
+                _historyData.value = updatedList
+            } catch (e: Exception) {
+                Log.e("WishViewModel", "deleteHistoryData 오류", e)
+            }
+        }
+    }
+
 }

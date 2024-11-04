@@ -12,14 +12,23 @@ import com.example.findhomes.databinding.ItemWishHistoryBinding
 
 class HistoryAdapter(): ListAdapter<WishHistoryResponse, HistoryAdapter.ViewHolder>(DiffCallback()) {
     lateinit var itemClickListener: OnItemClickListener
+    lateinit var deleteClickListener: OnDeleteClickListener
+
 
     interface OnItemClickListener {
         fun onItemClicked(data: WishHistoryResponse)
     }
 
+    interface OnDeleteClickListener {
+        fun onDeleteClicked(data: WishHistoryResponse)
+    }
+
     fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
-        Log.d("itemClickListener", onItemClickListener.toString())
         itemClickListener = onItemClickListener
+    }
+
+    fun setOnDeleteClickListener(onDeleteClickListener: OnDeleteClickListener) {
+        deleteClickListener = onDeleteClickListener
     }
 
     inner class ViewHolder(private val binding: ItemWishHistoryBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -29,6 +38,10 @@ class HistoryAdapter(): ListAdapter<WishHistoryResponse, HistoryAdapter.ViewHold
             binding.tvHistoryPriceInfo.text = item.priceInfo
             binding.tvHistoryRegionInfo.text = item.regionInfo
             binding.tvHistoryKeyword.text = item.keyword
+
+            binding.tvHistoryDelete.setOnClickListener {
+                deleteClickListener.onDeleteClicked(item)
+            }
         }
     }
 
