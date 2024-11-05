@@ -106,11 +106,13 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
 
     private fun initStatistics() {
         binding.btnStatisticShow.setOnClickListener{
-            StatisticsFragment().arguments = Bundle()
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.main_frm, StatisticsFragment())
-                .addToBackStack(null)
-                .commit()
+//            StatisticsFragment().arguments = Bundle()
+//            parentFragmentManager.beginTransaction()
+//                .replace(R.id.main_frm, StatisticsFragment())
+//                .addToBackStack(null)
+//                .commit()
+            val intent = Intent(requireContext(), StatisticsActivity::class.java)
+            startActivity(intent)
         }
     }
 
