@@ -22,6 +22,7 @@ data class SearchDetailResponse(
     val x: Double,
     val y: Double,
     val imgUrl: List<String>,
+    val updateDate : String,
     val score: Double,
     val favorite : Boolean
 )
