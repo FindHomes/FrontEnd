@@ -187,7 +187,7 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
         }
         val bounds = boundsBuilder.build()
 
-        val cameraUpdate = CameraUpdate.fitBounds(bounds, 100)
+        val cameraUpdate = CameraUpdate.fitBounds(bounds, 200)
         naverMap.moveCamera(cameraUpdate)
     }
 
