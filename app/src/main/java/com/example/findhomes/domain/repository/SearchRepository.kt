@@ -12,6 +12,10 @@ interface SearchRepository {
         manConRequest: ManConRequest
     ) : List<SearchCompleteResponse>?
 
+    suspend fun getSearchLogData(
+        searchLogId : Int
+    ) : List<SearchCompleteResponse>?
+
     suspend fun postChatData(
         searchChatRequest: SearchChatRequest
     ) : SearchChatResponse?

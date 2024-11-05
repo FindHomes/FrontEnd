@@ -16,7 +16,7 @@ class HistoryAdapter(): ListAdapter<WishHistoryResponse, HistoryAdapter.ViewHold
 
 
     interface OnItemClickListener {
-        fun onItemClicked(data: WishHistoryResponse)
+        fun onItemClicked(data: Int)
     }
 
     interface OnDeleteClickListener {

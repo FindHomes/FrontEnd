@@ -58,16 +58,21 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
         binding.viewModel = viewModel
 
         val manConRequest = arguments?.getSerializable("manConRequest") as? ManConRequest
-        val searchLogId = arguments?.getString("searchLogId")
+        val searchLogId = arguments?.getInt("searchLogId")
+        Log.d("manConRequest",manConRequest.toString())
+        Log.d("searchLogId호출",searchLogId.toString())
+
 
         if (manConRequest != null) {
+            Log.d("manConRequest호출","manConRequest호출")
             binding.searchClNone.visibility = View.GONE
             showLoadingAnimation(true)
             viewModel.loadSearchData(manConRequest)
         } else if (searchLogId != null) {
+            Log.d("searchLogId호출","searchLogId호출")
             binding.searchClNone.visibility = View.GONE
             showLoadingAnimation(true)
-            viewModel.loadSearchLog(searchLogId)
+            viewModel.loadSearchLogData(searchLogId)
         } else {
             binding.searchClMain.visibility = View.GONE
             binding.searchClNone.visibility = View.VISIBLE

@@ -29,6 +29,21 @@ class SearchRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getSearchLogData(searchLogId: Int): List<SearchCompleteResponse>? {
+        return try {
+            val response = searchApi.searchLogId(searchLogId)
+            if (response.success) {
+                response.result
+            } else {
+                Log.e("getSearchLogData", response.message)
+                null
+            }
+        } catch (e: Exception) {
+            Log.e("getSearchLogData", "search", e)
+            null
+        }
+    }
+
     override suspend fun postChatData(searchChatRequest: SearchChatRequest) : SearchChatResponse? {
         return try {
             val response = searchApi.searchChat(searchChatRequest)

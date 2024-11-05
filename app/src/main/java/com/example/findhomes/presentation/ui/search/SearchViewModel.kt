@@ -15,6 +15,7 @@ import com.example.findhomes.data.model.SearchDetailResponse
 import com.example.findhomes.data.model.SearchStatisticsResponse
 import com.example.findhomes.domain.usecase.search.GetSearchDataUseCase
 import com.example.findhomes.domain.usecase.search.GetSearchDetailDataUseCase
+import com.example.findhomes.domain.usecase.search.GetSearchLogDataUseCase
 import com.example.findhomes.domain.usecase.search.GetSearchStatisticsUseCase
 import com.example.findhomes.domain.usecase.search.PostChatDataUseCase
 import com.example.findhomes.domain.usecase.search.PostManConUseCase
@@ -27,12 +28,13 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val getSearchDataUseCase: GetSearchDataUseCase,
+    private val getSearchLogDataUseCase: GetSearchLogDataUseCase,
     private val postChatDataUseCase: PostChatDataUseCase,
     private val postManConUseCase: PostManConUseCase,
     private val getSearchDetailDataUseCase: GetSearchDetailDataUseCase,
     private val getSearchStatisticsUseCase: GetSearchStatisticsUseCase,
     private val postSearchFavoriteUseCase: PostSearchFavoriteUseCase,
-    private val postSearchLogsDataUseCase: PostSearchLogsDataUseCase
+    private val postSearchLogsDataUseCase: PostSearchLogsDataUseCase,
 ): ViewModel() {
     private val _searchData = MutableLiveData<List<SearchCompleteResponse>?>()
     val searchData: LiveData<List<SearchCompleteResponse>?> = _searchData
@@ -73,7 +75,7 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             try{
                 Log.d("SearchViewModel", "데이터 로딩 시작")
-                _searchData.value = getSearchDataUseCase(searchLogId)
+                _searchData.value = getSearchLogDataUseCase(searchLogId)
                 Log.d("SearchViewModel", "로드된 데이터: ${_searchData.value}")
             } catch (e : Exception){
                 Log.e("SearchViewModel", "loadSearchData 오류", e)
