@@ -6,6 +6,7 @@ import com.example.findhomes.data.model.SearchChatRequest
 import com.example.findhomes.data.model.SearchChatResponse
 import com.example.findhomes.data.model.SearchCompleteResponse
 import com.example.findhomes.data.model.SearchDetailResponse
+import com.example.findhomes.data.model.SearchRecommendResponse
 import com.example.findhomes.data.model.SearchStatisticsResponse
 import com.example.findhomes.data.remote.SearchApi
 import com.example.findhomes.domain.repository.SearchRepository
@@ -72,7 +73,7 @@ class SearchRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getSearchDetailData(houseId: Int): SearchDetailResponse? {
+    override suspend fun getSearchDetailData(houseId: Int): SearchRecommendResponse? {
         return try {
             val response = searchApi.searchDetail(houseId)
             if (response.success) {

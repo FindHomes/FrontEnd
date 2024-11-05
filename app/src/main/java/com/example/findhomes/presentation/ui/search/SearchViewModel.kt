@@ -50,6 +50,9 @@ class SearchViewModel @Inject constructor(
     private val _detailData = MutableLiveData<SearchDetailResponse?>()
     val detailData: LiveData<SearchDetailResponse?> = _detailData
 
+    private val _statsData = MutableLiveData<List<String>?>()
+    val statsData: LiveData<List<String>?> = _statsData
+
     private val _statisticsData = MutableLiveData<List<SearchStatisticsResponse>?>()
     val statisticsData: LiveData<List<SearchStatisticsResponse>?> = _statisticsData
 
@@ -84,16 +87,26 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun loadSearchDetailData(houseId : Int){
+    fun loadSearchDetailData(houseId: Int){
         viewModelScope.launch {
             try {
-                _detailData.value = getSearchDetailDataUseCase(houseId)
-                Log.d("SearchViewModel", "로드된 데이터: ${_detailData.value}")
+                val response = getSearchDetailDataUseCase(houseId)
+                if (response != null) {
+                    _detailData.value = response.responseHouse
+                    Log.d("SearchViewModel", "로드된 데이터: ${_detailData.value}")
+                    _statsData.value = response.stats
+                    Log.d("SearchViewModel", "로드된 데이터: ${_statsData.value}")
+                } else {
+                    Log.d("SearchViewModel", "No detail data found for houseId: $houseId")
+                    _detailData.value = null
+                }
             } catch (e: Exception){
-                Log.e("SearchViewModel", "loadSearchDetailData 오류", e)
+                Log.e("SearchViewModel", "Error loading search detail data", e)
+                _detailData.value = null
             }
         }
     }
+
 
     fun loadMoreData() {
         currentMaxIndex += 20  // 20개의 아이템을 더 로드
