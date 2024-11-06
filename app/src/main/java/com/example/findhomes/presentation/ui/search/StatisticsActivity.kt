@@ -35,7 +35,6 @@ class StatisticsActivity : AppCompatActivity() {
         binding.statisticRvPublic.adapter = statisticPublicAdapter
         binding.statisticRvPublic.layoutManager = LinearLayoutManager(this)
 
-        // Initialize keyword adapter and handle selection event with callback
         statisticsKeywordAdapter = StatisticsKeywordAdapter { keyword ->
             viewModel.statisticsData.value?.find { it.keyword == keyword }?.let { selectedData ->
                 statisticFacilityAdapter.submitList(selectedData.facilityAndInfos)

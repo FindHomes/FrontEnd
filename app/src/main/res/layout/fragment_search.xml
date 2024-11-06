@@ -56,7 +56,8 @@
                 android:padding="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
-                android:background="@drawable/rectangle_white_8_none"
+                android:backgroundTint="@color/white"
+                android:background="@drawable/rectangle_gray_8"
                 android:text="통계 결과"/>
 
             <TextView
@@ -70,7 +71,8 @@
                 android:fontFamily="@font/pretendard_regular"
                 android:layout_marginTop="10dp"
                 android:padding="10dp"
-                android:background="@drawable/rectangle_white_8_none"
+                android:backgroundTint="@color/white"
+                android:background="@drawable/rectangle_gray_8"
                 android:text="자세히 보기"/>
 
             <TextView
@@ -84,7 +86,8 @@
                 android:fontFamily="@font/pretendard_regular"
                 android:layout_marginTop="10dp"
                 android:padding="10dp"
-                android:background="@drawable/rectangle_white_8_none"
+                android:backgroundTint="@color/white"
+                android:background="@drawable/rectangle_gray_8"
                 android:text="20개 더보기"/>
 
             <TextView
@@ -98,7 +101,8 @@
                 android:padding="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
-                android:background="@drawable/rectangle_white_8_none"
+                android:backgroundTint="@color/white"
+                android:background="@drawable/rectangle_gray_8"
                 android:text="검색 내역 저장"/>
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
