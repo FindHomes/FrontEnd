@@ -1,4 +1,4 @@
-package com.example.findhomes.presentation.ui.search
+package com.example.findhomes.presentation.ui.essential
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -13,6 +13,7 @@ import com.example.findhomes.databinding.ActivityContractRegionBinding
 import com.example.findhomes.data.dataprovider.DataProvider
 import com.example.findhomes.data.model.City
 import com.example.findhomes.data.model.ManConRequest
+import com.example.findhomes.presentation.ui.chat.ChatDetailActivity
 
 class RegionSelectActivity : AppCompatActivity() {
     lateinit var binding: ActivityContractRegionBinding

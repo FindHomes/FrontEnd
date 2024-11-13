@@ -4,12 +4,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import com.example.findhomes.data.model.GraphDataResponse
 import com.example.findhomes.data.model.ManConRequest
 import com.example.findhomes.data.model.SearchChatRequest
-import com.example.findhomes.data.model.SearchChatResponse
 import com.example.findhomes.data.model.SearchCompleteResponse
 import com.example.findhomes.data.model.SearchDetailResponse
 import com.example.findhomes.data.model.SearchStatisticsResponse
@@ -21,6 +18,7 @@ import com.example.findhomes.domain.usecase.search.PostChatDataUseCase
 import com.example.findhomes.domain.usecase.search.PostManConUseCase
 import com.example.findhomes.domain.usecase.search.PostSearchFavoriteUseCase
 import com.example.findhomes.domain.usecase.search.PostSearchLogsDataUseCase
+import com.example.findhomes.presentation.ui.chat.ChatData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

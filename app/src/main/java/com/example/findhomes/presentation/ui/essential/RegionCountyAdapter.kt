@@ -1,4 +1,4 @@
-package com.example.findhomes.presentation.ui.search
+package com.example.findhomes.presentation.ui.essential
 
 import android.graphics.Typeface
 import android.view.LayoutInflater

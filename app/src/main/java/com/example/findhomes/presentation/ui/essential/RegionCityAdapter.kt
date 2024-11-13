@@ -1,4 +1,4 @@
-package com.example.findhomes.presentation.ui.search
+package com.example.findhomes.presentation.ui.essential
 
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -7,7 +7,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.findhomes.R
 import com.example.findhomes.data.model.City
-import com.example.findhomes.data.model.County
 import com.example.findhomes.databinding.ItemRegionCityBinding
 
 class RegionCityAdapter(
