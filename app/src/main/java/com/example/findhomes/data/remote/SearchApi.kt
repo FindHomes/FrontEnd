@@ -7,6 +7,7 @@ import com.example.findhomes.data.model.SearchChatRequest
 import com.example.findhomes.data.model.SearchChatResponse
 import com.example.findhomes.data.model.SearchCompleteResponse
 import com.example.findhomes.data.model.SearchDetailResponse
+import com.example.findhomes.data.model.SearchRecommendResponse
 import com.example.findhomes.data.model.SearchStatisticsResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -26,15 +27,20 @@ interface SearchApi {
         @Query ("manConRequest") manConRequest: ManConRequest
     ): BaseResponse<List<SearchCompleteResponse>?>
 
+    @GET("api/search-logs/{searchLogId}/complete")
+    suspend fun searchLogId(
+        @Path("searchLogId") searchLogId : Int
+    ) : BaseResponse<List<SearchCompleteResponse>?>
+
     @POST("api/search/man-con")
     suspend fun searchManCon(
         @Body request : ManConRequest
     ) : BaseResponse<List<String>>
 
-    @GET("api/houses/{houseId}")
+    @GET("api/search/houses/{houseId}")
     suspend fun searchDetail(
         @Path("houseId") houseId : Int
-    ) : BaseResponse<SearchDetailResponse?>
+    ) : BaseResponse<SearchRecommendResponse?>
 
     @POST("api/houses/{houseId}/favorite")
     suspend fun searchFavorite(

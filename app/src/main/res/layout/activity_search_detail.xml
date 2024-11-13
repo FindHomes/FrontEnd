@@ -184,12 +184,13 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_price_info_answer"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintStart_toStartOf="@id/cl_detail_info_answer"
+                app:layout_constraintStart_toStartOf="@id/ll_detail_room_answer"
                 app:layout_constraintTop_toTopOf="@id/ll_price_info"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintEnd_toEndOf="@id/gl_end">
 
                 <TextView
                     android:id="@+id/tv_detail_what_answer"
@@ -221,182 +222,247 @@
                 app:layout_constraintStart_toStartOf="@id/gl_start"
                 app:layout_constraintTop_toBottomOf="@id/ll_price_info"/>
 
-            <LinearLayout
-                android:id="@+id/cl_detail_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@id/tv_detail_info"
+            <TextView
+                android:id="@+id/tv_detail_room"
+                android:text="@string/detail_room"
+                android:textSize="16sp"
                 android:layout_marginTop="12dp"
-                app:layout_constraintStart_toStartOf="@id/gl_start">
+                android:fontFamily="@font/pretendard_regular"
+                app:layout_constraintStart_toStartOf="@id/gl_start"
+                app:layout_constraintTop_toBottomOf="@id/tv_detail_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
-                <TextView
-                    android:id="@+id/tv_detail_room"
-                    android:text="@string/detail_room"
-                    android:textSize="16sp"
-                    android:fontFamily="@font/pretendard_regular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/tv_detail_floor"
+                android:text="@string/detail_floor"
+                android:textSize="16sp"
+                android:fontFamily="@font/pretendard_regular"
+                app:layout_constraintStart_toStartOf="@id/gl_start"
+                app:layout_constraintTop_toTopOf="@id/tv_detail_floor_answer"
+                app:layout_constraintBottom_toBottomOf="@id/tv_detail_floor_answer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
-                <TextView
-                    android:id="@+id/tv_detail_floor"
-                    android:text="@string/detail_floor"
-                    android:textSize="16sp"
-                    android:layout_marginTop="12dp"
-                    android:fontFamily="@font/pretendard_regular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/tv_detail_area"
+                android:text="@string/detail_area"
+                android:textSize="16sp"
+                android:fontFamily="@font/pretendard_regular"
+                app:layout_constraintStart_toStartOf="@id/gl_start"
+                app:layout_constraintTop_toTopOf="@id/tv_detail_area_answer"
+                app:layout_constraintBottom_toBottomOf="@id/tv_detail_area_answer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
-                <TextView
-                    android:id="@+id/tv_detail_area"
-                    android:text="@string/detail_area"
-                    android:textSize="16sp"
-                    android:layout_marginTop="12dp"
-                    android:fontFamily="@font/pretendard_regular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/tv_detail_room_number"
+                android:text="@string/detail_room_number"
+                android:textSize="16sp"
+                android:fontFamily="@font/pretendard_regular"
+                app:layout_constraintStart_toStartOf="@id/gl_start"
+                app:layout_constraintTop_toTopOf="@id/tv_detail_room_number_answer"
+                app:layout_constraintBottom_toBottomOf="@id/tv_detail_room_number_answer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
-                <TextView
-                    android:id="@+id/tv_detail_room_number"
-                    android:text="@string/detail_room_number"
-                    android:textSize="16sp"
-                    android:layout_marginTop="12dp"
-                    android:fontFamily="@font/pretendard_regular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/tv_detail_housing_option"
+                android:text="@string/detail_housing_option"
+                android:textSize="16sp"
+                android:fontFamily="@font/pretendard_regular"
+                app:layout_constraintStart_toStartOf="@id/gl_start"
+                app:layout_constraintTop_toTopOf="@id/tv_detail_housing_option_answer"
+                app:layout_constraintBottom_toBottomOf="@id/tv_detail_housing_option_answer"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"/>
 
-                <TextView
-                    android:id="@+id/tv_detail_heat"
-                    android:text="@string/detail_housing_option"
-                    android:textSize="16sp"
-                    android:layout_marginTop="12dp"
-                    android:fontFamily="@font/pretendard_regular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/tv_detail_address"
+                android:text="@string/detail_address"
+                android:textSize="16sp"
+                android:fontFamily="@font/pretendard_regular"
+                app:layout_constraintStart_toStartOf="@id/gl_start"
+                app:layout_constraintTop_toTopOf="@id/tv_detail_address_answer"
+                app:layout_constraintBottom_toBottomOf="@id/tv_detail_address_answer"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"/>
 
-                <TextView
-                    android:id="@+id/tv_detail_address"
-                    android:text="@string/detail_address"
-                    android:textSize="16sp"
-                    android:layout_marginTop="12dp"
-                    android:fontFamily="@font/pretendard_regular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/tv_detail_complete"
+                android:text="@string/detail_complete"
+                android:textSize="16sp"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/pretendard_regular"
+                app:layout_constraintStart_toStartOf="@id/gl_start"
+                app:layout_constraintTop_toTopOf="@id/tv_detail_complete_answer"
+                app:layout_constraintBottom_toBottomOf="@id/tv_detail_complete_answer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
-                <TextView
-                    android:id="@+id/tv_detail_complete"
-                    android:text="@string/detail_complete"
-                    android:textSize="16sp"
-                    android:layout_marginTop="12dp"
-                    android:fontFamily="@font/pretendard_regular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/tv_detail_direction"
+                android:text="@string/detail_direction"
+                android:textSize="16sp"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/pretendard_regular"
+                app:layout_constraintStart_toStartOf="@id/gl_start"
+                app:layout_constraintTop_toTopOf="@id/tv_detail_direction_answer"
+                app:layout_constraintBottom_toBottomOf="@id/tv_detail_direction_answer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
-            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_detail_update"
+                android:text="@string/detail_update"
+                android:textSize="16sp"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/pretendard_regular"
+                app:layout_constraintStart_toStartOf="@id/gl_start"
+                app:layout_constraintTop_toTopOf="@id/tv_detail_update_answer"
+                app:layout_constraintBottom_toBottomOf="@id/tv_detail_update_answer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
             <LinearLayout
-                android:id="@+id/cl_detail_info_answer"
+                android:id="@+id/ll_detail_room_answer"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="36dp"
-                android:orientation="vertical"
-                app:layout_constraintStart_toEndOf="@id/cl_detail_info"
-                app:layout_constraintTop_toTopOf="@id/cl_detail_info"
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toEndOf="@id/tv_detail_floor"
+                app:layout_constraintTop_toBottomOf="@id/tv_detail_info"
                 app:layout_constraintEnd_toEndOf="@id/gl_end">
 
-                <LinearLayout
-                    android:id="@+id/ll_detail_room_answer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/tv_detail_room_answer"
-                        android:text="@{viewModel.detailData.housingType}"
-                        android:textSize="16sp"
-                        android:fontFamily="@font/pretendard_regular"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                    <TextView
-                        android:id="@+id/tv_detail_multi_layer"
-                        android:text="(복층형)"
-                        android:textSize="16sp"
-                        android:fontFamily="@font/pretendard_regular"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:visibility="@{viewModel.detailData.isMultiLayer ? View.VISIBLE : View.GONE}"/>
-
-                    <TextView
-                        android:id="@+id/tv_detail_separate_type"
-                        android:text="(분리형)"
-                        android:textSize="16sp"
-                        android:fontFamily="@font/pretendard_regular"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:visibility="@{viewModel.detailData.isSeparateType ? View.VISIBLE : View.GONE}"/>
-
-                </LinearLayout>
-
                 <TextView
-                    android:id="@+id/tv_detail_floor_answer"
-                    android:text="@{viewModel.detailData.floor}"
+                    android:id="@+id/tv_detail_room_answer"
+                    android:text="@{viewModel.detailData.housingType}"
                     android:textSize="16sp"
-                    android:layout_marginTop="12dp"
                     android:fontFamily="@font/pretendard_regular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
                 <TextView
-                    android:id="@+id/tv_detail_area_answer"
-                    android:text="@{String.format(@string/detail_size_text, viewModel.detailData.size)}"
+                    android:id="@+id/tv_detail_multi_layer"
+                    android:text="(복층형)"
                     android:textSize="16sp"
-                    android:layout_marginTop="12dp"
                     android:fontFamily="@font/pretendard_regular"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:visibility="@{viewModel.detailData.isMultiLayer ? View.VISIBLE : View.GONE}"/>
 
                 <TextView
-                    android:id="@+id/tv_detail_room_number_answer"
-                    android:text="@{String.format(@string/detail_room_washroom_text, viewModel.detailData.roomNum, viewModel.detailData.washroomNum)}"
+                    android:id="@+id/tv_detail_separate_type"
+                    android:text="(분리형)"
                     android:textSize="16sp"
-                    android:layout_marginTop="12dp"
                     android:fontFamily="@font/pretendard_regular"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:id="@+id/tv_detail_heat_answer"
-                    android:text="@{viewModel.detailData.houseOption}"
-                    android:textSize="16sp"
-                    android:layout_marginTop="12dp"
-                    android:fontFamily="@font/pretendard_regular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:id="@+id/tv_detail_car_answer"
-                    android:text="@{viewModel.detailData.address}"
-                    android:textSize="16sp"
-                    android:layout_marginTop="12dp"
-                    android:fontFamily="@font/pretendard_regular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:id="@+id/tv_detail_in_answer"
-                    android:text="@{viewModel.detailData.completionDate}"
-                    android:textSize="16sp"
-                    android:layout_marginTop="12dp"
-                    android:fontFamily="@font/pretendard_regular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:visibility="@{viewModel.detailData.isSeparateType ? View.VISIBLE : View.GONE}"/>
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_detail_floor_answer"
+                android:text="@{viewModel.detailData.floor}"
+                android:textSize="16sp"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/pretendard_regular"
+                app:layout_constraintTop_toBottomOf="@id/ll_detail_room_answer"
+                app:layout_constraintStart_toStartOf="@id/ll_price_info_answer"
+                app:layout_constraintEnd_toEndOf="@id/gl_end"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tv_detail_area_answer"
+                android:text="@{String.format(@string/detail_size_text, viewModel.detailData.size)}"
+                android:textSize="16sp"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/pretendard_regular"
+                app:layout_constraintStart_toStartOf="@id/ll_price_info_answer"
+                app:layout_constraintTop_toBottomOf="@id/tv_detail_floor_answer"
+                app:layout_constraintEnd_toEndOf="@id/gl_end"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tv_detail_room_number_answer"
+                android:text="@{String.format(@string/detail_room_washroom_text, viewModel.detailData.roomNum, viewModel.detailData.washroomNum)}"
+                android:textSize="16sp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="@id/ll_price_info_answer"
+                app:layout_constraintTop_toBottomOf="@id/tv_detail_area_answer"
+                app:layout_constraintEnd_toEndOf="@id/gl_end"
+                android:fontFamily="@font/pretendard_regular"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tv_detail_housing_option_answer"
+                android:text="@{viewModel.detailData.houseOption}"
+                android:textSize="16sp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="@id/ll_price_info_answer"
+                app:layout_constraintTop_toBottomOf="@id/tv_detail_room_number_answer"
+                app:layout_constraintEnd_toEndOf="@id/gl_end"
+                android:fontFamily="@font/pretendard_regular"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tv_detail_address_answer"
+                android:text="@{viewModel.detailData.address}"
+                android:textSize="16sp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="@id/ll_price_info_answer"
+                app:layout_constraintTop_toBottomOf="@id/tv_detail_housing_option_answer"
+                app:layout_constraintEnd_toEndOf="@id/gl_end"
+                android:fontFamily="@font/pretendard_regular"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tv_detail_complete_answer"
+                android:text="@{viewModel.detailData.completionDate}"
+                android:textSize="16sp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="@id/ll_price_info_answer"
+                app:layout_constraintTop_toBottomOf="@id/tv_detail_address_answer"
+                app:layout_constraintEnd_toEndOf="@id/gl_end"
+                android:fontFamily="@font/pretendard_regular"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tv_detail_direction_answer"
+                android:text="@{viewModel.detailData.direction}"
+                android:textSize="16sp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="@id/ll_price_info_answer"
+                app:layout_constraintTop_toBottomOf="@id/tv_detail_complete_answer"
+                app:layout_constraintEnd_toEndOf="@id/gl_end"
+                android:fontFamily="@font/pretendard_regular"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tv_detail_update_answer"
+                android:text="@{viewModel.detailData.updateDate}"
+                android:textSize="16sp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="@id/ll_price_info_answer"
+                app:layout_constraintTop_toBottomOf="@id/tv_detail_direction_answer"
+                app:layout_constraintEnd_toEndOf="@id/gl_end"
+                android:fontFamily="@font/pretendard_regular"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                app:layout_constraintTop_toBottomOf="@id/cl_detail_info"/>
+                app:layout_constraintTop_toBottomOf="@id/tv_detail_update_answer"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

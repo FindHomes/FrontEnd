@@ -1,5 +1,10 @@
 package com.example.findhomes.data.model
 
+data class SearchRecommendResponse(
+    val responseHouse : SearchDetailResponse,
+    val stats : List<String>
+)
+
 data class SearchDetailResponse(
     val ranking : Int,
     val houseId: Int,
@@ -22,6 +27,7 @@ data class SearchDetailResponse(
     val x: Double,
     val y: Double,
     val imgUrl: List<String>,
+    val updateDate : String,
     val score: Double,
     val favorite : Boolean
 )

@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.ui.search.RegionSelectActivity">
+    tools:context=".presentation.ui.essential.RegionSelectActivity">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_start"

@@ -1,4 +1,4 @@
-package com.example.findhomes.presentation.ui.search
+package com.example.findhomes.presentation.ui.essential
 
 import android.app.ActivityOptions
 import android.content.Intent
@@ -10,7 +10,6 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.findhomes.R
 import com.example.findhomes.databinding.ActivityContractSelectBinding
 import com.example.findhomes.data.dataprovider.DataProvider

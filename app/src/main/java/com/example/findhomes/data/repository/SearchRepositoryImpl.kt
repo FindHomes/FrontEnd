@@ -6,6 +6,7 @@ import com.example.findhomes.data.model.SearchChatRequest
 import com.example.findhomes.data.model.SearchChatResponse
 import com.example.findhomes.data.model.SearchCompleteResponse
 import com.example.findhomes.data.model.SearchDetailResponse
+import com.example.findhomes.data.model.SearchRecommendResponse
 import com.example.findhomes.data.model.SearchStatisticsResponse
 import com.example.findhomes.data.remote.SearchApi
 import com.example.findhomes.domain.repository.SearchRepository
@@ -25,6 +26,21 @@ class SearchRepositoryImpl @Inject constructor(
             }
         } catch (e: Exception) {
             Log.e("getSearchData", "search", e)
+            null
+        }
+    }
+
+    override suspend fun getSearchLogData(searchLogId: Int): List<SearchCompleteResponse>? {
+        return try {
+            val response = searchApi.searchLogId(searchLogId)
+            if (response.success) {
+                response.result
+            } else {
+                Log.e("getSearchLogData", response.message)
+                null
+            }
+        } catch (e: Exception) {
+            Log.e("getSearchLogData", "search", e)
             null
         }
     }
@@ -57,7 +73,7 @@ class SearchRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getSearchDetailData(houseId: Int): SearchDetailResponse? {
+    override suspend fun getSearchDetailData(houseId: Int): SearchRecommendResponse? {
         return try {
             val response = searchApi.searchDetail(houseId)
             if (response.success) {

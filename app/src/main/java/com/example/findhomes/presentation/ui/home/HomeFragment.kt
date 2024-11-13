@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import com.example.findhomes.R
 import com.example.findhomes.databinding.FragmentHomeBinding
 import com.example.findhomes.presentation.ui.mypage.MyPageFragment
-import com.example.findhomes.presentation.ui.search.ContractSelectActivity
+import com.example.findhomes.presentation.ui.essential.ContractSelectActivity
 import com.example.findhomes.presentation.ui.wish.WishFragment
 
 class HomeFragment : Fragment() {

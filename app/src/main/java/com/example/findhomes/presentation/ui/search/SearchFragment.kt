@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.findhomes.R
+import com.example.findhomes.data.model.ManConRequest
 import com.example.findhomes.data.model.SearchCompleteResponse
 import com.example.findhomes.databinding.FragmentSearchBinding
 import com.example.findhomes.databinding.ItemMarkerViewBinding
@@ -56,6 +57,28 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
+        val manConRequest = arguments?.getSerializable("manConRequest") as? ManConRequest
+        val searchLogId = arguments?.getInt("searchLogId")
+        Log.d("manConRequest",manConRequest.toString())
+        Log.d("searchLogId호출",searchLogId.toString())
+
+
+        if (manConRequest != null) {
+            Log.d("manConRequest호출","manConRequest호출")
+            binding.searchClNone.visibility = View.GONE
+            showLoadingAnimation(true)
+            viewModel.loadSearchData(manConRequest)
+        } else if (searchLogId != null) {
+            Log.d("searchLogId호출","searchLogId호출")
+            binding.searchClNone.visibility = View.GONE
+            showLoadingAnimation(true)
+            viewModel.loadSearchLogData(searchLogId)
+        } else {
+            binding.searchClMain.visibility = View.GONE
+            binding.searchClNone.visibility = View.VISIBLE
+            binding.searchLa.visibility = View.GONE
+        }
+
         binding.mvRanking.onCreate(savedInstanceState)
         binding.mvRanking.getMapAsync(this)
 
@@ -71,9 +94,6 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
         initStatistics()
         initSearchLogs()
 
-        showLoadingAnimation(true) // 애니메이션 시작
-
-
         return binding.root
     }
 
@@ -86,11 +106,13 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
 
     private fun initStatistics() {
         binding.btnStatisticShow.setOnClickListener{
-            StatisticsFragment().arguments = Bundle()
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.main_frm, StatisticsFragment())
-                .addToBackStack(null)
-                .commit()
+//            StatisticsFragment().arguments = Bundle()
+//            parentFragmentManager.beginTransaction()
+//                .replace(R.id.main_frm, StatisticsFragment())
+//                .addToBackStack(null)
+//                .commit()
+            val intent = Intent(requireContext(), StatisticsActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -167,7 +189,7 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
         }
         val bounds = boundsBuilder.build()
 
-        val cameraUpdate = CameraUpdate.fitBounds(bounds, 100)
+        val cameraUpdate = CameraUpdate.fitBounds(bounds, 200)
         naverMap.moveCamera(cameraUpdate)
     }
 

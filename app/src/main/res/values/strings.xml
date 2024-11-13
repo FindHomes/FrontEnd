@@ -61,6 +61,8 @@
     <string name="detail_housing_option">기타 옵션</string>
     <string name="detail_address">상세 주소</string>
     <string name="detail_complete">완공일</string>
+    <string name="detail_direction">방향</string>
+    <string name="detail_update">업데이트</string>
     <string name="detail_for">건축물용도</string>
     <string name="detail_maintenance_fee_text">%1$d만원</string>
     <string name="detail_size_text">%1$.2fm2</string>

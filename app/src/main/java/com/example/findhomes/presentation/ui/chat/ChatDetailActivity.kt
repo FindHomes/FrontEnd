@@ -1,4 +1,4 @@
-package com.example.findhomes.presentation.ui.search
+package com.example.findhomes.presentation.ui.chat
 
 import android.app.ActivityOptions
 import android.content.Intent
@@ -7,12 +7,12 @@ import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.findhomes.MainActivity
 import com.example.findhomes.R
 import com.example.findhomes.data.model.ManConRequest
 import com.example.findhomes.databinding.ActivityChatDetailBinding
+import com.example.findhomes.presentation.ui.search.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

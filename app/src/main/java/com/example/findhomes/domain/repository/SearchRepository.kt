@@ -5,11 +5,16 @@ import com.example.findhomes.data.model.SearchChatRequest
 import com.example.findhomes.data.model.SearchChatResponse
 import com.example.findhomes.data.model.SearchCompleteResponse
 import com.example.findhomes.data.model.SearchDetailResponse
+import com.example.findhomes.data.model.SearchRecommendResponse
 import com.example.findhomes.data.model.SearchStatisticsResponse
 
 interface SearchRepository {
     suspend fun getSearchData(
         manConRequest: ManConRequest
+    ) : List<SearchCompleteResponse>?
+
+    suspend fun getSearchLogData(
+        searchLogId : Int
     ) : List<SearchCompleteResponse>?
 
     suspend fun postChatData(
@@ -22,7 +27,7 @@ interface SearchRepository {
 
     suspend fun getSearchDetailData(
         houseId : Int
-    ) : SearchDetailResponse?
+    ) : SearchRecommendResponse?
 
     suspend fun postSearchFavoriteData(
         houseId: Int,
