@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.findhomes.databinding.ActivityShowStatisticsBinding
 import com.google.android.flexbox.FlexboxLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class StatisticsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityShowStatisticsBinding
     private val viewModel: SearchViewModel by viewModels()
