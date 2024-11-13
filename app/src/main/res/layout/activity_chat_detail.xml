@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="@color/white"
     tools:context=".MainActivity">
 
     <data>
@@ -15,7 +14,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/chat_la_loading"
@@ -151,6 +151,7 @@
                 app:layout_constraintStart_toStartOf="@id/gl_start"
                 app:layout_constraintEnd_toEndOf="@id/gl_end"
                 android:layout_marginBottom="12dp"
+                android:background="@color/white"
                 app:layout_constraintBottom_toTopOf="@id/et_condition_input"/>
 
             <EditText
@@ -165,10 +166,10 @@
                 android:paddingStart="16dp"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
-                android:paddingEnd="16dp"
+                android:paddingEnd="46dp"
                 android:layout_alignParentBottom="true"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:background="@drawable/rectangle_gray_8"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginBottom="22dp"/>
 
             <ImageView
