@@ -47,6 +47,7 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
     private lateinit var markerBinding: ItemMarkerViewBinding
     private lateinit var rankingAdapter: ResultRankingAdapter
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
+    private var detailMode = false
     private val viewModel: SearchViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -106,11 +107,6 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
 
     private fun initStatistics() {
         binding.btnStatisticShow.setOnClickListener{
-//            StatisticsFragment().arguments = Bundle()
-//            parentFragmentManager.beginTransaction()
-//                .replace(R.id.main_frm, StatisticsFragment())
-//                .addToBackStack(null)
-//                .commit()
             val intent = Intent(requireContext(), StatisticsActivity::class.java)
             startActivity(intent)
         }
@@ -118,12 +114,23 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
 
     private fun initDetailButton() {
         binding.btnDetailShow.setOnClickListener {
-            selectedAloneMarker?.let { marker ->
-                val cameraPosition = CameraPosition(marker.position, 16.0, 90.0, 0.0)
-                naverMap.moveCamera(CameraUpdate.toCameraPosition(cameraPosition))
-            }
+            detailMode = !detailMode  // detailMode 값을 토글
+            changeDetailMode()
         }
     }
+
+    private fun changeDetailMode() {
+        selectedAloneMarker?.let { marker ->
+            // detailMode에 따라 tilt 값 조정
+            val currentZoomLevel = naverMap.cameraPosition.zoom
+            val tilt = if (detailMode) 90.0 else 0.0
+            val cameraPosition = CameraPosition(marker.position, currentZoomLevel, tilt, 0.0)
+            naverMap.moveCamera(CameraUpdate.toCameraPosition(cameraPosition))
+            val imageResId = if (detailMode) R.drawable.ic_location_filled else R.drawable.ic_location
+            binding.ivDetailShow.setImageResource(imageResId)
+        }
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -345,5 +352,8 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
 
     override fun onMapReady(naverMap: NaverMap) {
         this.naverMap = naverMap
+        val uiSettings = naverMap.uiSettings
+        uiSettings.isCompassEnabled = false
+        uiSettings.isZoomControlEnabled = false
     }
 }
