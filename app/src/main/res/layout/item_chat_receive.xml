@@ -17,8 +17,10 @@
         android:paddingBottom="8dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
+        android:backgroundTint="@color/main_1"
         android:fontFamily="@font/pretendard_regular"
         android:textSize="14sp"
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="여기에 메시지 쓰임"/>
