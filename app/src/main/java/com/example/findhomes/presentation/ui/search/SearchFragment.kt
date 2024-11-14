@@ -333,6 +333,7 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
             override fun onItemClicked(data: SearchCompleteResponse) {
                 val intent = Intent(requireContext(), SearchDetailActivity::class.java)
                 intent.putExtra("houseId", data.houseId)
+                intent.putExtra("source", "SearchFragment")
                 startActivity(intent)
             }
         })

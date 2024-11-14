@@ -1,6 +1,7 @@
 package com.example.findhomes.presentation.ui.search
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,8 +23,15 @@ class SearchDetailActivity : AppCompatActivity() {
 
         intent.let {
             val houseId = it.getIntExtra("houseId", -1)
+            val source = it.getStringExtra("source")
+            Log.d("houseId", houseId.toString())
+            Log.d("source", source.toString())
             if (houseId != -1) {
-                viewModel.loadSearchDetailData(houseId)
+                when (source) {
+                    "SearchFragment" -> viewModel.loadSearchDetailData(houseId)
+                    "FavoriteFragment" -> viewModel.loadSearchFavoriteDetailData(houseId)
+                    else -> {}
+                }
             }
         }
 

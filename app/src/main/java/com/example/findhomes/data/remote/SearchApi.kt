@@ -42,6 +42,11 @@ interface SearchApi {
         @Path("houseId") houseId : Int
     ) : BaseResponse<SearchRecommendResponse?>
 
+    @GET("api/houses/{houseId}")
+    suspend fun searchFavoriteDetail(
+        @Path("houseId") houseId : Int
+    ) : BaseResponse<SearchDetailResponse?>
+
     @POST("api/houses/{houseId}/favorite")
     suspend fun searchFavorite(
         @Path("houseId") houseId: Int,

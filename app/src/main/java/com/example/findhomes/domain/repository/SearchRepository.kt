@@ -29,6 +29,10 @@ interface SearchRepository {
         houseId : Int
     ) : SearchRecommendResponse?
 
+    suspend fun getSearchFavoriteDetailData(
+        houseId : Int
+    ) : SearchDetailResponse?
+
     suspend fun postSearchFavoriteData(
         houseId: Int,
         action: String

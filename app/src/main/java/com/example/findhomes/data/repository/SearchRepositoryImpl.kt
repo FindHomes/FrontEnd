@@ -88,6 +88,21 @@ class SearchRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getSearchFavoriteDetailData(houseId: Int): SearchDetailResponse? {
+        return try {
+            val response = searchApi.searchFavoriteDetail(houseId)
+            if (response.success) {
+                response.result
+            } else {
+                Log.e("getSearchDetailData", response.message)
+                null
+            }
+        } catch (e: Exception) {
+            Log.e("getSearchDetailData", "detail", e)
+            null
+        }
+    }
+
     override suspend fun postSearchFavoriteData(
         houseId: Int,
         action: String

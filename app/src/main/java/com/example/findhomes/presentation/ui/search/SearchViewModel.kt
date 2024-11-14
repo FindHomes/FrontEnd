@@ -12,6 +12,7 @@ import com.example.findhomes.data.model.SearchDetailResponse
 import com.example.findhomes.data.model.SearchStatisticsResponse
 import com.example.findhomes.domain.usecase.search.GetSearchDataUseCase
 import com.example.findhomes.domain.usecase.search.GetSearchDetailDataUseCase
+import com.example.findhomes.domain.usecase.search.GetSearchFavoriteDetailDataUseCase
 import com.example.findhomes.domain.usecase.search.GetSearchLogDataUseCase
 import com.example.findhomes.domain.usecase.search.GetSearchStatisticsUseCase
 import com.example.findhomes.domain.usecase.search.PostChatDataUseCase
@@ -30,6 +31,7 @@ class SearchViewModel @Inject constructor(
     private val postChatDataUseCase: PostChatDataUseCase,
     private val postManConUseCase: PostManConUseCase,
     private val getSearchDetailDataUseCase: GetSearchDetailDataUseCase,
+    private val getSearchDetailFavoriteUseCase: GetSearchFavoriteDetailDataUseCase,
     private val getSearchStatisticsUseCase: GetSearchStatisticsUseCase,
     private val postSearchFavoriteUseCase: PostSearchFavoriteUseCase,
     private val postSearchLogsDataUseCase: PostSearchLogsDataUseCase,
@@ -93,6 +95,25 @@ class SearchViewModel @Inject constructor(
                     _detailData.value = response.responseHouse
                     Log.d("SearchViewModel", "로드된 데이터: ${_detailData.value}")
                     _statsData.value = response.stats
+                    Log.d("SearchViewModel", "로드된 데이터: ${_statsData.value}")
+                } else {
+                    Log.d("SearchViewModel", "No detail data found for houseId: $houseId")
+                    _detailData.value = null
+                }
+            } catch (e: Exception){
+                Log.e("SearchViewModel", "Error loading search detail data", e)
+                _detailData.value = null
+            }
+        }
+    }
+
+    fun loadSearchFavoriteDetailData(houseId: Int){
+        viewModelScope.launch {
+            try {
+                val response = getSearchDetailFavoriteUseCase(houseId)
+                if (response != null) {
+                    _detailData.value = response
+                    Log.d("SearchViewModel", "로드된 데이터: ${_detailData.value}")
                     Log.d("SearchViewModel", "로드된 데이터: ${_statsData.value}")
                 } else {
                     Log.d("SearchViewModel", "No detail data found for houseId: $houseId")
