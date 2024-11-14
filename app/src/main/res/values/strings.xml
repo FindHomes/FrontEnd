@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FindHomes</string>
+    <string name="app_name">찾아줘!홈즈</string>
 
     <!-- ContractSelectActivity -->
     <string name="contract_title">계약 형태 입력</string>
