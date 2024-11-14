@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.forEach
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -17,12 +18,20 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.example.findhomes.R
+import com.example.findhomes.databinding.ItemStatisticsFacilityBinding
 import com.example.findhomes.databinding.ItemStatisticsPublicBinding
+import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 
 class StatisticPublicAdapter(val context: Context) : ListAdapter<GraphDataResponse, StatisticPublicAdapter.ViewHolder>(
     DiffCallback()
 ) {
     inner class ViewHolder(private val binding: ItemStatisticsPublicBinding) : RecyclerView.ViewHolder(binding.root) {
+        private var selectedBarIndex = -1
+
         @SuppressLint("SetTextI18n")
         fun bind(item: GraphDataResponse) {
             binding.statisticsTvData1.text = item.dataName
@@ -33,72 +42,93 @@ class StatisticPublicAdapter(val context: Context) : ListAdapter<GraphDataRespon
             val mainColor = ContextCompat.getColor(context, R.color.button_color)
             val backgroundColor = ContextCompat.getColor(context, R.color.body_5)
             val barChart = binding.statisticsBcPublic
-            // 차트 회색 배경 설정 (default = false)
-            barChart.setDrawGridBackground(true)
-            barChart.setGridBackgroundColor(backgroundColor)
 
-            // 차트 테두리 설정 (default = false)
-            barChart.setDrawBorders(false)
+            barChart.let { chart ->
+                // 공통 차트 설정
+                setupChart(chart, backgroundColor)
 
-            val description = Description()
-            // 오른쪽 하단 모서리 설명 레이블 텍스트 표시 (default = false)
-            description.isEnabled = false
-            barChart.description = description
+                // X축 설정
+                setupXAxis(chart.xAxis)
 
-            // X, Y 바의 애니메이션 효과
-            barChart.animateY(1000)
-            barChart.animateX(1000)
+                // Y축 설정
+                setupYAxis(chart.axisLeft, chart.axisRight)
 
-            // 바텀 좌표 값
-            val xAxis: XAxis = barChart.xAxis
+                // 데이터 설정 및 애니메이션
+                setupDataAndAnimation(chart, response)
 
-            // x축 위치 설정
-            xAxis.position = XAxis.XAxisPosition.BOTTOM
-            // 그리드 선 수평 거리 설정
-            xAxis.granularity = 1f
-            // x축 텍스트 컬러 설정
-            xAxis.textColor = Color.RED
-            // x축 선 설정 (default = true)
-            xAxis.setDrawAxisLine(false)
-            // 격자선 설정 (default = true)
-            xAxis.setDrawGridLines(false)
+                // 막대 클릭 리스너 설정
+                chart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+                    override fun onValueSelected(e: Entry?, h: Highlight?) {
+                        selectedBarIndex = e?.x?.toInt() ?: -1  // 선택된 막대의 인덱스 업데이트
+                        chart.highlightValue(h)  // 막대 하이라이트
+                        chart.invalidate()  // 차트 갱신
+                    }
 
-            val leftAxis: YAxis = barChart.axisLeft
-            // 좌측 선 설정 (default = true)
-            leftAxis.setDrawAxisLine(false)
-            // 좌측 텍스트 컬러 설정
-            leftAxis.textColor = Color.BLUE
-
-            // 바차트의 타이틀
-            barChart.legend.isEnabled = false
-
-            val rightAxis: YAxis = barChart.axisRight
-            // 오른쪽 축 텍스트 비활성화
-            rightAxis.setDrawAxisLine(false)
-            rightAxis.setDrawLabels(false)
-
-            // Zoom In / Out 가능 여부 설정
-            barChart.setScaleEnabled(false)
-
-            val valueList = ArrayList<BarEntry>()
-
-            // 데이터 예외 처리
-            if (response.houseAndValues.isNotEmpty()) {
-                for (i in 0 until response.houseAndValues.size) {
-                    val houseValues = response.houseAndValues[i]
-                    valueList.add(BarEntry(i.toFloat(), houseValues.values[0].value.toFloat()))
-                }
+                    override fun onNothingSelected() {
+                        selectedBarIndex = -1  // 선택 해제
+                        chart.invalidate()  // 차트 갱신
+                    }
+                })
             }
-
-            val barDataSet = BarDataSet(valueList, "")
-            // 바 색상 설정 (ColorTemplate.LIBERTY_COLORS)
-            barDataSet.setColor(mainColor)
-
-            val data = BarData(barDataSet)
-            barChart.data = data
 
             barChart.invalidate()
         }
+
+        private fun setupChart(chart: BarChart, backgroundColor: Int) {
+            chart.apply {
+                setDrawGridBackground(true)
+                setGridBackgroundColor(backgroundColor)
+                setDrawBorders(false)
+                legend.isEnabled = false
+                description = Description().apply { isEnabled = false }
+                setScaleEnabled(false)
+                animateY(1000)
+                animateX(1000)
+            }
+        }
+
+        private fun setupXAxis(xAxis: XAxis) {
+            xAxis.apply {
+                position = XAxis.XAxisPosition.BOTTOM
+                granularity = 1f
+                textColor = Color.BLACK
+                setDrawAxisLine(false)
+                setDrawGridLines(false)
+            }
+        }
+
+        private fun setupYAxis(leftAxis: YAxis, rightAxis: YAxis) {
+            leftAxis.apply {
+                setDrawAxisLine(false)
+                textColor = Color.BLACK
+            }
+
+            rightAxis.apply {
+                setDrawAxisLine(false)
+                setDrawLabels(false)
+            }
+        }
+
+        private fun setupDataAndAnimation(chart: BarChart, response: GraphDataResponse) {
+            val valueList = ArrayList<BarEntry>()
+
+            response.houseAndValues.forEachIndexed { index, houseValue ->
+                valueList.add(BarEntry(index.toFloat(), houseValue.values[chart.id - binding.statisticsBcPublic.id].value.toFloat()))
+            }
+
+            val barDataSet = BarDataSet(valueList, "").apply {
+                setColor(ContextCompat.getColor(chart.context, R.color.button_color))
+                valueFormatter = object : ValueFormatter() {
+                    override fun getBarLabel(barEntry: BarEntry): String {
+                        // 선택된 막대만 값 표시
+                        return if (barEntry.x.toInt() == selectedBarIndex) barEntry.y.toString() else ""
+                    }
+                }
+            }
+            chart.data = BarData(barDataSet)
+            chart.invalidate()
+        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

@@ -1,6 +1,7 @@
 package com.example.findhomes.presentation.ui.search
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,8 +40,19 @@ class StatisticsActivity : AppCompatActivity() {
 
         statisticsKeywordAdapter = StatisticsKeywordAdapter { keyword ->
             viewModel.statisticsData.value?.find { it.keyword == keyword }?.let { selectedData ->
-                statisticFacilityAdapter.submitList(selectedData.facilityAndInfos)
-                statisticPublicAdapter.submitList(selectedData.publicDataAndInfos)
+                if (selectedData.facilityAndInfos.isEmpty() && selectedData.publicDataAndInfos.isEmpty()) {
+                    // 데이터가 없을 경우
+                    binding.statisticClNoDta.visibility = View.VISIBLE
+                    binding.statisticRvFacility.visibility = View.GONE
+                    binding.statisticRvPublic.visibility = View.GONE
+                } else {
+                    // 데이터가 있을 경우
+                    binding.statisticClNoDta.visibility = View.GONE
+                    binding.statisticRvFacility.visibility = View.VISIBLE
+                    binding.statisticRvPublic.visibility = View.VISIBLE
+                    statisticFacilityAdapter.submitList(selectedData.facilityAndInfos)
+                    statisticPublicAdapter.submitList(selectedData.publicDataAndInfos)
+                }
             }
         }
         binding.statisticRvKeyword.adapter = statisticsKeywordAdapter
@@ -50,6 +62,29 @@ class StatisticsActivity : AppCompatActivity() {
     private fun observeViewModel() {
         viewModel.keywords.observe(this) { keywords ->
             statisticsKeywordAdapter.submitList(keywords)
+            if (keywords.isNotEmpty()) {
+                statisticsKeywordAdapter.selectedPosition = 0 // 첫 번째 아이템 선택
+                statisticsKeywordAdapter.notifyItemChanged(0)
+                selectKeyword(keywords.first()) // 첫 번째 키워드 선택
+            }
+        }
+    }
+
+    private fun selectKeyword(keyword: String) {
+        viewModel.statisticsData.value?.find { it.keyword == keyword }?.let { selectedData ->
+            if (selectedData.facilityAndInfos.isEmpty() && selectedData.publicDataAndInfos.isEmpty()) {
+                // 데이터가 없을 경우
+                binding.statisticClNoDta.visibility = View.VISIBLE
+                binding.statisticRvFacility.visibility = View.GONE
+                binding.statisticRvPublic.visibility = View.GONE
+            } else {
+                // 데이터가 있을 경우
+                binding.statisticClNoDta.visibility = View.GONE
+                binding.statisticRvFacility.visibility = View.VISIBLE
+                binding.statisticRvPublic.visibility = View.VISIBLE
+                statisticFacilityAdapter.submitList(selectedData.facilityAndInfos)
+                statisticPublicAdapter.submitList(selectedData.publicDataAndInfos)
+            }
         }
     }
 

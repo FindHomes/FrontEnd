@@ -19,11 +19,17 @@ import com.github.mikephil.charting.data.BarEntry
 import com.example.findhomes.R
 import com.example.findhomes.databinding.ItemStatisticsFacilityBinding
 import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 
 class StatisticFacilityAdapter(val context: Context) : ListAdapter<GraphDataResponse, StatisticFacilityAdapter.ViewHolder>(
     DiffCallback()
 ) {
     inner class ViewHolder(private val binding: ItemStatisticsFacilityBinding) : RecyclerView.ViewHolder(binding.root) {
+        private var selectedBarIndex = -1  // 선택된 막대의 인덱스 초기화
+
         @SuppressLint("SetTextI18n")
         fun bind(item: GraphDataResponse) {
             binding.statisticsTvData1.text = item.dataName
@@ -51,6 +57,20 @@ class StatisticFacilityAdapter(val context: Context) : ListAdapter<GraphDataResp
 
                 // 데이터 설정 및 애니메이션
                 setupDataAndAnimation(chart, response)
+
+                // 막대 클릭 리스너 설정
+                chart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+                    override fun onValueSelected(e: Entry?, h: Highlight?) {
+                        selectedBarIndex = e?.x?.toInt() ?: -1  // 선택된 막대의 인덱스 업데이트
+                        chart.highlightValue(h)  // 막대 하이라이트
+                        chart.invalidate()  // 차트 갱신
+                    }
+
+                    override fun onNothingSelected() {
+                        selectedBarIndex = -1  // 선택 해제
+                        chart.invalidate()  // 차트 갱신
+                    }
+                })
             }
 
             barCharts.forEach { it.invalidate() }
@@ -73,7 +93,7 @@ class StatisticFacilityAdapter(val context: Context) : ListAdapter<GraphDataResp
             xAxis.apply {
                 position = XAxis.XAxisPosition.BOTTOM
                 granularity = 1f
-                textColor = Color.RED
+                textColor = Color.BLACK
                 setDrawAxisLine(false)
                 setDrawGridLines(false)
             }
@@ -82,7 +102,7 @@ class StatisticFacilityAdapter(val context: Context) : ListAdapter<GraphDataResp
         private fun setupYAxis(leftAxis: YAxis, rightAxis: YAxis) {
             leftAxis.apply {
                 setDrawAxisLine(false)
-                textColor = Color.BLUE
+                textColor = Color.BLACK
             }
 
             rightAxis.apply {
@@ -94,16 +114,21 @@ class StatisticFacilityAdapter(val context: Context) : ListAdapter<GraphDataResp
         private fun setupDataAndAnimation(chart: BarChart, response: GraphDataResponse) {
             val valueList = ArrayList<BarEntry>()
 
-            if (response.houseAndValues.isNotEmpty()) {
-                response.houseAndValues.forEachIndexed { index, houseValue ->
-                    valueList.add(BarEntry(index.toFloat(), houseValue.values[chart.id - binding.statisticsBcFacility1.id].value.toFloat()))
-                }
+            response.houseAndValues.forEachIndexed { index, houseValue ->
+                valueList.add(BarEntry(index.toFloat(), houseValue.values[chart.id - binding.statisticsBcFacility1.id].value.toFloat()))
             }
 
             val barDataSet = BarDataSet(valueList, "").apply {
                 setColor(ContextCompat.getColor(chart.context, R.color.button_color))
+                valueFormatter = object : ValueFormatter() {
+                    override fun getBarLabel(barEntry: BarEntry): String {
+                        // 선택된 막대만 값 표시
+                        return if (barEntry.x.toInt() == selectedBarIndex) barEntry.y.toString() else ""
+                    }
+                }
             }
             chart.data = BarData(barDataSet)
+            chart.invalidate()
         }
 
     }
