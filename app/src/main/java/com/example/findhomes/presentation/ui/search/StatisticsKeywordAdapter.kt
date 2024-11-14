@@ -11,10 +11,22 @@ import com.example.findhomes.databinding.ItemStatisticsKeywordBinding
 class StatisticsKeywordAdapter(var onKeywordSelected: (String) -> Unit) :
     ListAdapter<String, StatisticsKeywordAdapter.ViewHolder>(DiffCallback())
 {
+
+    var selectedPosition = RecyclerView.NO_POSITION
+
     inner class ViewHolder(private val binding: ItemStatisticsKeywordBinding) : RecyclerView.ViewHolder(binding.root) {
         init {
             binding.statisticsBtnKeyword.setOnClickListener {
-                // 현재 ViewHolder 위치의 아이템을 가져와 콜백 실행
+                // 이전 선택 위치 저장
+                val previousPosition = selectedPosition
+                // 새 위치 설정
+                selectedPosition = absoluteAdapterPosition
+                // 이전 선택된 아이템 업데이트
+                if (previousPosition != RecyclerView.NO_POSITION)
+                    notifyItemChanged(previousPosition)
+                // 새 아이템 업데이트
+                notifyItemChanged(selectedPosition)
+                // 선택된 키워드를 콜백으로 전달
                 onKeywordSelected(getItem(absoluteAdapterPosition))
             }
         }
@@ -22,6 +34,7 @@ class StatisticsKeywordAdapter(var onKeywordSelected: (String) -> Unit) :
         @SuppressLint("SetTextI18n")
         fun bind(item: String) {
             binding.statisticsBtnKeyword.text = item
+            binding.statisticsBtnKeyword.isSelected = selectedPosition == absoluteAdapterPosition
         }
 
     }

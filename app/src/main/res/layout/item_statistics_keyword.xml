@@ -23,7 +23,7 @@
         android:background="@drawable/button_selector_100"
         android:text="키워드"
         android:textSize="14sp"
-        android:textColor="@color/button_color"
+        android:textColor="@color/button_selector_text_color"
         android:fontFamily="@font/pretendard_medium"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
