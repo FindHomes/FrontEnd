@@ -12,11 +12,11 @@ val localPropertiesFile = rootProject.file("local.properties")
 properties.load(localPropertiesFile.inputStream())
 
 android {
-    namespace = "com.example.findhomes"
+    namespace = "com.homes.findhomes"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.findhomes"
+        applicationId = "com.homes.findhomes"
 
         // 카카오 로그인
         buildConfigField("String", "KAKAO_NATIVE_APP_KEY", "\"${properties["kakao_native_app_key"].toString()}\"")
@@ -53,11 +53,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 }
 

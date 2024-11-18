@@ -8,7 +8,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.findhomes.presentation.ui.login.LogInViewModel" />
+            type="com.homes.findhomes.presentation.ui.login.LogInViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
