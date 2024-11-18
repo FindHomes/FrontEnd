@@ -8,7 +8,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.findhomes.presentation.ui.search.SearchViewModel" />
+            type="com.homes.findhomes.presentation.ui.search.SearchViewModel" />
     </data>
 
 
